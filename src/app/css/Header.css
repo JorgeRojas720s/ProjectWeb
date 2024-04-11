@@ -1,0 +1,21 @@
+
+.navBar ul li {
+    position: relative;
+    float: left;
+}
+  
+.navBar ul li a {
+    font-size: 18px;
+    padding: 20px;
+    color: #dbdbdb;
+  }
+  
+.navBar ul li a:hover {
+    color: red;
+  }
+
+#menu{
+    display: none;
+}
+
+
