@@ -20,7 +20,7 @@ const events = [
 ];
 function Events() {
   return (
-    <div className="grid xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
+    <div className="grid xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2 mt-10">
       {events.map(({title, description}) => {
         return <EventCard title={title} description={description} />;
       })}

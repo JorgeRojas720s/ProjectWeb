@@ -10,7 +10,7 @@ import {
 function EventCard({ title, description }:{title:string, description:string}) {
   return (
     <div>
-      <Card className="xl:w-[420px] h-[220px] lg:w-[320px] sm:w-fit m-2">
+      <Card className="h-[220px] xl:w-[420px] lg:w-[320px] md:w-[350px] sm:w-fit m-5">
         <CardHeader>
           <CardTitle className="text-purple-1">{title}</CardTitle>
           <CardDescription className="text-black">{description}</CardDescription>
