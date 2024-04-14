@@ -1,15 +1,14 @@
 import Events from "@/components/Events";
 import Header from "@/components/Header";
-import ContButtons from "@/components/ContButtons";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ContactButtons from "@/components/ContactButtons";
 
 export default function Home() {
   return (
     <>
-    <Header />
     <section>
       <Events />
-      <ContButtons/>
+      <ContactButtons />
       <WhatsAppButton/>
     </section>
     </>
