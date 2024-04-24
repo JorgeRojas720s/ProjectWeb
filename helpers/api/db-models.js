@@ -1,3 +1,4 @@
+import { DataTypes } from "sequelize";
 export const models = {
   Event: eventsModel,
   Cause: causesModel,
@@ -33,8 +34,8 @@ function causesModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "eventsModel",
-        key: "eve_id",
+        model: 'tbl_events',
+        key: 'eve_id',
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
@@ -43,12 +44,12 @@ function causesModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "consequencesModel",
-        key: "con_id",
+        model: 'tbl_consequences',
+        key: 'con_id',
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
-    },
+    }
   };
 
   const options = {
@@ -78,7 +79,7 @@ function riskClassificationModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "causesModel",
+        model: "tbl_causes",
         key: "cau_id",
       },
       onDelete: "CASCADE",
@@ -100,7 +101,7 @@ function riskCategoryModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "riskClassificationModel",
+        model: "tbl_risk_classifications",
         key: "rcf_id",
       },
       onDelete: "CASCADE",
@@ -122,7 +123,7 @@ function riskDescriptionModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "riskCategoryModel",
+        model: "tbl_risk_categories",
         key: "rcg_id",
       },
       onDelete: "CASCADE",
@@ -144,7 +145,7 @@ function proposedActionsModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "consequencesModel",
+        model: "tbl_consequences",
         key: "con_id",
       },
       onDelete: "CASCADE",
@@ -166,7 +167,7 @@ function selectedActionsModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "proposedActionsModel", 
+        model: "tbl_proposed_actions", 
         key: "pda_id", 
       },
       onDelete: "CASCADE",
@@ -176,7 +177,7 @@ function selectedActionsModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "endActionPlanModel",
+        model: "tbl_end_action_plans",
         key: "eap_id", 
       },
       onDelete: "CASCADE",
@@ -186,7 +187,7 @@ function selectedActionsModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "followupPlanModel", 
+        model: "tbl_followup_plans", 
         key: "fpp_id",
       },
       onDelete: "CASCADE",
@@ -216,14 +217,14 @@ function followupPlanModel(sequelize) {
 
 function endActionPlanModel(sequelize) {
   const attributes = {
-    eap_id: { type: DataTypes.INTEGeap, allowNull: false, primaryKey: true },
+    eap_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
     eap_compilance: { type: DataTypes.STRING, allowNull: false },
     eap_justification: { type: DataTypes.DATE, allowNull: false },
     eap_fk_proposed_action: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "proposedActionsModel",
+        model: "tbl_proposed_actions",
         key: "pda_id",
       },
       onDelete: "CASCADE",
@@ -239,7 +240,7 @@ function endActionPlanModel(sequelize) {
 
 function controlMeasuresModel(sequelize) {
   const attributes = {
-    ctm_id: { type: DataTypes.INTEGeap, allowNull: false, primaryKey: true },
+    ctm_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
     ctm_fcm_probability: { type: DataTypes.INTEGER, allowNull: false },
     ctm_fcm_imapact: { type: DataTypes.INTEGER, allowNull: false },
     ctm_fcm_risk_level: { type: DataTypes.STRING, allowNull: false },
@@ -252,7 +253,7 @@ function controlMeasuresModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "consequencesModel",
+        model: "tbl_consequences",
         key: "con_id",
       },
       onDelete: "CASCADE",
