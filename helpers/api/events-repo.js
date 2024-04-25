@@ -4,9 +4,13 @@ import { db } from '/helpers/api';
 const { serverRuntimeConfig } = getConfig();
 
 export const eventsRepo = {
-
+    getAll,
     create,
 };
+
+async function getAll(params){
+    return await db.tbl_events.findAll();
+}
 
 async function create(params) {
 

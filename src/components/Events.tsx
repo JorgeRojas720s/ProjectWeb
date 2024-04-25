@@ -1,42 +1,42 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import EventCard from "./EventCard";
-const events = [
-  {
-    title: "event",
-    description:
-      "Consequat eiusmod tempor commodo eu mollit velit in est ullamco in. Id ex mollit cillum qui voluptate et occaecat ",
-  },
-  {
-    title: "event",
-    description:
-      "Consequat eiusmod tempor commodo eu mollit velit in est ullamco in. Id ex mollit cillum qui voluptate et occaecat dolore dolore ut ut exercitation. Adipisicing ex laborum amet ",
-  },
-  {
-    title: "event",
-    description:
-      "Consequat eiusmod tempor commodo eu mollit velit in est ullamco in. Id ex mollit cillum qui voluptate et occaecat dolore dolore ut ut exercitation. Adipisicing ex laborum amet ",
-  },
-  {
-    title: "event",
-    description:
-      "Consequat eiusmod tempor commodo eu mollit velit in est ullamco in. Id ex mollit cillum qui voluptate et occaecat ",
-  },
-  {
-    title: "event",
-    description:
-      "Consequat eiusmod tempor commodo eu mollit velit in est ullamco in. Id ex mollit cillum qui voluptate et occaecat dolore dolore ut ut exercitation. Adipisicing ex laborum amet ",
-  },
-  {
-    title: "event",
-    description:
-      "Consequat eiusmod tempor commodo eu mollit velit in est ullamco in. Id ex mollit cillum qui voluptate et occaecat dolore dolore ut ut exercitation. Adipisicing ex laborum amet ",
-  },
-];
+import Loading from "./Loading";
+
+async function getData() {
+  const response = await fetch(`http://localhost:3000/api/events`);
+  return response.json();
+}
+
 function Events() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const getEvents = async () => {
+      try {
+        const data = await getData();
+        setEvents(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getEvents();
+  }, []);
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
-      {events.map(({title, description}) => {
-        return <EventCard key={title} title={title} description={description}/>;
+      {events.map(({ eve_description }, index) => {
+        return (
+          <EventCard
+            key={index}
+            title={"event"}
+            description={eve_description}
+          />
+        );
       })}
     </div>
   );
