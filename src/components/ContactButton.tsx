@@ -23,7 +23,7 @@ export function ContactButton({
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="my-1 group relative flex justify-center items-center text-white text-sm font-bold">
+        <div className="lg:block hidden my-1 group relative flex justify-center items-center text-white text-sm font-bold">
           <div className="shadow-md flex items-center group-hover:gap-2 bg-gradient-to-br from-purple-600 to-purple-600 p-3 rounded-full cursor-pointer duration-300">
           <Image src={icon} alt={alt} width={45} height={45} />
             <span className="text-[0px] group-hover:text-sm duration-300">
