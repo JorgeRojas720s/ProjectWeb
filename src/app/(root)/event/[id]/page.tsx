@@ -29,14 +29,18 @@ const Event = ({ params: { id } }: { params: { id: string } }) => {
   return (
     <>
       <div className="justify-center">
-        <h1 className="text-2xl flex justify-center">{id.replaceAll("%20", " ")}</h1>
+        <h1 className="text-2xl flex justify-center text-purple-2 font-extrabold">
+          {id.replaceAll("%20", " ")}
+        </h1>
         <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
-          {causes.length>0? causes.map(({ cau_id, cau_cause }, index) => {
-            
-        console.log(causes)
-            return <CauseCard key={index} id={cau_id} description={cau_cause}/>;
-          
-          }): 'no causes found'}
+          {causes.length > 0
+            ? causes.map(({ cau_id, cau_cause }, index) => {
+                console.log(causes);
+                return (
+                  <CauseCard key={index} id={cau_id} description={cau_cause} />
+                );
+              })
+            : "no causes found"}
         </div>
       </div>
     </>

@@ -2,6 +2,12 @@ import menuIcon from "../images/menu.png";
 import Image from "next/image";
 
 export default function Header() {
+  const data = [
+    { name: "Inicio", href: "/" },
+    { name: "Servicios", href: "/services" },
+    { name: "Productos", href: "/products" },
+    { name: "Contacto", href: "/contact" },
+  ];
   return (
     <div className="absolute top-0 left-0 right-0 flex items-center justify-end z-1000">
       <a
@@ -13,24 +19,11 @@ export default function Header() {
       <nav className="hidden sm:block">
         <ul className="flex space-x-4 mr-10 pt-3">
           <li>
-            <a href="/" className="text-white hover:text-red-700 px-3">
-              Inicio
-            </a>
-          </li>
-          <li>
-            <a href="/services" className="text-white hover:text-red-700 px-3">
-              Servicios
-            </a>
-          </li>
-          <li>
-            <a href="/products" className="text-white hover:text-red-700 px-3">
-              Productos
-            </a>
-          </li>
-          <li>
-            <a href="/contact" className="text-white hover:text-red-700 px-3">
-              Contacto
-            </a>
+            {data.map(({ name, href }) => (
+              <a href={href} className="text-white hover:hover-li-tag px-3">
+                {name}
+              </a>
+            ))}
           </li>
         </ul>
       </nav>

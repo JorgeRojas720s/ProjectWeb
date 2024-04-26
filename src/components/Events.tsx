@@ -31,18 +31,18 @@ function Events() {
   return (
     <div className="">
       <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
-        {events.map(({ eve_description }, index) => {
+        {events.map(({eve_title, eve_description }, index) => {
           return (
-            //  <EventCard
-            //     key={index}
-            //      title={"event"}
-            //     description={eve_description}
-            //    />
-            <CardAux
-              key={index}
-              title={"event"}
-              description={eve_description}
-            ></CardAux>
+             <EventCard
+                key={index}
+                 title={eve_title}
+                description={eve_description}
+               />
+            // <CardAux
+            //   key={index}
+            //   title={"event"}
+            //   description={eve_description}
+            // ></CardAux>
           );
         })}
       </div>
