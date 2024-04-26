@@ -1,0 +1,47 @@
+use db_project_web;
+
+INSERT INTO tbl_events (eve_id, eve_title, eve_description) VALUES
+(1, 'Concierto en el Parque', '¡Disfruta de una tarde llena de música en vivo y diversión para toda la familia!'),
+(2, 'Exposición de Arte Moderno', 'Explora las últimas obras de artistas contemporáneos en nuestra galería de arte.'),
+(3, 'Seminario de Marketing Digital', 'Aprende las últimas estrategias y tendencias en marketing digital de la mano de expertos.'),
+(4, 'Feria de Productos Locales', 'Descubre y apoya a los productores locales ofreciendo productos frescos y artesanales.'),
+(5, 'Charla sobre Ciencia y Tecnología', 'Explora los avances más recientes en ciencia y tecnología con destacados investigadores.'),
+(6, 'Torneo de Ajedrez', '¡Demuestra tus habilidades estratégicas en nuestro torneo de ajedrez y compite por grandes premios!'),
+(7, 'Festival de Cine Independiente', 'Sumérgete en el mundo del cine independiente con una selección de películas de todo el mundo.'),
+(8, 'Clase de Cocina Internacional', 'Aprende a preparar platos exquisitos de diferentes partes del mundo con nuestros chefs expertos.'),
+(9, 'Carrera Solidaria', 'Participa en nuestra carrera solidaria para apoyar a causas benéficas y promover la salud y el bienestar.'),
+(10, 'Conferencia de Desarrollo Personal', 'Descubre herramientas y técnicas para alcanzar tu máximo potencial en nuestra conferencia de desarrollo personal.');
+
+INSERT INTO tbl_consequences (con_id, con_consequence) VALUES
+(1, 'Pérdida de ingresos'),
+(2, 'Daño a la reputación de la empresa'),
+(3, 'Impacto en la satisfacción del cliente'),
+(4, 'Costos adicionales de reparación'),
+(5, 'Multas y sanciones regulatorias'),
+(6, 'Pérdida de datos importantes'),
+(7, 'Interrupción del servicio'),
+(8, 'Daño a la infraestructura física'),
+(9, 'Riesgo de litigios'),
+(10, 'Impacto en la salud y seguridad de los empleados');
+
+INSERT INTO tbl_causes (cau_id, cau_cause, cau_fk_event, cau_fk_consequences) VALUES
+-- Ejemplo 1
+(1, 'Fallo en el sistema de seguridad', 1, 6), -- Este evento causa pérdida de datos importantes
+-- Ejemplo 2
+(2, 'Error humano durante el mantenimiento', 3, 4), -- Este evento causa costos adicionales de reparación
+-- Ejemplo 3
+(3, 'Incumplimiento de normativas de seguridad', 5, 9), -- Este evento causa riesgo de litigios
+-- Ejemplo 4
+(4, 'Fallo en el suministro eléctrico', 7, 7), -- Este evento causa interrupción del servicio
+-- Ejemplo 5
+(5, 'Ataque de malware', 9, 1), -- Este evento causa pérdida de ingresos
+-- Ejemplo 6
+(6, 'Falla en el equipo de producción', 2, 3), -- Este evento causa impacto en la satisfacción del cliente
+-- Ejemplo 7
+(7, 'Desastre natural', 4, 8), -- Este evento causa daño a la infraestructura física
+-- Ejemplo 8
+(8, 'Incidente de seguridad cibernética', 6, 5), -- Este evento causa multas y sanciones regulatorias
+-- Ejemplo 9
+(9, 'Error en el diseño del producto', 8, 2), -- Este evento causa daño a la reputación de la empresa
+-- Ejemplo 10
+(10, 'Incendio en las instalaciones', 10, 10); -- Este evento causa impacto en la salud y seguridad de los empleados

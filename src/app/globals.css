@@ -35,7 +35,19 @@ body {
   min-height: 70vh;
   display: flex;
   align-items: center;
-  
+}
+
+.header-with-out-icon{
+  min-height: 5vh;
+  display: flex;
+  align-items: center;
+}
+
+.hover-li-tag{
+  animation-duration: 2s ease;
+  transform: translateY(-10px);
+  scale: .03;
+  padding: 0px 3px;
 }
 
 .container{

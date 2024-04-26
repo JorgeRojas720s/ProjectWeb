@@ -20,8 +20,6 @@ async function getById(id){
     return await db.tbl_events.findByPk(id);
 }
 
-
-
 async function create(params) {
 
     const event = new db.tbl_events(params);

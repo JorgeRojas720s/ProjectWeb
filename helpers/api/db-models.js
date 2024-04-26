@@ -16,6 +16,7 @@ export const models = {
 function eventsModel(sequelize) {
   const attributes = {
     eve_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    eve_title: {type: DataTypes.STRING, allowNull: false},
     eve_description: { type: DataTypes.STRING, allowNull: false },
   };
 

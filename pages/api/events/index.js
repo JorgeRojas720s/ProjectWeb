@@ -1,4 +1,4 @@
-import {eventsRepo, apiHandler} from '/helpers/api';
+import {apiHandler, eventsRepo} from '/helpers/api';
 
 export default apiHandler({
     get: getAll

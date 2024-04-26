@@ -10,6 +10,7 @@ function jwtMiddleware(req, res) {
     const middleware = expressjwt({ secret: serverRuntimeConfig.secret, algorithms: ['HS256'] }).unless({
         path: [
             '/api/events',
+            '/api/causes',
             // public routes that don't require authentication
             "/api/events/register"
         ]

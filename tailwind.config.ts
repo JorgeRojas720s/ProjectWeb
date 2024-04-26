@@ -27,6 +27,7 @@ const config = {
 
         purple: {
           1: '#822CD5',
+          2: '#3D2E86'
         },
         
         primary: {
