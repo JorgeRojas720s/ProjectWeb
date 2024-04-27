@@ -6,6 +6,5 @@ export default apiHandler({
 
 async function getAll(req, res){
     const causes = await causesRepo.getAll();
-    console.log(causes)
     return res.status(200).json(causes);
 }

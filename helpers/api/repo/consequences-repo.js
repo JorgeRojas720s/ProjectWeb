@@ -3,7 +3,7 @@ import { db } from "/helpers/api";
 
 const { serverRuntimeConfig } = getConfig();
 
-export const eventsRepo = {
+export const consequencesRepo = {
   getAll,
   getById,
   create,

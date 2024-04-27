@@ -41,7 +41,11 @@ body {
 .header-with-out-icon{
   min-height: 5vh;
   display: flex;
-  align-items: center;
+  align-items: end;
+  width: 100%;
+  justify-content: end;
+  transform: translateY(20px);
+  position: fixed;
 }
 
 .hover-li-tag{

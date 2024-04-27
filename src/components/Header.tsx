@@ -11,13 +11,13 @@ export default function Header() {
   return (
     <div className="absolute top-0 left-0 right-0 flex items-center justify-end z-1000">
       <a
-        href="#"
+        href="/"
         className="absolute text-white text-2xl font-extrabold xl:left-52 top-56 hidden sm:block md:left-24 top-52   "
       >
         Imagen Logo
       </a>
       <nav className="hidden sm:block">
-        <ul className="flex space-x-4 mr-10 pt-3">
+        <ul className="flex justify-end space-x-4 mr-10 pt-3">
           <li>
             {data.map(({ name, href }) => (
               <a href={href} className="text-white hover:hover-li-tag px-3">

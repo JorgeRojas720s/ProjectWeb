@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
-import CauseCard from "@/components/CauseCard";
+import GenericCard from "@/components/GenericCard";
+import { useRouter } from "next/navigation";
 
 async function getData() {
   const response = await fetch(`http://localhost:3000/api/causes`);
@@ -11,6 +12,7 @@ async function getData() {
 const Event = ({ params: { id } }: { params: { id: string } }) => {
   const [causes, setCauses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   useEffect(() => {
     const getCauses = async () => {
       try {
@@ -37,7 +39,13 @@ const Event = ({ params: { id } }: { params: { id: string } }) => {
             ? causes.map(({ cau_id, cau_cause }, index) => {
                 console.log(causes);
                 return (
-                  <CauseCard key={index} id={cau_id} description={cau_cause} />
+                  <GenericCard
+                    key={index}
+                    id={cau_id}
+                    description={cau_cause}
+                    onClick={() => router.push(`cause/${cau_cause}`)}
+                    className="text-2xl items-center justify-center"
+                  />
                 );
               })
             : "no causes found"}

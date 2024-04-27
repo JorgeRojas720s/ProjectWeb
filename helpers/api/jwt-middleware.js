@@ -11,6 +11,7 @@ function jwtMiddleware(req, res) {
         path: [
             '/api/events',
             '/api/causes',
+            '/api/consequences',
             // public routes that don't require authentication
             "/api/events/register"
         ]
