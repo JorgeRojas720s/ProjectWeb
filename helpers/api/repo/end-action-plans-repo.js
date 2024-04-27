@@ -3,7 +3,7 @@ import { db } from "/helpers/api";
 
 const { serverRuntimeConfig } = getConfig();
 
-export const endActionPlanRepo = {
+export const endActionPlansRepo = {
   getAll,
   getById,
   create,

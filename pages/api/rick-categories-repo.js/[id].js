@@ -1,4 +1,4 @@
-import { apiHandler, riskCategoryRepo } from "/helpers/api";
+import { apiHandler, riskCategoriesRepo } from "/helpers/api";
 
 export default apiHandler({
   get: getById,
@@ -8,7 +8,7 @@ export default apiHandler({
 
 async function getById(req, res) {
   const { id } = req.query;
-  const riskCategory = await riskCategoryRepo.getById(id);
+  const riskCategory = await riskCategoriesRepo.getById(id);
   if (!riskCategory) {
     return res.status(404).json({ error: "Risk category not found" });
   }
@@ -18,7 +18,7 @@ async function getById(req, res) {
 async function update(req, res) {
   const { id } = req.query;
   try {
-    await riskCategoryRepo.update(id, req.body);
+    await riskCategoriesRepo.update(id, req.body);
     return res
       .status(200)
       .json({ message: "Risk category updated successfully" });
@@ -30,7 +30,7 @@ async function update(req, res) {
 async function _delete(req, res) {
   const { id } = req.query;
   try {
-    await riskCategoryRepo._delete(id);
+    await riskCategoriesRepo._delete(id);
     return res
       .status(200)
       .json({ message: "Risk category deleted successfully" });

@@ -3,7 +3,7 @@ import { db } from "/helpers/api";
 
 const { serverRuntimeConfig } = getConfig();
 
-export const riskCategoryRepo = {
+export const riskCategoriesRepo = {
   getAll,
   getById,
   create,
