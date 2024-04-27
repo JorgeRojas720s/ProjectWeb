@@ -28,15 +28,15 @@ async function create(params) {
 
 async function update(id, params) {
   const consequence = await db.tbl_consequences.findByPk(id);
+  if (!consequence) throw "Consequence not found";
 
   Object.assign(consequence, params);
-
   await consequence.save();
 }
 
 async function _delete(id) {
   const consequence = await db.tbl_consequences.findByPk(id);
-  if (!consequence) throw "consequence not found";
+  if (!consequence) throw "Consequence not found";
 
   await consequence.destroy();
 }
