@@ -12,7 +12,7 @@ export default function Header() {
     <div className="absolute top-0 left-0 right-0 flex items-center justify-end z-1000">
       <a
         href="/"
-        className="absolute text-white text-2xl font-extrabold xl:left-52 top-56 hidden sm:block md:left-24 top-52   "
+        className="absolute text-white text-2xl font-extrabold xl:left-52 xl:top-56 hidden sm:block md:left-24 md:top-52   "
       >
         Imagen Logo
       </a>

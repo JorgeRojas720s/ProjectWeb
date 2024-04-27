@@ -12,6 +12,14 @@ function jwtMiddleware(req, res) {
             '/api/events',
             '/api/causes',
             '/api/consequences',
+            '/api/control-measures',
+            '/api/end-action-plan',
+            '/api/followup-plan',
+            '/api/proposed-actions',
+            '/api/risk-categories',
+            '/api/risk-classifications',
+            '/api/risk-descriptions',
+            '/api/selected-actions',
             // public routes that don't require authentication
             "/api/events/register"
         ]
