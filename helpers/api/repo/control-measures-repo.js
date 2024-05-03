@@ -6,6 +6,7 @@ export const controlMeasuresRepo = {
   create,
   update,
   _delete,
+  getByConsequenceId,
 };
 
 async function getAll() {
@@ -34,4 +35,13 @@ async function _delete(id) {
   if (!controlMeasure) throw "Control measure not found";
 
   await controlMeasure.destroy();
+}
+
+
+async function getByConsequenceId(consequenceId) {
+  return await db.tbl_control_measures.findAll({
+    where: {
+      ctm_fk_consequences: consequenceId,
+    },
+  });
 }

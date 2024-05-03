@@ -9,6 +9,7 @@ export const riskClassificationsRepo = {
   create,
   update,
   _delete,
+  getByConsequenceId,
 };
 
 async function getAll() {
@@ -37,4 +38,12 @@ async function _delete(id) {
   if (!riskClassification) throw "Risk classification not found";
 
   await riskClassification.destroy();
+}
+
+async function getByConsequenceId(consequenceId) {
+  return await db.tbl_risk_classification.findAll({
+    where: {
+      rcf_fk_consequences: consequenceId,
+    },
+  });
 }

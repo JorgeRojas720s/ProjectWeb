@@ -1,12 +1,36 @@
+import jwt from "jsonwebtoken";
 import { db } from "/helpers/api";
+import getConfig from "next/config";
+
+const { serverRuntimeConfig } = getConfig();
 
 export const eventsRepo = {
+  authenticate,
   getAll,
   getById,
   create,
   update,
   _delete,
 };
+
+async function authenticate() {
+  // Simplemente verificar si existe algún evento en la base de datos
+  const event = await db.tbl_events.findOne();
+
+  if (!event) {
+    throw "Event not found";
+  }
+
+  // Generar el token con el ID del evento y una clave secreta
+  const token = jwt.sign({ id: event.eve_id }, serverRuntimeConfig.secret, {
+    expiresIn: "7d",
+  });
+
+  return {
+    ...event.toJSON(),
+    token
+  };
+}
 
 async function getAll() {
   return await db.tbl_events.findAll();

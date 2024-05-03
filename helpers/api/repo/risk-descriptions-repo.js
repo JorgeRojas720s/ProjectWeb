@@ -9,6 +9,7 @@ export const riskDescriptionsRepo = {
   create,
   update,
   _delete,
+  getByCategoryId,
 };
 
 async function getAll() {
@@ -37,4 +38,12 @@ async function _delete(id) {
   if (!riskDescription) throw "Risk description not found";
 
   await riskDescription.destroy();
+}
+
+async function getByCategoryId(categotyId) {
+  return await db.tbl_risk_description.findAll({
+    where: {
+      rdc_fk_category: categotyId,
+    },
+  });
 }
