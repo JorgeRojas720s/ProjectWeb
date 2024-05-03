@@ -9,6 +9,7 @@ export const endActionPlansRepo = {
   create,
   update,
   _delete,
+  getByProposedActionId,
 };
 
 async function getAll() {
@@ -37,4 +38,12 @@ async function _delete(id) {
   if (!endActionPlan) throw "End action plan not found";
 
   await endActionPlan.destroy();
+}
+
+async function getByProposedActionId(proposedActionId) {
+  return await db.tbl_end_action_plan.findAll({
+    where: {
+      eap_fk_proposed_action: proposedActionId,
+    },
+  });
 }

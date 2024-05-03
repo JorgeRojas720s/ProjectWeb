@@ -9,7 +9,7 @@ export default apiHandler({
 async function getById(req, res) {
   const { id } = req.query;
   const cause = await causesRepo.getById(id);
-  if (!cause) {
+  if (!causes) {
     return res.status(404).json({ error: "Cause not found" });
   }
   return res.status(200).json(cause);

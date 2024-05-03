@@ -9,6 +9,9 @@ export const selectedActionsRepo = {
   create,
   update,
   _delete,
+  getByProposedActionId,
+  getByEndActionPlanId,
+  getByFollowupPlanId,
 };
 
 async function getAll() {
@@ -39,6 +42,29 @@ async function _delete(id) {
   await selectedAction.destroy();
 }
 
+async function getByProposedActionId(proposedActionId) {
+  return await db.tbl_selected_actions.findAll({
+    where: {
+      sda_fk_proposed_actions: proposedActionId,
+    },
+  });
+}
+
+async function getByEndActionPlanId(endActionPlanId) {
+  return await db.tbl_selected_actions.findAll({
+    where: {
+      sda_fk_end_action_plan: endActionPlanId,
+    },
+  });
+}
+
+async function getByFollowupPlanId(followupPlanId) {
+  return await db.tbl_selected_actions.findAll({
+    where: {
+      sda_fk_followup_plan: followupPlanId,
+    },
+  });
+}
 
 
 

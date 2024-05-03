@@ -9,6 +9,7 @@ export const proposedActionsRepo = {
   create,
   update,
   _delete,
+  getByConsequenceId,
 };
 
 async function getAll() {
@@ -39,4 +40,10 @@ async function _delete(id) {
   await proposedAction.destroy();
 }
 
-
+async function getByConsequenceId(consequenceId) {
+  return await db.tbl_proposed_actions.findAll({
+    where: {
+      pda_fk_consequences: consequenceId,
+    },
+  });
+}
