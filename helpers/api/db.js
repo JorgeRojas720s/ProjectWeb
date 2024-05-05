@@ -56,8 +56,7 @@ async function initialize() {
 
 // function eventsModel(sequelize) {
 //   console.log("modeeeeeeeeeeeeeeeeeeeel");
-//   const attributes = {
-//     eve_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+//   const attributes = {//     eve_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
 //     eve_description: { type: DataTypes.STRING, allowNull: false },
 //   };
 

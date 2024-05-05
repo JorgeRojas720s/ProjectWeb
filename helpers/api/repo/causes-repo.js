@@ -1,5 +1,6 @@
 import getConfig from "next/config";
 import { db } from "/helpers/api";
+import { where } from "sequelize";
 
 const { serverRuntimeConfig } = getConfig();
 

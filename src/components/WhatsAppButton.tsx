@@ -36,7 +36,7 @@ export default function WhatsAppButton() {
       )}
 
       {showPopup && (
-        <div className="fixed bottom-0 left-0 mb-4 ml-4">
+        <div className="fixed bottom-0 left-0 mb-4 ml-4 z-50">
           <div className="max-w-md w-full">
             <div className="bg-white shadow-md rounded-lg max-w-lg w-full border border-black md:max-w-md">
               <div className="p-2 md:p-4 border-b bg-green-500 text-white rounded-t-lg flex justify-between items-center">

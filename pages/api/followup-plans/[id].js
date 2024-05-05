@@ -1,4 +1,4 @@
-import { apiHandler, followupPlanRepo } from "/helpers/api";
+import { apiHandler, followupPlansRepo } from "/helpers/api";
 
 export default apiHandler({
   get: getById,
@@ -8,7 +8,7 @@ export default apiHandler({
 
 async function getById(req, res) {
   const { id } = req.query;
-  const followupPlan = await followupPlanRepo.getById(id);
+  const followupPlan = await followupPlansRepo.getById(id);
   if (!followupPlan) {
     return res.status(404).json({ error: "Follow-up plan not found" });
   }
@@ -18,7 +18,7 @@ async function getById(req, res) {
 async function update(req, res) {
   const { id } = req.query;
   try {
-    await followupPlanRepo.update(id, req.body);
+    await followupPlansRepo.update(id, req.body);
     return res
       .status(200)
       .json({ message: "Follow-up plan updated successfully" });
@@ -30,7 +30,7 @@ async function update(req, res) {
 async function _delete(req, res) {
   const { id } = req.query;
   try {
-    await followupPlanRepo._delete(id);
+    await followupPlansRepo._delete(id);
     return res
       .status(200)
       .json({ message: "Follow-up plan deleted successfully" });

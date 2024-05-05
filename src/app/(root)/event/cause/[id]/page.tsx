@@ -2,12 +2,13 @@
 import GenericCard from "@/components/GenericCard";
 import Loading from "@/components/Loading";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
-async function getData() {
-  const response = await fetch(`http://localhost:3000/api/consequences`);
+async function getData({id}:{id:string}) {
+  const response = await fetch(`http://localhost:3000/api/consequences/`);
   return response.json();
 }
+
 const Cause = ({ params: { id } }: { params: { id: string } }) => {
   const [consequences, setConsequences] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ const Cause = ({ params: { id } }: { params: { id: string } }) => {
   useEffect(() => {
     const getCauses = async () => {
       try {
-        const data = await getData();
+        const data = await getData({id});
         setConsequences(data);
         setLoading(false);
       } catch (error) {

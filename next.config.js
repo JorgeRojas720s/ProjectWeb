@@ -3,11 +3,12 @@ const nextConfig = {
   reactStrictMode: true,
   serverRuntimeConfig: {
       dbConfig: {
-          host: 'localhost',
-          port: 3306,
-          user: 'root',
-          password: '0', // @@@
-          database: 'db_project_web'
+          host: process.env.HOST,
+          port: '3306',
+        //   port: process.env.PORT,
+          user: process.env.USER, 
+          password: process.env.PASSWORD, // @@@
+          database: process.env.DATABASE
       },
       secret: 'THIS IS USED TO SIGN AND VERIFY JWT TOKENS, REPLACE IT WITH YOUR OWN SECRET, IT CAN BE ANY STRING'
   },

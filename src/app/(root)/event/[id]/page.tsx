@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import GenericCard from "@/components/GenericCard";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,7 @@ const Event = ({ params: { id } }: { params: { id: string } }) => {
   const [causes, setCauses] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  
   useEffect(() => {
     const getCauses = async () => {
       try {
@@ -37,7 +38,6 @@ const Event = ({ params: { id } }: { params: { id: string } }) => {
         <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
           {causes.length > 0
             ? causes.map(({ cau_id, cau_cause }, index) => {
-                console.log(causes);
                 return (
                   <GenericCard
                     key={index}

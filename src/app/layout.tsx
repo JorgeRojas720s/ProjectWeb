@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
+import ContactButtons from "@/components/ContactButtons";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +23,8 @@ export default function RootLayout({
         <header className="header">
           <Header></Header>
         </header>
+        <ContactButtons />
+      <WhatsAppButton />
         {children}
       </body>
     </html>

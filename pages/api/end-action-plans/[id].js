@@ -1,4 +1,4 @@
-import { apiHandler, endActionPlanRepo } from "/helpers/api";
+import { apiHandler, endActionPlansRepo } from "/helpers/api";
 
 export default apiHandler({
   get: getById,
@@ -8,7 +8,7 @@ export default apiHandler({
 
 async function getById(req, res) {
   const { id } = req.query;
-  const endActionPlan = await endActionPlanRepo.getById(id);
+  const endActionPlan = await endActionPlansRepo.getById(id);
   if (!endActionPlan) {
     return res.status(404).json({ error: "End action plan not found" });
   }
@@ -18,7 +18,7 @@ async function getById(req, res) {
 async function update(req, res) {
   const { id } = req.query;
   try {
-    await endActionPlanRepo.update(id, req.body);
+    await endActionPlansRepo.update(id, req.body);
     return res
       .status(200)
       .json({ message: "End action plan updated successfully" });
@@ -30,7 +30,7 @@ async function update(req, res) {
 async function _delete(req, res) {
   const { id } = req.query;
   try {
-    await endActionPlanRepo._delete(id);
+    await endActionPlansRepo._delete(id);
     return res
       .status(200)
       .json({ message: "End action plan deleted successfully" });
