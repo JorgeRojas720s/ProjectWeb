@@ -10,6 +10,8 @@ export const causesRepo = {
   create,
   update,
   _delete,
+  getByEventId,
+  getByConsequenceId,
 };
 
 async function getAll() {
@@ -38,4 +40,20 @@ async function _delete(id) {
   if (!cause) throw "Cause not found";
 
   await cause.destroy();
+}
+
+async function getByEventId(eventId) {
+  return await db.tbl_causes.findAll({
+    where: {
+      cau_fk_event: eventId,
+    },
+  });
+}
+
+async function getByConsequenceId(consequenceId) {
+  return await db.tbl_causes.findAll({
+    where: {
+      cau_fk_consequences: consequenceId,
+    },
+  });
 }

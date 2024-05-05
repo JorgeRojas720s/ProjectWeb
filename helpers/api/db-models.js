@@ -156,10 +156,11 @@ function proposedActionsModel(sequelize) {
   const options = {
     timestamps: false,
   };
-
+  
   return sequelize.define("tbl_proposed_actions", attributes, options);
 }
 
+//Aqui
 function selectedActionsModel(sequelize) {
   const attributes = {
     sda_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
