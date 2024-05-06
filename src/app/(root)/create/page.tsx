@@ -3,12 +3,8 @@ import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 
 function Page() {
-
-  
   const AMOUNT_TEXTAREAS = 10;
-  console.log("🚀 ~ Page ~ 10:", 10)
-
- 
+  console.log("🚀 ~ Piashchs:", 10);
 
   const [textAreaValues, setTextAreaValues] = useState(
     Array.from({ length: AMOUNT_TEXTAREAS }, () => "")
