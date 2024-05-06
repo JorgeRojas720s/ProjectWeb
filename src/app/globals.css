@@ -4,6 +4,8 @@
 
 :root {
   box-sizing: border-box;
+  --purple: #822CD5;
+  
 }
 /* 
 @media (prefers-color-scheme: dark) {
@@ -137,3 +139,4 @@ body {
       @apply bg-background text-foreground;
     }
   }
+

@@ -60,7 +60,7 @@ function Events() {
             id={'+'}
             title="+"
             className="justify-center flex h-fit text-8xl"
-            onClick={()=>router.push(``)}
+            onClick={()=>router.push(`create/`)}
           />
         </div>
       </div>
