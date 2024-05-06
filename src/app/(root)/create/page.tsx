@@ -5,6 +5,8 @@ import GenericTextArea from "@/components/GenericTextArea";
 function Page() {
   const AMOUNT_TEXTAREAS = 10;
 
+  console.log("test2");
+
   const [textAreaValues, setTextAreaValues] = useState(
     Array.from({ length: AMOUNT_TEXTAREAS }, () => "")
   );
