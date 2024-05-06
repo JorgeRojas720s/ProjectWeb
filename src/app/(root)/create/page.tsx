@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 
 function Page() {
+
+  console.log("test");
   const AMOUNT_TEXTAREAS = 10;
 
   const [textAreaValues, setTextAreaValues] = useState(
@@ -13,7 +15,7 @@ function Page() {
     { length: AMOUNT_TEXTAREAS },
     (_, index) => index
   );
-  
+
   const placeholders = [
     "hola",
     "hola2",
