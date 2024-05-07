@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 interface genericTextAreaProps {
-  id: number;
+  id?: number;
   //className?: string;
   placeholder: string;
   rows: number;
   cols: number;
   text?: string;
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void; 
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void; 
 }
 
 const GenericTextArea = ({
@@ -19,7 +19,7 @@ const GenericTextArea = ({
   cols,
   text,
   value,
-  onChange,
+ onChange,
 }: genericTextAreaProps) => {
   const [textArea, setTextArea] = useState("");
 
@@ -31,7 +31,7 @@ const GenericTextArea = ({
       placeholder={placeholder}
       rows={rows}
       cols={cols}
-      value={value} 
+      // value={value} 
       onChange={onChange} 
     />
   );
