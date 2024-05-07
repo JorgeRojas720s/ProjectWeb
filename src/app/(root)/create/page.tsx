@@ -1,35 +1,36 @@
 "use client";
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
+import GenericCard from "@/components/GenericCard";
 
-const CATEGORIES = ["causa", "consecuencia", "riesgo"];
+const CATEGORIES = ["Causa", "Consecuencia", "Riesgo"];
 
 function Page() {
   const [textAreas, setTextAreas] = useState<{ [key: string]: string[] }>({
+    event: [""],
     causa: [""],
     consecuencia: [""],
     riesgo: [""],
   });
 
-  function addTextArea(category: string) {
+  const addTextArea = (category: string) => {
     setTextAreas((prev) => ({
       ...prev,
       [category]: [...prev[category], ""],
     }));
-    
   };
 
-
-  
-  function handleTextAreaChange( category: string, index: number,
+  const handleTextAreaChange = (
+    category: string,
+    index: number,
     event: React.ChangeEvent<HTMLTextAreaElement>
-  ){
-    console.log("categoryyyyyyy:", category)
-    const updatedAreas = [...textAreas[category]]; 
+  ) => {
+    console.log("categoryyyyyyy:", category);
+    const updatedAreas = [...textAreas[category]];
     updatedAreas[index] = event.target.value;
     setTextAreas((prev) => ({
-      ...prev,
-      [category]: updatedAreas, 
+      ...prev, // esto copia el estado, y mantiene las demás propiedades, si no lo coloco se borran
+      [category]: updatedAreas,
     }));
   };
 
@@ -39,59 +40,58 @@ function Page() {
 
   return (
     <div className="flex justify-center">
-      <div className="w-auto m-8 bg-[#001925] p-8 border-l-4 border-purple-1 rounded-r-2xl">
+      <div className="w-screen m-8 bg-[#001925] p-8 border-l-4 border-purple-1 rounded-r-2xl">
         <span className="block text-white text-2xl font-bold mb-6">
           Formulario de Eventos
         </span>
 
+        <section>
+          <div className="flex justify-center">
+            <GenericTextArea
+              id={0}
+              placeholder={"Event"}
+              rows={10}
+              cols={30}
+              onChange={(event) => handleTextAreaChange("event", 0, event)}
+            />
+          </div>
 
-
-
-        {/* ------------ */}
-        <div className="flex justify-around mb-6">
-          {CATEGORIES.map((category, index) => (
-            <button
-              key={category}
-              className="bg-white"
-              onClick={() => addTextArea(category)}
-            >
-              {CATEGORIES[index]}
-            </button>
-          ))}
-        </div>
-
-
-
-        {CATEGORIES.map((category) => {
-          return (
-            <div key={category}>
-              {/* <h2 className="text-white">{CATEGORIES[index]}</h2> */}
-              <h2 className="text-white">+++++++++++++++++++++</h2>
-              <section className="flex flex-wrap gap-x-20 justify-center mt-6">
-                {textAreas[category].map((_, id) => (
-                  <div key={id} className="flex flex-col items-start">
-                    <GenericTextArea
-                      id={id}
-                      placeholder={`${
-                        category.charAt(0).toUpperCase() + category.slice(1)
-                      } ${id + 1}`}
-                      rows={10}
-                      cols={30}
-                      onChange={(event) =>
-                        handleTextAreaChange(category, id, event)
-                      }
-                    />
-                  </div>
-                ))}
-              </section>
-            </div>
-          );
-        })}
-        {/* ------------ */}
-
-
-
-
+          {CATEGORIES.map((Category, index) => {
+            const category = Category.toLowerCase();
+            return (
+              <div key={category}>
+                <button
+                  key={category}
+                  className="bg-purple-1 p-2 mt-6"
+                  onClick={() => addTextArea(category)}
+                >
+                  {`Add new ${CATEGORIES[index]} +`}
+                </button>
+                <section className="flex flex-wrap gap-x-20 justify-center mt-6">
+                  {textAreas[category].map((_, id) => (
+                    <div key={id} className="flex flex-col items-start">
+                      <GenericTextArea
+                        id={id}
+                        placeholder={`${CATEGORIES[index]} ${id + 1}`}
+                        rows={10}
+                        cols={30}
+                        onChange={(event) =>
+                          handleTextAreaChange(category, id, event)
+                        }
+                      />
+                    </div>
+                  ))}
+                  <GenericCard
+                    id={index}
+                    title="+"
+                    className="justify-center flex h-fit text-8xl"
+                    onClick={() => addTextArea(category)}
+                  />
+                </section>
+              </div>
+            );
+          })}
+        </section>
 
         <div className="flex gap-4 mt-6">
           <div

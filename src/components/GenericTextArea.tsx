@@ -21,13 +21,11 @@ const GenericTextArea = ({
   value,
  onChange,
 }: genericTextAreaProps) => {
-  const [textArea, setTextArea] = useState("");
 
   return (
     <textarea
       //className={`${className != null ? className : ""}`}
-      className="w-auto bg-[#013747] border-l-transparent text-white font-bold 
-      resize-none max-h-[150px] py-2 px-4 mb-6 outline-none transition-all duration-200 ease-in-out focus:border-l-8 focus:border-purple-1 rounded-r-lg"
+      className="resize-none bg-[#013747] outline-none border-l-transparent h-[220px] xl:w-[420px] lg:w-[320px] md:w-[350px] p-5 sm:w-fit m-5 hover:translate-y-[-10px] transition-all duration-200 ease-in-out focus:border-l-8 focus:border-purple-1 rounded-lg"
       placeholder={placeholder}
       rows={rows}
       cols={cols}
