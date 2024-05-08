@@ -4,30 +4,33 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import Loading from "./Loading";
 import GenericCard from "./GenericCard";
 import { useRouter } from "next/navigation";
-import { EventsData } from "@/app/page";
-import Consequence, { Causes } from "@/app/(root)/event/consequence/[id]/page";
-import FormExample from "./FormExample";
-
+import EventClass from "../utils/EventClass";
 async function getData() {
   const response = await fetch(`http://localhost:3000/api/events`);
   // const response = await fetch(`${process.env.API_URL}/events`);
   return response.json();
 }
 
-// Event:{
-//   Consequence:[{}],
-//   Causes:[{}],
-// }
+const createEvents = async (data) => {
+  const eventsArray = [];
+  for (const eventData of data) {
+    const enventClass = new EventClass("");
+    const eventInstance = await enventClass.createEvent(eventData);
+    eventsArray.push(eventInstance);
+  }
+  return eventsArray;
+};
 
 function Events() {
   const router = useRouter();
-  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState([]);
   useEffect(() => {
     const getEvents = async () => {
       try {
         const data = await getData();
-        setEvents(data);
+        let array = await createEvents(data);
+        console.log(array);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -49,22 +52,22 @@ function Events() {
           {events.map(({ eve_id, eve_title, eve_description }, index) => {
             return (
               <GenericCard
-              id={eve_id}
-              key={index}
-              title={eve_title}
-              description={eve_description}
-              onClick={() => router.push(`event/${eve_title}`)}
+                id={eve_id}
+                key={index}
+                title={eve_title}
+                description={eve_description}
+                onClick={() => router.push(`event/${eve_title}`)}
               />
             );
           })}
-          <GenericCard 
-            id={'+'}
+          <GenericCard
+            id={"+"}
             title="+"
             className="justify-center flex h-fit text-8xl"
-            onClick={()=>router.push(``)}
+            onClick={() => router.push(`create/`)}
           />
         </div>
-       </div>
+      </div>
     </>
   );
 }

@@ -13,9 +13,9 @@ export const eventsRepo = {
   _delete,
 };
 
-async function authenticate() {
+async function authenticate(obj) {
   // Simplemente verificar si existe algún evento en la base de datos
-  const event = await db.tbl_events.findOne();
+  const event = await db.tbl_events.findByPk(obj.eve_id);
 
   if (!event) {
     throw "Event not found";

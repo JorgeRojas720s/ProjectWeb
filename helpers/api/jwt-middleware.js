@@ -30,5 +30,6 @@ function jwtMiddleware(req, res) {
     ],
   });
 
+
   return util.promisify(middleware)(req, res);
 }

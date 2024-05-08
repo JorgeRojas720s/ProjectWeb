@@ -45,3 +45,48 @@ INSERT INTO tbl_causes (cau_id, cau_cause, cau_fk_event, cau_fk_consequences) VA
 (9, 'Error en el diseño del producto', 8, 2), -- Este evento causa daño a la reputación de la empresa
 -- Ejemplo 10
 (10, 'Incendio en las instalaciones', 10, 10); -- Este evento causa impacto en la salud y seguridad de los empleados
+
+
+-----------------------------------------------------
+import React, { useState } from "react";
+
+interface genericTextAreaProps {
+  id?: number;
+  //className?: string;
+  placeholder: string;
+  rows: number;
+  cols: number;
+  text?: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  className?: string; 
+}
+const classNameTextArea = 'resize-none bg-[#013747] outline-none border-l-transparent h-[220px] xl:w-[420px] lg:w-[320px] md:w-[350px] p-5 sm:w-fit m-5 hover:translate-y-[-10px] transition-all duration-200 ease-in-out focus:border-l-8 focus:border-purple-1 rounded-lg'
+const GenericTextArea = ({
+  id,
+  //className,
+  placeholder,
+  rows,
+  cols,
+  text,
+  value,
+ onChange,
+ className
+}: genericTextAreaProps) => {
+
+  return (
+    <textarea
+      //className={`${className != null ? className : ""}`}
+      className={`resize-none outline-none ${className !== null? className : 'h-[220px]'} xl:w-[420px] lg:w-[320px] md:w-[350px] p-5 sm:w-fit m-5 hover:translate-y-[-10px] transition-all duration-200 ease-in-out focus:border-l-8 focus:border-purple-1 rounded-lg border border-purple-1`}
+      placeholder={placeholder}
+      rows={rows}
+      cols={cols}
+      // value={value} 
+      onChange={onChange} 
+    />
+  );
+};
+
+export default GenericTextArea;
+--------------------------------------------------
+
