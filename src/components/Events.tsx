@@ -6,6 +6,7 @@ import GenericCard from "./GenericCard";
 import { useRouter } from "next/navigation";
 import { EventsData } from "@/app/page";
 import Consequence, { Causes } from "@/app/(root)/event/consequence/[id]/page";
+import FormExample from "./FormExample";
 
 async function getData() {
   const response = await fetch(`http://localhost:3000/api/events`);
@@ -63,7 +64,7 @@ function Events() {
             onClick={()=>router.push(``)}
           />
         </div>
-      </div>
+       </div>
     </>
   );
 }
