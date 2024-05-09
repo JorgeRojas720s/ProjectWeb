@@ -2,7 +2,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { createContext } from 'react'
-import EventClass from "../utils/EventClass";
+import EventClass from "../utils/EventClass.tsx";
 import Loading from "./Loading";
 
 export const ContextEvent = createContext();
