@@ -30,6 +30,7 @@ function Events() {
       try {
         const data = await getData();
         let array = await createEvents(data);
+        setEvents(array)
         console.log(array);
         setLoading(false);
       } catch (error) {
@@ -49,14 +50,14 @@ function Events() {
           {"Events"}
         </h1>
         <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
-          {events.map(({ eve_id, eve_title, eve_description }, index) => {
+          {events.map((event, index) => {
             return (
               <GenericCard
-                id={eve_id}
+                id={event.event}
                 key={index}
-                title={eve_title}
-                description={eve_description}
-                onClick={() => router.push(`event/${eve_title}`)}
+                title={event.event}
+                description={''}
+                onClick={() => router.push(`event/${event.event}`)}
               />
             );
           })}
