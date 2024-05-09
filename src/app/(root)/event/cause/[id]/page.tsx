@@ -1,24 +1,42 @@
+// @ts-nocheck
 "use client";
+import { ContextEvent } from "@/components/ContextProvider";
 import GenericCard from "@/components/GenericCard";
 import Loading from "@/components/Loading";
 import { useRouter } from "next/navigation";
-import React, { createContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-async function getData({id}:{id:string}) {
-  const response = await fetch(`http://localhost:3000/api/consequences/`);
-  return response.json();
+function getEventConsequences(events, id) {
+  let causesArray = [];
+  for (let event of events) {
+    for (let cause of event.causes) {
+      if (cause.cau_fk_event == id) {
+        causesArray.push(cause);
+      }
+    }
+  }
+  return causesArray;
 }
+
+function setTitle(events, id) {
+  for (let event of events) {
+    if(event.code == id){
+      return event.event;
+    }
+  }
+  return 'no title'
+}
+
 
 const Cause = ({ params: { id } }: { params: { id: string } }) => {
   const [consequences, setConsequences] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const title = id.replaceAll("%20", " ");
+  const {events, setEvents} = useContext(ContextEvent);
   useEffect(() => {
     const getCauses = async () => {
       try {
-        const data = await getData({id});
-        setConsequences(data);
+        setConsequences(getEventConsequences(events,id));
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -33,7 +51,7 @@ const Cause = ({ params: { id } }: { params: { id: string } }) => {
   return (
     <div className="justify-center">
       <h1 className="text-2xl flex justify-center text-purple-2 font-extrabold">
-        {title.length > 50 ? title.substring(0, 30) : title}
+        {setTitle(events, id)}
       </h1>
       <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
         {consequences.map(({ con_id, con_consequence }, index) => {

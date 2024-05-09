@@ -5,7 +5,7 @@ export default apiHandler({
   put: update,
   delete: _delete,
 });
-
+ 
 async function getById(req, res) {
   const { id } = req.query;
   const controlMeasure = await controlMeasuresRepo.getById(id);

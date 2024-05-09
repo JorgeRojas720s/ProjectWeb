@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import ContactButtons from "@/components/ContactButtons";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import ContextProvider  from "../components/ContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +25,8 @@ export default function RootLayout({
           <Header></Header>
         </header>
         <ContactButtons />
-      <WhatsAppButton />
-        {children}
+        <WhatsAppButton />
+        <ContextProvider>{children}</ContextProvider>
       </body>
     </html>
   );

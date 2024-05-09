@@ -46,6 +46,27 @@ INSERT INTO tbl_causes (cau_id, cau_cause, cau_fk_event, cau_fk_consequences) VA
 -- Ejemplo 10
 (10, 'Incendio en las instalaciones', 10, 10); -- Este evento causa impacto en la salud y seguridad de los empleados
 
+INSERT INTO tbl_control_measures (ctm_fcm_probability, ctm_fcm_impact, ctm_fcm_risk_level, ctm_wcm_existing, ctm_wcm_aptitude, ctm_wcm_risk_level, ctm_wcm_attitude, ctm_wcm_acceptability, ctm_fk_consequences) VALUES
+-- Ejemplo 1
+(0.8, 0.9, 'Alto', 'Sistema de respaldo de datos en tiempo real', 'S', 'Alto', 'A', 'Aceptable', 6), -- Este control mitigaría la pérdida de datos importantes
+-- Ejemplo 2
+(0.6, 0.7, 'Moderado', 'Procedimientos de revisión y validación de mantenimiento', 'S', 'Moderado', 'A', 'Aceptable', 4), -- Este control mitigaría los costos adicionales de reparación
+-- Ejemplo 3
+(0.7, 0.8, 'Alto', 'Auditorías periódicas de cumplimiento normativo', 'S', 'Alto', 'A', 'Aceptable', 9), -- Este control mitigaría el riesgo de litigios
+-- Ejemplo 4
+(0.9, 0.6, 'Alto', 'Sistema de respaldo de energía eléctrica', 'S', 'Alto', 'A', 'Aceptable', 7), -- Este control mitigaría la interrupción del servicio
+-- Ejemplo 5
+(0.85, 0.95, 'Alto', 'Software de detección y prevención de malware actualizado', 'S', 'Alto', 'A', 'Aceptable', 1), -- Este control mitigaría la pérdida de ingresos
+-- Ejemplo 6
+(0.7, 0.8, 'Alto', 'Sistema de monitoreo y mantenimiento preventivo', 'S', 'Alto', 'A', 'Aceptable', 3), -- Este control mitigaría el impacto en la satisfacción del cliente
+-- Ejemplo 7
+(0.75, 0.9, 'Alto', 'Plan de contingencia y recuperación ante desastres naturales', 'S', 'Alto', 'A', 'Aceptable', 8), -- Este control mitigaría el daño a la infraestructura física
+-- Ejemplo 8
+(0.8, 0.85, 'Alto', 'Firewalls avanzados y software de detección de intrusos', 'S', 'Alto', 'A', 'Aceptable', 5), -- Este control mitigaría multas y sanciones regulatorias
+-- Ejemplo 9
+(0.65, 0.75, 'Moderado', 'Procesos de revisión de diseño y pruebas de productos', 'S', 'Moderado', 'A', 'Aceptable', 2), -- Este control mitigaría el daño a la reputación de la empresa
+-- Ejemplo 10
+(0.9, 0.95, 'Alto', 'Planes de evacuación y entrenamiento en seguridad contra incendios', 'S', 'Alto', 'A', 'Aceptable', 10); -- Este control mitigaría el impacto en la salud y seguridad de los empleados
 
 -----------------------------------------------------
 import React, { useState } from "react";

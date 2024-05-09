@@ -242,9 +242,9 @@ function endActionPlanModel(sequelize) {
 
 function controlMeasuresModel(sequelize) {
   const attributes = {
-    ctm_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    ctm_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement:true },
     ctm_fcm_probability: { type: DataTypes.INTEGER, allowNull: false },
-    ctm_fcm_imapact: { type: DataTypes.INTEGER, allowNull: false },
+    ctm_fcm_impact: { type: DataTypes.INTEGER, allowNull: false },
     ctm_fcm_risk_level: { type: DataTypes.STRING, allowNull: false },
     ctm_wcm_existing: { type: DataTypes.STRING, allowNull: false },
     ctm_wcm_attitude: { type: DataTypes.STRING, allowNull: false },

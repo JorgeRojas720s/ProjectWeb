@@ -1,7 +1,7 @@
-// @ts-nocheck
 interface EventClassProps {
   code?: string;
   event?: string;
+  title?:string;
   causes?: string[];
   consequences?: string[];
   controMeasurements?: string[];
@@ -16,15 +16,22 @@ interface EventClassProps {
 }
 
 interface FetchProps {
-  url: string;
-  code?: int;
+  url?: string;
+  code?: string;
   method?: string;
-  body?;
+  body?:object;
+}
+
+interface CreateEventPops {
+  eve_id: string;
+  eve_title: string;
+  eve_description: string;
 }
 
 class EventClass {
   code?: string;
   event?: string;
+  title?: string;
   causes?: string[];
   consequences?: string[];
   controMeasurements?: string[];
@@ -40,6 +47,7 @@ class EventClass {
   constructor({
     code,
     event,
+    title,
     causes,
     consequences,
     controMeasurements,
@@ -53,6 +61,7 @@ class EventClass {
   }: EventClassProps) {
     code && (this.code = code);
     event && (this.event = event);
+    title && (this.title = title);
     causes && (this.causes = causes);
     consequences && (this.consequences = consequences);
     controMeasurements && (this.controMeasurements = controMeasurements);
@@ -63,13 +72,16 @@ class EventClass {
     riskClassiffications && (this.riskClassiffications = riskClassiffications);
     riskDescriptions && (this.riskDescriptions = riskDescriptions);
     selectedActions && (this.selectedActions = selectedActions);
+    console.log("first");
   }
   //Metodos
   async fetch({ url, code, method, body }: FetchProps) {
     const baseUrl = "http://localhost:3000/api/";
+    console.log("code: " + code);
     const apiURL = `${baseUrl + url}${
       code !== undefined || null ? "/" + code : ""
     }`;
+    console.log(apiURL);
 
     const response = await fetch(apiURL, {
       method: method,
@@ -81,10 +93,12 @@ class EventClass {
       body: JSON.stringify(body),
       cache: "default",
     });
-    return response.json();
+    if (response.status === 200) {
+      return response.json();
+    }
   }
 
-  async getToken(code: int) {
+  async getToken(code: string) {
     const response = await this.fetch({
       url: "events/authenticate",
       method: "POST",
@@ -93,18 +107,29 @@ class EventClass {
     this.token = response.token;
   }
 
-  async getCauses(code: int) {
-    await this.getToken(code);
-    let causes = await this.fetch({
-      url: "causes/by-event-id",
+  async getData({
+    code,
+    url,
+    method,
+  }: {
+    code: string;
+    url: string;
+    method: string;
+  }) {
+    let data = await this.fetch({
+      url: url,
       code: code,
-      method: "GET",
+      method: method,
     });
-    
-    return await Promise.all(causes);
+    if (data !== undefined || null) {
+      return await Promise.all(data);
+    } else {
+      return [];
+    }
   }
-  async createEvent(obj) {
-    let code, event;
+
+  async createEvent(obj:CreateEventPops) {
+    let code, event, title;
     let causes = new Array();
     let consequences = new Array();
     let controMeasurements = new Array();
@@ -117,12 +142,32 @@ class EventClass {
     let selectedActions = new Array();
     code = obj.eve_id;
     event = obj.eve_description;
-    
-    causes = await this.getCauses(code);
+    title = obj.eve_title;
+    await this.getToken(code);
 
-    const objEvent = new EventClass({ code, event, causes });
+    causes = await this.getData({
+      code: code,
+      url: "causes/by-event-id",
+      method: "GET",
+    });
+    const causesFkToConsequences = causes[0].cau_fk_consequences;
+    consequences = await this.getData({
+      code: causesFkToConsequences,
+      url: "consequences",
+      method: "GET",
+    });
+    console.log(consequences);
+
+    const objEvent = new EventClass({
+      code,
+      event,
+      title,
+      causes,
+      consequences,
+      controMeasurements,
+    });
     return objEvent;
-}
+  }
 
   toString() {
     let result = `{`;
@@ -134,7 +179,11 @@ class EventClass {
     },\n`;
     result += `causes: ${
       this.causes !== undefined && this.causes !== null
-        ? "[" + this.causes.map((c) => `\n\t"code:${c.cau_id}\n\tcause:${c.cau_cause}"`).join("\t") + "]"
+        ? "[" +
+          this.causes
+            .map((c) => `\n\t"code:${c.cau_id}\n\tcause:${c.cau_cause}"`)
+            .join("\t") +
+          "]"
         : ""
     },\n`;
     result += `consequences: ${

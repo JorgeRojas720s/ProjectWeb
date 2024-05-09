@@ -1,48 +1,14 @@
 // @ts-nocheck
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import Loading from "./Loading";
+import React, { useContext } from "react";
 import GenericCard from "./GenericCard";
 import { useRouter } from "next/navigation";
-import EventClass from "../utils/EventClass";
-async function getData() {
-  const response = await fetch(`http://localhost:3000/api/events`);
-  // const response = await fetch(`${process.env.API_URL}/events`);
-  return response.json();
-}
-
-const createEvents = async (data) => {
-  const eventsArray = [];
-  for (const eventData of data) {
-    const enventClass = new EventClass("");
-    const eventInstance = await enventClass.createEvent(eventData);
-    eventsArray.push(eventInstance);
-  }
-  return eventsArray;
-};
+import {ContextEvent} from '../components/ContextProvider';
 
 function Events() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [events, setEvents] = useState([]);
-  useEffect(() => {
-    const getEvents = async () => {
-      try {
-        const data = await getData();
-        let array = await createEvents(data);
-        setEvents(array)
-        console.log(array);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getEvents();
-  }, []);
-  if (loading) {
-    return <Loading />;
-  }
-
+  const {events, setEvents} = useContext(ContextEvent);
+  console.log(events)
   return (
     <>
       <div className="flex flex-col w-fit ">
@@ -55,9 +21,9 @@ function Events() {
               <GenericCard
                 id={event.event}
                 key={index}
-                title={event.event}
+                title={event.title}
                 description={''}
-                onClick={() => router.push(`event/${event.event}`)}
+                onClick={() => router.push(`event/${event.code}`)}
               />
             );
           })}
