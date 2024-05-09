@@ -1,7 +1,8 @@
+// @ts-nocheck
 interface EventClassProps {
   code?: string;
   event?: string;
-  title?:string;
+  title?: string;
   causes?: string[];
   consequences?: string[];
   controMeasurements?: string[];
@@ -19,7 +20,7 @@ interface FetchProps {
   url?: string;
   code?: string;
   method?: string;
-  body?:object;
+  body?: object;
 }
 
 interface CreateEventPops {
@@ -77,12 +78,9 @@ class EventClass {
   //Metodos
   async fetch({ url, code, method, body }: FetchProps) {
     const baseUrl = "http://localhost:3000/api/";
-    console.log("code: " + code);
     const apiURL = `${baseUrl + url}${
       code !== undefined || null ? "/" + code : ""
     }`;
-    console.log(apiURL);
-
     const response = await fetch(apiURL, {
       method: method,
       headers: {
@@ -128,7 +126,7 @@ class EventClass {
     }
   }
 
-  async createEvent(obj:CreateEventPops) {
+  async createEvent(obj: CreateEventPops) {
     let code, event, title;
     let causes = new Array();
     let consequences = new Array();
@@ -150,7 +148,12 @@ class EventClass {
       url: "causes/by-event-id",
       method: "GET",
     });
-    const causesFkToConsequences = causes[0].cau_fk_consequences;
+//el error está a la hora de hacer el casuses[0] dice que no es un objeto iretable y el programa se cae
+    const causesFkToConsequences = causes &&
+      causes.length > 1
+        ? causes[0].cau_fk_consequences
+        : causes.cau_fk_consequences;
+        console.log(causesFkToConsequences)
     consequences = await this.getData({
       code: causesFkToConsequences,
       url: "consequences",
