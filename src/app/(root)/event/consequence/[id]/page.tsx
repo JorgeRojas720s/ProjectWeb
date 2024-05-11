@@ -1,27 +1,22 @@
+// @ts-nocheck
 'use client'
 import Cause from "@/components/Cause";
+import { ContextEvent } from "@/components/ContextProvider";
 import CuaseSideBar from "@/components/CuaseSideBar";
 import Loading from "@/components/Loading";
-import { useRouter } from "next/navigation";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-export const Causes = createContext([null]);
-
-async function getData() {
-  const response = await fetch(`http://localhost:3000/api/causes`);
-  return response.json();
-}
+export const ActualEvent = createContext([null]);
 
 const Consequence = ({ params: { id } }: { params: { id: number } }) => {
   const [causes, setCauses] = useState([]);
-
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const {events} = useContext(ContextEvent)
+  let event = events[id-1];
   useEffect(() => {
     const getCauses = async () => {
       try {
-        const data = await getData();
-        setCauses(data);
+        setCauses(event.causes);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -34,12 +29,12 @@ const Consequence = ({ params: { id } }: { params: { id: number } }) => {
   }
 
   return (
-    <Causes.Provider value={causes}>
+    <ActualEvent.Provider value={event}>
       <div className="flex justify-between items-center mr-5 ml-5 max-md:flex-col max-sm:flex-col max-w-lg:flex-row">
         <CuaseSideBar />
         <Cause id={id}/>
       </div>
-    </Causes.Provider>
+    </ActualEvent.Provider>
   );
 };
 

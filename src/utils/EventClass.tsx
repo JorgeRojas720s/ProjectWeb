@@ -73,7 +73,6 @@ class EventClass {
     riskClassiffications && (this.riskClassiffications = riskClassiffications);
     riskDescriptions && (this.riskDescriptions = riskDescriptions);
     selectedActions && (this.selectedActions = selectedActions);
-    console.log("first");
   }
   //Metodos
   async fetch({ url, code, method, body }: FetchProps) {
@@ -105,25 +104,16 @@ class EventClass {
     this.token = response.token;
   }
 
-  async getData({
-    code,
-    url,
-    method,
-  }: {
-    code: string;
-    url: string;
-    method: string;
-  }) {
+  async getData({ code, url, method }: FetchProps) {
     let data = await this.fetch({
       url: url,
       code: code,
       method: method,
     });
-    if (data !== undefined || null) {
+    if (data.lenght > 1) {
       return await Promise.all(data);
-    } else {
-      return [];
     }
+    return await Promise.resolve(data);
   }
 
   async createEvent(obj: CreateEventPops) {
@@ -148,18 +138,17 @@ class EventClass {
       url: "causes/by-event-id",
       method: "GET",
     });
-//el error está a la hora de hacer el casuses[0] dice que no es un objeto iretable y el programa se cae
-    const causesFkToConsequences = causes &&
-      causes.length > 1
-        ? causes[0].cau_fk_consequences
-        : causes.cau_fk_consequences;
-        console.log(causesFkToConsequences)
-    consequences = await this.getData({
-      code: causesFkToConsequences,
-      url: "consequences",
-      method: "GET",
-    });
-    console.log(consequences);
+    //el error está a la hora de hacer el casuses[0] dice que no es un objeto iretable y el programa se cae (solucionado, utilizar los métodos de la clase array en lugar de usar [index])
+    for (let cause of causes) {
+      let causesFkToConsequences = cause.cau_fk_consequences;
+      consequences.push(
+        await this.getData({
+          code: causesFkToConsequences,
+          url: "consequences",
+          method: "GET",
+        })
+      );
+    }
 
     const objEvent = new EventClass({
       code,
@@ -180,6 +169,7 @@ class EventClass {
     result += `event: ${
       this.event !== undefined && this.event !== null ? this.event : ""
     },\n`;
+    result += `title:${(this.title !== undefined) | null ? this.title : ""},\n`;
     result += `causes: ${
       this.causes !== undefined && this.causes !== null
         ? "[" +
@@ -191,7 +181,19 @@ class EventClass {
     },\n`;
     result += `consequences: ${
       this.consequences !== undefined && this.consequences !== null
-        ? "[" + this.consequences.map((c) => `"${c}"`).join(", ") + "]"
+        ? this.consequences.length > 1
+          ? "[" +
+            this.consequences
+              .map(
+                (c) =>
+                  `\n\t"code:${c.con_id}\n\tconsequence:${c.con_consequence}`
+              )
+              .join("\t") +
+            "]"
+          : "\n\tcode:" +
+            this.consequences.con_id +
+            "\n\tconsequence:" +
+            this.consequences.con_consequence
         : ""
     },\n`;
     result += `controMeasurements: ${

@@ -5,27 +5,7 @@ import Loading from "@/components/Loading";
 import GenericCard from "@/components/GenericCard";
 import { useRouter } from "next/navigation";
 import { ContextEvent } from "@/components/ContextProvider";
-
-function getEventCauses(events, id) {
-  let causesArray = [];
-  for (let event of events) {
-    for (let cause of event.causes) {
-      if (cause.cau_fk_event == id) {
-        causesArray.push(cause);
-      }
-    }
-  }
-  return causesArray;
-}
-
-function setTitle(events, id) {
-  for (let event of events) {
-    if(event.code == id){
-      return event.title;
-    }
-  }
-  return 'no title'
-}
+import EventClass from "@/utils/EventClass";
 
 const Event = ({ params: { id } }: { params: { id: string } }) => {
   const [causes, setCauses] = useState([]);
@@ -33,11 +13,11 @@ const Event = ({ params: { id } }: { params: { id: string } }) => {
   const router = useRouter();
 
   const { events, setEvents } = useContext(ContextEvent);
-
+  let event = events[id-1];
   useEffect(() => {
     const getCauses = async () => {
       try {
-        setCauses(getEventCauses(events,id));
+        setCauses(event.causes);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -52,7 +32,7 @@ const Event = ({ params: { id } }: { params: { id: string } }) => {
     <>
       <div className="justify-center">
         <h1 className="text-2xl flex justify-center text-purple-2 font-extrabold text-center">
-          {setTitle(events, id)}
+          {event.title}
         </h1>
         <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
           {causes.length > 0
@@ -62,7 +42,7 @@ const Event = ({ params: { id } }: { params: { id: string } }) => {
                     key={index}
                     id={cau_id}
                     description={cau_cause}
-                    onClick={() => router.push(`cause/${cau_id}`)}
+                    onClick={() => router.push(`cause/${id}`)}
                     className="text-2xl items-center justify-center"
                   />
                 );

@@ -19,7 +19,6 @@ const createEvents = async (data) => {
     const eventInstance = await enventClass.createEvent(eventData);
     eventsArray.push(eventInstance);
   }
-  console.log(eventsArray)
   return eventsArray;
 }
  const ContextProvider = ({children}) => {
