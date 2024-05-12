@@ -111,3 +111,20 @@ const GenericTextArea = ({
 export default GenericTextArea;
 --------------------------------------------------
 
+------------------------------------------------------------
+
+DATOS DE EXCEL
+INSERT INTO tbl_events (eve_id, eve_title, eve_description) VALUES
+(1, 'Que no se pueda cumplir satisfactoriamente el Objetivo', '');
+
+INSERT INTO tbl_consequences (con_id, con_consequence) VALUES
+(1, 'Que por falta de Inducción no se reciban las indicaciones  forma clara y precisa, por parte de los óganos asesores y se cometan errores que generen atrasos o suspensiones en los procesos inherentes a los Proyectos de Red de Cuido.'),
+(2, 'Que se requiera de obras o insumos adicionales a los girados por el Gobierno Central y que la Administración no cuente con los recursos necesarios arriesgando el futuro de los proyectos de la Red de Cuido.');
+
+INSERT INTO tbl_causes (cau_id, cau_cause, cau_fk_event, cau_fk_consequences) VALUES
+(1, 'Falta de Inducción', 1, 1),
+(2, 'Falta de Recurso Humano', 1, null),
+(3, 'Por falta de voluntad política del Gobierno Central o Local no se cuente con los Recursos necesarios para el Desarrollo de los proyectos.', 1, 2),
+(4, 'Falta de Recursos Económicos Externos', 1, null),
+(5, 'Falta de Voluntad Política', 1, null),
+(6, 'Falta de Voluntad Interinstitucional', 1, null);

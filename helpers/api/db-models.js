@@ -43,7 +43,7 @@ function causesModel(sequelize) {
     },
     cau_fk_consequences: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'tbl_consequences',
         key: 'con_id',

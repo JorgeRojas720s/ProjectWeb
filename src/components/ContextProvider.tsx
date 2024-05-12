@@ -1,6 +1,6 @@
 // @ts-nocheck
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { createContext } from 'react'
 import EventClass from "../utils/EventClass.tsx";
 import Loading from "./Loading";
@@ -37,10 +37,11 @@ const createEvents = async (data) => {
         };
         getEvents();
       }, []);
+      //se puede implementar el 'useMemo' para que no hayan renderizados cuando la info sigue siendo la misma
       if (loading) {
         return <Loading />;
       }
-  return (
+      return (
     <ContextEvent.Provider value={{ events, setEvents }}>
         {children}
     </ContextEvent.Provider>
