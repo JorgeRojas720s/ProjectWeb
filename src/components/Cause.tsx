@@ -13,6 +13,7 @@ const Cause = ({ id }: { id: number }) => {
     <div className="w-[700px] h-[440px] overflow-y-auto shadow-md rounded-2xl border border-zinc-950 m-10 md:w-full sm:w-full">
       <div className="m-3">
       <p className="text-purple-2 font-bold text-2xl">{event.title}</p>
+      <p>{event.event}</p>
         <h3 className="text-purple-1 text-xl">Causa: </h3>
         <p className="text-lg">
           {causes.length > 0
