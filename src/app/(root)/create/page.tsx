@@ -2,14 +2,15 @@
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
+import Consequence from "../event/consequence/[id]/page";
 
-const CATEGORIES = ["Causa", "Consecuencia", "Riesgo"];
+const CATEGORIES = ["Causa", "Consequencia", "Riesgo"];
 
 function Page() {
   const [textAreas, setTextAreas] = useState<{ [key: string]: string[] }>({
     event: [""],
     causa: [""],
-    consecuencia: [""],
+    consequencia: [""],
     riesgo: [""],
   });
 
@@ -36,16 +37,22 @@ function Page() {
 
   const clickSend = () => {
     console.log("Toda la infiooooo: ", textAreas);
+
+    fetch("http://localhost:3000/api/events/register", {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(textAreas),
+    }).then((res) => {
+      console.log("response: ", res);
+      console.log("json:  ", JSON.stringify(textAreas));
+    });
   };
-  //css del anterior
-  const classNameConteiner =
-    "w-screen m-8 bg-[#001925] p-8 border-l-4 border-purple-1 rounded-r-2xl";
-  const classNameSectionContenier =
-    "flex flex-wrap gap-x-20 justify-center mt-6";
+
   return (
     <div className="flex justify-center">
-      {//conteiner
-      }
       <div className="w-screen m-8 p-8 shadow-md rounded-r-2xl">
         <span className="block text-purple-2 text-2xl font-bold mb-6 border-b-8 border-b-purple-1.5">
           Formulario de Eventos
@@ -53,14 +60,22 @@ function Page() {
 
         <section>
           <p className="text-purple-2 text-2xl font-bold">Evento</p>
-          <div className="flex justify-center">
+          <GenericTextArea
+            id={0}
+            placeholder={"Event Title"}
+            rows={10}
+            cols={30}
+            className="h-8 ms-5 w-80 border border-purple-1 "
+            onChange={(event) => handleTextAreaChange("event", 0, event)}
+          />
+          <div className="flex justify-start">
             <GenericTextArea
               id={0}
-              placeholder={"Event"}
+              placeholder={"Event Description"}
               rows={10}
               cols={30}
               className="h-32"
-              onChange={(event) => handleTextAreaChange("event", 0, event)}
+              onChange={(event) => handleTextAreaChange("event", 1, event)}
             />
           </div>
 
@@ -79,7 +94,8 @@ function Page() {
                   {category.substring(0, 1).toUpperCase() +
                     category.substring(1)}
                 </p>
-                {//section conteiner
+                {
+                  //section conteiner
                 }
                 <section className="grid justify-center lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
                   {textAreas[category].map((_, id) => (

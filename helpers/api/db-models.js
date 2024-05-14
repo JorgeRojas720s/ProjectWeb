@@ -2,22 +2,29 @@ import { DataTypes } from "sequelize";
 export const models = {
   Event: eventsModel,
   Cause: causesModel,
-  Consequence:consequencesModel,
-  RiskClassification:riskClassificationModel,
-  RiskCategory:riskCategoryModel,
-  RiskDescription:riskDescriptionModel,
-  ProposedAction:proposedActionsModel,
-  SelectedAction:selectedActionsModel,
-  FollowupPlan:followupPlanModel,
-  EndActionPlan:endActionPlanModel,
-  ControlMeasures:controlMeasuresModel,
+  Consequence: consequencesModel,
+  RiskClassification: riskClassificationModel,
+  RiskCategory: riskCategoryModel,
+  RiskDescription: riskDescriptionModel,
+  ProposedAction: proposedActionsModel,
+  SelectedAction: selectedActionsModel,
+  FollowupPlan: followupPlanModel,
+  EndActionPlan: endActionPlanModel,
+  ControlMeasures: controlMeasuresModel,
+  CausesXConsequences: causesXconsequencesModel,
 };
 
 function eventsModel(sequelize) {
+  console.log("huhuhu", sequelize);
   const attributes = {
-    eve_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
-    eve_title: {type: DataTypes.STRING, allowNull: false},
-    eve_description: { type: DataTypes.STRING, allowNull: false },
+    eve_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    eve_title: { type: DataTypes.STRING, allowNull: false },
+    eve_description: { type: DataTypes.STRING, allowNull: true },
   };
 
   const options = {
@@ -29,28 +36,23 @@ function eventsModel(sequelize) {
 
 function causesModel(sequelize) {
   const attributes = {
-    cau_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    cau_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
     cau_cause: { type: DataTypes.STRING, allowNull: false },
     cau_fk_event: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'tbl_events',
-        key: 'eve_id',
+        model: "tbl_events",
+        key: "eve_id",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
     },
-    cau_fk_consequences: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'tbl_consequences',
-        key: 'con_id',
-      },
-      onDelete: "CASCADE",
-      onUpdate: "CASCADE",
-    }
   };
 
   const options = {
@@ -60,10 +62,53 @@ function causesModel(sequelize) {
   return sequelize.define("tbl_causes", attributes, options);
 }
 
+function causesXconsequencesModel(sequelize){
+  const attributes = {
+    cxc_id:  {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    cxc_fk_causes: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "tbl_causes",
+        key: "cau_id",
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    },
+    cxc_fk_consequences: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "tbl_consequences",
+        key: "con_id",
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    },
+  };
+  const options = {
+    timestamps: false,
+  };
+
+  return sequelize.define("tbl_causes_x_consequences", attributes, options);
+
+
+}
+
 function consequencesModel(sequelize) {
   const attributes = {
-    con_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
-    con_consequence: { type: DataTypes.STRING, allowNull: false },
+    con_id:  {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: true,
+    },
+    con_consequence: { type: DataTypes.STRING, allowNull: true },
   };
   const options = {
     timestamps: false,
@@ -156,7 +201,7 @@ function proposedActionsModel(sequelize) {
   const options = {
     timestamps: false,
   };
-  
+
   return sequelize.define("tbl_proposed_actions", attributes, options);
 }
 
@@ -169,8 +214,8 @@ function selectedActionsModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "tbl_proposed_actions", 
-        key: "pda_id", 
+        model: "tbl_proposed_actions",
+        key: "pda_id",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
@@ -180,7 +225,7 @@ function selectedActionsModel(sequelize) {
       allowNull: false,
       references: {
         model: "tbl_end_action_plans",
-        key: "eap_id", 
+        key: "eap_id",
       },
       onDelete: "CASCADE",
       onUpdate: "CASCADE",
@@ -189,7 +234,7 @@ function selectedActionsModel(sequelize) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "tbl_followup_plans", 
+        model: "tbl_followup_plans",
         key: "fpp_id",
       },
       onDelete: "CASCADE",
@@ -242,7 +287,12 @@ function endActionPlanModel(sequelize) {
 
 function controlMeasuresModel(sequelize) {
   const attributes = {
-    ctm_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement:true },
+    ctm_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     ctm_fcm_probability: { type: DataTypes.INTEGER, allowNull: false },
     ctm_fcm_impact: { type: DataTypes.INTEGER, allowNull: false },
     ctm_fcm_risk_level: { type: DataTypes.STRING, allowNull: false },
