@@ -138,6 +138,8 @@ class EventClass {
       url: "causes/by-event-id",
       method: "GET",
     });
+
+    
     //el error está a la hora de hacer el casuses[0] dice que no es un objeto iretable y el programa se cae (solucionado, utilizar los métodos de la clase array en lugar de usar [index])
     for (let cause of causes) {
       if(cause.cau_fk_consequences !== null | undefined){

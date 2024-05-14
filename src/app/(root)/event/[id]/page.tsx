@@ -61,8 +61,7 @@
 import Cause from "@/components/Cause";
 import { ContextEvent } from "@/components/ContextProvider";
 import CuaseSideBar from "@/components/CuaseSideBar";
-import Loading from "@/components/Loading";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext } from "react";
 
 export const ActualEvent = createContext([null]);
 

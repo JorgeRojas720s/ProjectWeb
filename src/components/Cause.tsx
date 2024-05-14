@@ -45,3 +45,21 @@ const Cause = ({ id }: { id: number }) => {
 };
 
 export default Cause;
+
+
+
+// ids [
+
+//   cxc = {
+//     cau_id: 1,
+//   con_id: 1
+// },
+// cxc = {
+//   cau_id: 1,
+//   con_id: 2
+// },
+// cxc = {
+//   cau_id: 1,
+//   con_id: 2
+// }
+//   ]
