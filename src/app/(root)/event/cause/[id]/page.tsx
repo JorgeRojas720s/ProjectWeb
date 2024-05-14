@@ -38,7 +38,7 @@ console.log(event)
             <GenericCard
               key={index}
               id={con_id}
-              description={con_consequence}
+              description={con_consequence.length >100?con_consequence.substring(0,100)+'...':con_consequence}
               onClick={() => router.push(`/event/consequence/${id}`)}
               className="text-2xl items-center justify-center"
             />

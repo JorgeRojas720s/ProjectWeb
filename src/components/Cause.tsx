@@ -1,7 +1,7 @@
 // @ts-nocheck
 "use client";
 import React, { useContext, useState } from "react";
-import { ActualEvent } from "@/app/(root)/event/consequence/[id]/page";
+import { ActualEvent } from "@/app/(root)/event/[id]/page";
 
 const Cause = ({ id }: { id: number }) => {
   const event = useContext(ActualEvent);
@@ -31,7 +31,7 @@ const Cause = ({ id }: { id: number }) => {
             ? consequences.map(
                 ({ con_consequence }, index) =>
                   (
-                    <React.Fragment>
+                    <React.Fragment key={index}>
                       {index !== 0 && <br/>}
                       {`${index}.${con_consequence}`}
                     </React.Fragment>

@@ -1,7 +1,7 @@
 // @ts-nocheck
 "use client";
 import React, { useContext, useState } from "react";
-import { ActualEvent } from "@/app/(root)/event/consequence/[id]/page";
+import { ActualEvent } from "@/app/(root)/event/[id]/page";
 
 const CuaseSideBar = () => {
   const event = useContext(ActualEvent);
