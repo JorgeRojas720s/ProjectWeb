@@ -15,6 +15,7 @@ function initModels(sequelize){
     db.tbl_events = models.Event(sequelize);
     db.tbl_consequences = models.Consequence(sequelize);
     db.tbl_causes = models.Cause(sequelize);
+    db.tbl_causes_x_consequences = models.CausesXConsequences(sequelize);
     db.tbl_risk_classification = models.RiskClassification(sequelize);
     db.tbl_risk_category = models.RiskCategory(sequelize);
     db.tbl_risk_description = models.RiskDescription(sequelize);

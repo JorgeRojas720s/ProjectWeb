@@ -33,7 +33,7 @@ console.log(event)
         {event.title}
       </h1>
       <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
-        {consequences.length>1? consequences.map(({ con_id, con_consequence }, index) => {
+        {consequences.length>0? consequences.map(({ con_id, con_consequence }, index) => {
           return (
             <GenericCard
               key={index}
