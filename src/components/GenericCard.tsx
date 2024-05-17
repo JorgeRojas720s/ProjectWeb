@@ -29,6 +29,7 @@ const GenericCard = ({
       <div onClick={onClick}>
         <Card className="h-[220px] xl:w-[420px] lg:w-[320px] md:w-[350px] p-5 sm:w-fit m-5 hover:translate-y-[-10px] cursor-pointer hover:ease-linear transition-all">
           <CardHeader>
+            {}
             {title != null ? (
               <CardTitle className={`text-purple-1 ${className != null? className : ""}`}>{title}</CardTitle>
             ) : (

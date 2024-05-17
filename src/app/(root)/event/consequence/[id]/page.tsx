@@ -1,4 +1,4 @@
-// // @ts-nocheck
+// @ts-nocheck
 // 'use client'
 // import Cause from "@/components/Cause";
 // import { ContextEvent } from "@/components/ContextProvider";
