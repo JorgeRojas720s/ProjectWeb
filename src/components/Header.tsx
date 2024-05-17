@@ -6,7 +6,7 @@ export default function Header() {
     { name: "Inicio", href: "/" },
     { name: "Servicios", href: "/services" },
     { name: "Productos", href: "/products" },
-    { name: "Contacto", href: "/contact" },
+    { name: "Equipo", href: "/team" },
   ];
   return (
     <div className="absolute top-0 left-0 right-0 flex items-center justify-end z-1000">
