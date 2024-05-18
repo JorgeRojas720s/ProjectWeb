@@ -183,5 +183,15 @@
 //     </div>
 //   );
 // }
-
 // export default Page;
+
+
+import React from 'react'
+
+const Create = () => {
+  return (
+    <div>Create</div>
+  )
+}
+
+export default Create
