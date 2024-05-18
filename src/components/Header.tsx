@@ -19,8 +19,8 @@ export default function Header() {
       <nav className="hidden sm:block">
         <ul className="flex justify-end space-x-4 mr-10 pt-3">
           <li>
-            {data.map(({ name, href }) => (
-              <a href={href} className="text-white hover:hover-li-tag px-3">
+            {data.map(({ name, href }, index) => (
+              <a key={index} href={href} className="text-white hover:hover-li-tag px-3">
                 {name}
               </a>
             ))}
