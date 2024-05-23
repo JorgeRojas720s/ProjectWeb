@@ -6,11 +6,18 @@ import GenericCard from "@/components/GenericCard";
 const CATEGORIES = ["Causa", "Consequencia"];
 
 const InputCauseAndConsequence = () => {
-    const [textAreas, setTextAreas] = useState({
-        causa: [""],
-        consequencia: [""],
- 
-      });
+  const [textAreas, setTextAreas] = useState({
+    //pasar causa y consequencia por parametro
+    causa: [""],
+    consequencia: [""],
+  });
+
+  const addTextArea = (category) => {
+    setTextAreas((prev) => ({
+      ...prev,
+      [category]: [...prev[category], ""],
+    }));
+  };
   return (
     <div>
       {CATEGORIES.map((Category, index) => {
@@ -29,20 +36,20 @@ const InputCauseAndConsequence = () => {
                     placeholder={`${CATEGORIES[index]} ${id + 1}`}
                     rows={10}
                     cols={30}
-                    onChange={(event) =>
-                      handleTextAreaChange(category, id, event)
-                    }
+                    // onChange={(event) =>
+                    //   handleTextAreaChange("causesAndConsequences", id, event)
+                    // }
                   />
                 </div>
               ))}
-               <div className="flex justify-center">
-                    <GenericCard
-                      id={index}
-                      title="+"
-                      className="justify-center flex h-fit text-8xl"
-                      onClick={() => addTextArea(category)}
-                    />
-                  </div>
+              <div className="flex justify-center">
+                <GenericCard
+                  id={index}
+                  title="+"
+                  className="justify-center flex h-fit text-8xl"
+                  onClick={() => addTextArea(category)}
+                />
+              </div>
             </section>
           </div>
         );

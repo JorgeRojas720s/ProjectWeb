@@ -5,33 +5,39 @@ import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
 import InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
 
-const CATEGORIES = ["Causa", "Consequencia", "Riesgo"];
+const CATEGORIES = [ "Riesgo"];
+
+//"Causa", "Consequencia",
 
 function Page() {
   const [textAreas, setTextAreas] = useState({
     event: [""],
-    causa: [""],
-    consequencia: [""],
+    // causa: [""],
+    // consequencia: [""],
+    causesAndConsequnces: [{
+      causa: [""],
+      consequencia: [""],
+    }],
     riesgo: [""],
   });
 
-  const [arrayGrande, setArrayGrande] = useState([]);
+  const [causesAndConsequences, setCausesAndConsequences] = useState([]);
 
   const handleClick = () => {
-    setArrayGrande((prevArrayGrande) => [
-      ...prevArrayGrande,
-      <InputCauseAndConsequence />,
-    ]); //colocar componente quii
+    setCausesAndConsequences((prevCausesAndConsequences) => [
+      ...prevCausesAndConsequences,
+      <InputCauseAndConsequence addTextArea={addTextArea} />,
+    ]); 
   };
 
   const addTextArea = (category) => {
+    console.log("adtexxxxxxxxxxxxxxxxxxxxxxt", category)
     setTextAreas((prev) => ({
       ...prev,
       [category]: [...prev[category], ""],
     }));
   };
 
-  //preguntar si esta arrowfunction se puede pasar como parametro a otro componentte
   const handleTextAreaChange = (category, index, event) => {
     const updatedAreas = [...textAreas[category]];
     updatedAreas[index] = event.target.value;
@@ -92,9 +98,9 @@ function Page() {
                 {category === "riesgo" ? (
                   <div>
                     {/* aqui se agrega la nueva causa y consequencia */}
-                    {arrayGrande &&
-                      arrayGrande.map((item, index) => (
-                        <div key={index}>
+                    {causesAndConsequences &&
+                      causesAndConsequences.map((item, index) => (
+                        <div key={index}> {/* pasar el index para conoces algrupo que pertenece*/}
                           <div>------------------------</div>
                           <div>{item}</div>
                         </div>
