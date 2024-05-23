@@ -1,37 +1,53 @@
 // @ts-nocheck
 "use client";
+import Router from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
-import InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
+import  InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
 
-const CATEGORIES = [ "Riesgo"];
 
-//"Causa", "Consequencia",
-
+//globals
+const CATEGORIES = ["Riesgo"]; //"Causa", "Consequencia",
+let cont = -1;
+let bandera;
 function Page() {
+
+  const router = useRouter();
+
   const [textAreas, setTextAreas] = useState({
     event: [""],
     // causa: [""],
     // consequencia: [""],
-    causesAndConsequnces: [{
-      causa: [""],
-      consequencia: [""],
-    }],
+    causasYConsecuencias: [],
     riesgo: [""],
   });
 
+
   const [causesAndConsequences, setCausesAndConsequences] = useState([]);
+  const auxArray = [];
 
   const handleClick = () => {
+    console.log("bandera: ", bandera);
+     bandera = true;
+    cont++;
+    // saveText();
+    console.log("anteeeeeeeeees: ", textAreas.causasYConsecuencias);
     setCausesAndConsequences((prevCausesAndConsequences) => [
       ...prevCausesAndConsequences,
-      <InputCauseAndConsequence addTextArea={addTextArea} />,
-    ]); 
+      <InputCauseAndConsequence
+        cont={cont}
+        principalTextAreas={textAreas}
+        principalSetTextAreas={setTextAreas}
+        bandera={bandera}
+      />,
+    ]);
+    bandera = false;
   };
 
   const addTextArea = (category) => {
-    console.log("adtexxxxxxxxxxxxxxxxxxxxxxt", category)
+    console.log("adtexxxxxxxxxxxxxxxxxxxxxxt", category);
     setTextAreas((prev) => ({
       ...prev,
       [category]: [...prev[category], ""],
@@ -61,6 +77,8 @@ function Page() {
       console.log("response: ", res);
       console.log("json:  ", JSON.stringify(textAreas));
     });
+
+    router.push("/");
   };
 
   return (
@@ -100,7 +118,9 @@ function Page() {
                     {/* aqui se agrega la nueva causa y consequencia */}
                     {causesAndConsequences &&
                       causesAndConsequences.map((item, index) => (
-                        <div key={index}> {/* pasar el index para conoces algrupo que pertenece*/}
+                        <div key={index}>
+                          {" "}
+                          {/* pasar el index para conoces algrupo que pertenece*/}
                           <div>------------------------</div>
                           <div>{item}</div>
                         </div>

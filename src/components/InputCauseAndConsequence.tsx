@@ -2,15 +2,47 @@
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
+import { TextCursor } from "lucide-react";
 
-const CATEGORIES = ["Causa", "Consequencia"];
+const CATEGORIES = ["Causa", "Consecuencia"];
 
-const InputCauseAndConsequence = () => {
+const InputCauseAndConsequence = ({
+  cont,
+  principalTextAreas,
+  principalSetTextAreas,
+  bandera,
+}) => {
+
   const [textAreas, setTextAreas] = useState({
-    //pasar causa y consequencia por parametro
     causa: [""],
-    consequencia: [""],
+    consecuencia: [""],
   });
+
+  const handleTextAreaChange = (category, index, event) => {
+    const updatedAreas = [...textAreas[category]];
+    updatedAreas[index] = event.target.value;
+    setTextAreas((prev) => ({
+      ...prev,
+      [category]: updatedAreas,
+    }));
+  };
+
+  const saveText = () => {
+    const newCausaYConsecuencia = {
+      causa: textAreas.causa,
+      consecuencia: textAreas.consecuencia,
+    };
+
+    principalSetTextAreas((prev) => ({
+      ...prev,
+      causasYConsecuencias: [
+        ...prev.causasYConsecuencias,
+        newCausaYConsecuencia,
+      ],
+    }));
+
+    console.log("data", textAreas);
+  };
 
   const addTextArea = (category) => {
     setTextAreas((prev) => ({
@@ -36,9 +68,9 @@ const InputCauseAndConsequence = () => {
                     placeholder={`${CATEGORIES[index]} ${id + 1}`}
                     rows={10}
                     cols={30}
-                    // onChange={(event) =>
-                    //   handleTextAreaChange("causesAndConsequences", id, event)
-                    // }
+                    onChange={(event) =>
+                      handleTextAreaChange(category, id, event)
+                    }
                   />
                 </div>
               ))}
@@ -51,6 +83,11 @@ const InputCauseAndConsequence = () => {
                 />
               </div>
             </section>
+            {category === "consecuencia" ? (
+              <button onClick={() => saveText()}> save</button>
+            ) : (
+              <></>
+            )}
           </div>
         );
       })}
