@@ -128,3 +128,12 @@ INSERT INTO tbl_causes (cau_id, cau_cause, cau_fk_event, cau_fk_consequences) VA
 (4, 'Falta de Recursos Económicos Externos', 1, null),
 (5, 'Falta de Voluntad Política', 1, null),
 (6, 'Falta de Voluntad Interinstitucional', 1, null);
+
+
+INSERT INTO tbl_causes_x_consequences (cxc_fk_causes, cxc_fk_consequences) VALUES
+(1, 1),
+(2, null),
+(3,2),
+(4, null),
+(5, null),
+(6, null);

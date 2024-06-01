@@ -35,6 +35,7 @@ class EventClass {
   title?: string;
   causes?: string[];
   consequences?: string[];
+  causesXConsequences: string[{ causes: []; consequences: [] }];
   controMeasurements?: string[];
   endActionPlan?: string[];
   followUpPlans?: string[];
@@ -52,6 +53,7 @@ class EventClass {
     causes,
     consequences,
     controMeasurements,
+    causesXConsequences,
     endActionPlan,
     followUpPlans,
     proposedActions,
@@ -65,6 +67,7 @@ class EventClass {
     title && (this.title = title);
     causes && (this.causes = causes);
     consequences && (this.consequences = consequences);
+    causesXConsequences && (this.causesXConsequences = causesXConsequences);
     controMeasurements && (this.controMeasurements = controMeasurements);
     endActionPlan && (this.endActionPlan = endActionPlan);
     followUpPlans && (this.followUpPlans = followUpPlans);
@@ -110,16 +113,60 @@ class EventClass {
       code: code,
       method: method,
     });
-    if (data.lenght > 1) {
+    if (data && data.lenght > 1) {
       return await Promise.all(data);
     }
     return await Promise.resolve(data);
+  }
+
+  async getCauses(causes) {
+    let cxc = [];
+    let causesXConsequences = new Array({ causes: [], consequences: [] });
+    console.log(causes);
+    if (causes) {
+      for (let cause of causes) {
+        cxc = await this.getData({
+          code: cause.cau_id,
+          url: "causes-x-consequences",
+          method: "GET",
+        });
+      
+        let cons = [];
+        if (cxc && cxc.lenght > 1) {
+          for (let consequence of cxc) {
+            if (consequence.cxc_fk_consequences !== null) {
+              let con = await this.getData({
+                code: consequence.cxc_fk_consequences,
+                url: "consequences",
+                method: "GET",
+              });
+              cons.push(con);
+            }
+          }
+        }else{
+          if (cxc.cxc_fk_consequences !== null) {
+            let con = await this.getData({
+              code: cxc.cxc_fk_consequences,
+              url: "consequences",
+              method: "GET",
+            });
+            cons.push(con);
+          }
+        }
+        causesXConsequences.push({
+          causes: cause,
+          consequences: cons,
+        })
+      }
+    }
+    return causesXConsequences;
   }
 
   async createEvent(obj: CreateEventPops) {
     let code, event, title;
     let causes = new Array();
     let consequences = new Array();
+    let causesXConsequences = new Array({ causes: [], consequences: [] });
     let controMeasurements = new Array();
     let endActionPlan = new Array();
     let followUpPlans = new Array();
@@ -138,21 +185,10 @@ class EventClass {
       url: "causes/by-event-id",
       method: "GET",
     });
+    causesXConsequences = await this.getCauses(causes);
+    console.log(causesXConsequences);
 
-    
     //el error está a la hora de hacer el casuses[0] dice que no es un objeto iretable y el programa se cae (solucionado, utilizar los métodos de la clase array en lugar de usar [index])
-    for (let cause of causes) {
-      if(cause.cau_fk_consequences !== null | undefined){
-        let causesFkToConsequences = cause.cau_fk_consequences;
-        consequences.push(
-          await this.getData({
-            code: causesFkToConsequences,
-            url: "consequences",
-            method: "GET",
-          })
-        );
-      }
-    }
 
     const objEvent = new EventClass({
       code,
@@ -161,6 +197,7 @@ class EventClass {
       causes,
       consequences,
       controMeasurements,
+      causesXConsequences,
     });
     return objEvent;
   }
