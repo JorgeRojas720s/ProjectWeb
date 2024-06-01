@@ -1,67 +1,68 @@
 // @ts-nocheck
 "use client";
-import React, { useEffect, useState } from "react";
+// import Router from "next/router";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
+// import  InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
 
-const CATEGORIES = ["Causa", "Consequencia", "Riesgo"];
-// const CATEGORIES = ["Causa", "Consequencia", "Riesgo", 'Acciones_Propuestas'];
-// console.log(data.replaceAll('_', ' '))
-const arrayGrande = [];
 
-function handleMoreCauses (textAreas, setTextAreas) {
-  const cause = textAreas.causa;
-  const cons = textAreas.consequencia;
-  arrayGrande.push({ cause, cons });
-  for (let c of textAreas.causa){
-    c.show = false;
-  }
-  console.log('asdflakshdfkahsdfklh')
-  textAreas.consequencia = [""];
-  setTextAreas(textAreas);
-
-  console.log(arrayGrande);
-}
-
+//globals
+const CATEGORIES = ["Riesgo"]; 
+let cont = -1;
+let bandera;
 function Page() {
-  const [textAreas, setTextAreas] = useState<{ [key: string]: string[] }>({
+
+  const router = useRouter();
+
+  const [textAreas, setTextAreas] = useState({
     event: [""],
-    causa: [
-      {
-        show: true,
-        text: "",
-      },
-    ],
-    consequencia: [{
-      show: true,
-      text: ''
-    }],
+    causasYConsecuencias: [],
     riesgo: [""],
   });
 
-  const addTextArea = (category: string) => {
+
+  const [causesAndConsequences, setCausesAndConsequences] = useState([]);
+  const auxArray = [];
+
+  const handleClick = () => {
+    // console.log("bandera: ", bandera);
+    //  bandera = true;
+    // cont++;
+    // // saveText();
+    // console.log("anteeeeeeeeees: ", textAreas.causasYConsecuencias);
+    // setCausesAndConsequences((prevCausesAndConsequences) => [
+    //   ...prevCausesAndConsequences,
+    //   <InputCauseAndConsequence
+    //     cont={cont}
+    //     principalTextAreas={textAreas}
+    //     principalSetTextAreas={setTextAreas}
+    //     bandera={bandera}
+    //   />,
+    // ]);
+    // bandera = false;
+  };
+
+  const addTextArea = (category) => {
+    console.log("adtexxxxxxxxxxxxxxxxxxxxxxt", category);
     setTextAreas((prev) => ({
       ...prev,
       [category]: [...prev[category], ""],
     }));
   };
 
-  const handleTextAreaChange = (
-    category: string,
-    index: number,
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    console.log("categoryyyyyyy:", category);
+  const handleTextAreaChange = (category, index, event) => {
     const updatedAreas = [...textAreas[category]];
-    updatedAreas[index].text = event.target.value;
+    updatedAreas[index] = event.target.value;
     setTextAreas((prev) => ({
-      ...prev, // esto copia el estado, y mantiene las demás propiedades, si no lo coloco se borran
+      ...prev,
       [category]: updatedAreas,
     }));
   };
 
   const clickSend = () => {
-    console.log("Toda la infiooooo: ", textAreas);
+    
 
     fetch("http://localhost:3000/api/events/register", {
       method: "POST",
@@ -71,9 +72,12 @@ function Page() {
       },
       body: JSON.stringify(textAreas),
     }).then((res) => {
+      console.log("Toda la infiooooo: ", textAreas);
       console.log("response: ", res);
       console.log("json:  ", JSON.stringify(textAreas));
     });
+
+    router.push("/");
   };
 
   return (
@@ -109,47 +113,44 @@ function Page() {
             return (
               <div key={category}>
                 {category === "riesgo" ? (
-                  <button
-                    className="bg-whithe py-3 text-center text-purple-1 font-bold border border-purple-1.5 hover:cursor-pointer rounded-lg mt-3 mb-10 "
-                    onClick={()=>handleMoreCauses(textAreas, setTextAreas)}
-                  >
-                    Add new Cause
-                  </button>
+                  <div>
+                    {/* aqui se agrega la nueva causa y consequencia */}
+                    {causesAndConsequences &&
+                      causesAndConsequences.map((item, index) => (
+                        <div key={index}>
+                          {" "}
+                          {/* pasar el index para conoces algrupo que pertenece*/}
+                          <div>------------------------</div>
+                          <div>{item}</div>
+                        </div>
+                      ))}
+                    <button
+                      className="bg-whithe py-3 text-center text-purple-1 font-bold border border-purple-1.5 hover:cursor-pointer rounded-lg mt-3 mb-10 "
+                      onClick={() => handleClick()}
+                    >
+                      Add new Cause
+                    </button>
+                  </div>
                 ) : (
                   ""
                 )}
-                {/* <button
-                  key={category}
-                  className="bg-purple-2 text-white p-2 mt-6"
-                  onClick={() => addTextArea(category)}
-                >
-                  {`Add new ${CATEGORIES[index]} +`}
-                </button> */}
                 <p className="text-purple-2 text-2xl font-bold">
                   {category.substring(0, 1).toUpperCase() +
                     category.substring(1)}
                 </p>
-                {
-                  //section conteiner
-                }
                 <section className="grid justify-center lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
                   {textAreas[category].map((_, id) => (
                     <div key={id} className="flex justify-center">
-                    
-                      {textAreas.causa[id].show === true ? (
-                        <GenericTextArea
-                          id={id}
-                          className="h-[220px]"
-                          placeholder={`${CATEGORIES[index]} ${id + 1}`}
-                          rows={10}
-                          cols={30}
-                          onChange={(event) =>
-                            handleTextAreaChange(category, id, event)
-                          }
-                        />
-                      ) : (
-                        <></>
-                      )}
+                      <GenericTextArea
+                        id={id}
+                        className="h-[220px]"
+                        placeholder={`${CATEGORIES[index]} ${id + 1}`}
+                        rows={10}
+                        cols={30}
+                        onChange={(event) =>
+                          handleTextAreaChange(category, id, event)
+                        }
+                      />
                     </div>
                   ))}
                   <div className="flex justify-center">
@@ -184,5 +185,3 @@ function Page() {
   );
 }
 export default Page;
-
-
