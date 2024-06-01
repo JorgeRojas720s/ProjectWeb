@@ -1,6 +1,6 @@
 // @ts-nocheck
 "use client";
-import Router from "next/router";
+// import Router from "next/router";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
@@ -18,8 +18,7 @@ function Page() {
 
   const [textAreas, setTextAreas] = useState({
     event: [""],
-    // causa: [""],
-    // consequencia: [""],
+
     causasYConsecuencias: [],
     riesgo: [""],
   });
@@ -64,7 +63,7 @@ function Page() {
   };
 
   const clickSend = () => {
-    console.log("Toda la infiooooo: ", textAreas);
+    
 
     fetch("http://localhost:3000/api/events/register", {
       method: "POST",
@@ -74,6 +73,7 @@ function Page() {
       },
       body: JSON.stringify(textAreas),
     }).then((res) => {
+      console.log("Toda la infiooooo: ", textAreas);
       console.log("response: ", res);
       console.log("json:  ", JSON.stringify(textAreas));
     });
