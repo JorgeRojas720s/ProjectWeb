@@ -41,18 +41,19 @@ async function getById(id) {
 }
 
 async function create(params) {
+  console.log("paraaaaaams", params);
+
   let eventId = await saveEvents(params);
+  console.log("loolo: ", eventId);
 
-  console.log("🙌eventcodeeeeee: ", eventId);
+  await saveCauses(params, eventId);
 
-  let causesIds = await saveCauses(params, eventId);
+  // console.log("🎶🎶🎶🎶🎶");
 
-  console.log("🎶🎶🎶🎶🎶");
+  // let consequencesIds = await saveConsequence(params);
+  // console.log("🤬 ~ create ~ consequencesIds:", consequencesIds);
 
-  let consequencesIds = await saveConsequence(params);
-  console.log("🤬 ~ create ~ consequencesIds:", consequencesIds);
-
-  await saveCausesXConsequences(causesIds, consequencesIds);
+  // await saveCausesXConsequences(causesIds, consequencesIds);
 }
 
 async function saveEvents(params) {
@@ -67,22 +68,58 @@ async function saveEvents(params) {
 }
 
 async function saveCauses(params, eventId) {
-  console.log("causaaaa");
+  console.log(
+    "aaaaaaaaaaaaaaaaaaaaaaaaaa: ",
+    params.causasYConsecuencias[0]["causa"]
+  );
   let causesIds = [];
+  let consequencesIds = [];
+  let causes = [];
+  let consequences = [];
 
-  for (let i = 0; i < params.causa.length; i++) {
-    console.log("causaaaaaaa: ", params.causa[i]);
-    const causaData = {
-      cau_cause: params.causa[i],
-      cau_fk_event: eventId,
-    };
-    const cause = new db.tbl_causes(causaData);
-    await cause.save();
-    causesIds.push(cause.cau_id);
+  for (let i = 0; i < params.causasYConsecuencias.length; i++) {
+    causes = params.causasYConsecuencias[i]["causa"];
+    console.log("😶‍🌫️", causes);
+    consequences = params.causasYConsecuencias[i]["consecuencia"];
+    console.log("🤣", consequences);
+    //! Cause
+    for (let k = 0; k < causes.length; k++) {
+      const causeData = {
+        cau_cause: causes[k],
+        cau_fk_event: eventId,
+      };
+      const cause = new db.tbl_causes(causeData);
+      await cause.save();
+      causesIds.push(cause.cau_id);
+    }
+
+    //!Consequence
+    for (let j = 0; j < consequences.length; j++) {
+      const consequenceData = {
+        con_consequence: consequences[j],
+      };
+      const consequence = new db.tbl_consequences(consequenceData);
+      await consequence.save();
+      consequencesIds.push(consequence.con_id);
+    }
+
+    //!CXC
+    console.log("idsCau: ", causesIds);
+    console.log("idsConse: ", consequencesIds);
+    for (let x = 0; x < causesIds.length; x++) {
+      for (let p = 0; p < consequencesIds.length; p++) {
+        const cxcData = {
+          cxc_fk_causes: causesIds[x],
+          cxc_fk_consequences: consequences[p],
+        };
+        const cxc = new db.tbl_causes_x_consequences(cxcData);
+        await cxc.save();
+      }
+    }
   }
 
-  console.log("😶‍🌫️ ~ saveCauses ~ causesIds:", causesIds);
-  return causesIds;
+  // console.log("😶‍🌫️ ~ saveCauses ~ causesIds:", causesIds);
+  // return causesIds;
 }
 
 async function saveConsequence(params) {
@@ -102,12 +139,9 @@ async function saveConsequence(params) {
 }
 
 async function saveCausesXConsequences(causesIds, consequencesIds) {
-
-
-
   // const data = {
-  //   cxc_fk_causes: 
-  //   cxc_fk_consequences: 
+  //   cxc_fk_causes:
+  //   cxc_fk_consequences:
   // }
 
   const cxc = new db.tbl_causes_x_consequences(data);

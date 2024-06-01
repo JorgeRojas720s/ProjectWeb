@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
-// import  InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
+import  InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
 
 
 //globals
-const CATEGORIES = ["Riesgo"]; 
+const CATEGORIES = ["Riesgo"]; //"Causa", "Consequencia",
 let cont = -1;
 let bandera;
 function Page() {
@@ -18,6 +18,7 @@ function Page() {
 
   const [textAreas, setTextAreas] = useState({
     event: [""],
+
     causasYConsecuencias: [],
     riesgo: [""],
   });
@@ -27,21 +28,21 @@ function Page() {
   const auxArray = [];
 
   const handleClick = () => {
-    // console.log("bandera: ", bandera);
-    //  bandera = true;
-    // cont++;
-    // // saveText();
-    // console.log("anteeeeeeeeees: ", textAreas.causasYConsecuencias);
-    // setCausesAndConsequences((prevCausesAndConsequences) => [
-    //   ...prevCausesAndConsequences,
-    //   <InputCauseAndConsequence
-    //     cont={cont}
-    //     principalTextAreas={textAreas}
-    //     principalSetTextAreas={setTextAreas}
-    //     bandera={bandera}
-    //   />,
-    // ]);
-    // bandera = false;
+    console.log("bandera: ", bandera);
+     bandera = true;
+    cont++;
+    // saveText();
+    console.log("anteeeeeeeeees: ", textAreas.causasYConsecuencias);
+    setCausesAndConsequences((prevCausesAndConsequences) => [
+      ...prevCausesAndConsequences,
+      <InputCauseAndConsequence
+        cont={cont}
+        principalTextAreas={textAreas}
+        principalSetTextAreas={setTextAreas}
+        bandera={bandera}
+      />,
+    ]);
+    bandera = false;
   };
 
   const addTextArea = (category) => {

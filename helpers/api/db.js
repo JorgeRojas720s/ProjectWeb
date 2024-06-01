@@ -1,7 +1,7 @@
 import getConfig from "next/config";
 import mysql from "mysql2/promise";
 import { Sequelize } from "sequelize";
-import { models} from "/helpers/api" //luego veo
+import { models } from "/helpers/api" //luego veo
 
 const { serverRuntimeConfig } = getConfig();
 
@@ -37,7 +37,7 @@ async function initialize() {
     password,
   });
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
-  console.log("initialixe");
+  console.log("initialize");
 
   // connect to db
   const sequelize = new Sequelize(database, user, password, {
