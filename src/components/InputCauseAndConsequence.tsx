@@ -41,7 +41,7 @@ const InputCauseAndConsequence = ({
       ],
     }));
 
-    console.log("data", textAreas);
+    console.log("data: .☠️☠️", textAreas);
   };
 
   const addTextArea = (category) => {
