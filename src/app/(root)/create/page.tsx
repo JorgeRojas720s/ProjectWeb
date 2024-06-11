@@ -7,9 +7,11 @@ import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
 import  InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
 
+//!Hacer todo esto un componente para que sea como un encabezado, y hacer 3 archivos que seran 3 rutas para riesgos, para acciones y para control de medidas
+
 
 //globals
-const CATEGORIES = ["Riesgo"]; //"Causa", "Consequencia",
+const CATEGORIES = ["Riesgo","Clasificacion","Categoria","Descripcion"]; //"Causa", "Consequencia",
 let cont = -1;
 let bandera;
 function Page() {
@@ -21,6 +23,9 @@ function Page() {
 
     causasYConsecuencias: [],
     riesgo: [""],
+    clasificacion: [""],
+    categoria: [""],
+    descripcion: [""],
   });
 
 
