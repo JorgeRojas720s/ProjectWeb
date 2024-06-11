@@ -42,7 +42,7 @@ function Page() {
       />,
     ]);
     bandera = false;
-    setIsButtonDisabled(false);
+    setIsButtonDisabled(true);
   };
 
   const addTextArea = (category) => {
@@ -82,7 +82,7 @@ function Page() {
       console.log("json:  ", JSON.stringify(textAreas));
     });
 
-    router.push("/");
+    // router.push("/");
   };
 
   return (
