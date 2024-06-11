@@ -150,7 +150,6 @@ class EventClass {
         if (cxc ) {
           cons = await this.getConsequencesOfCauses(cxc);
         }
-        console.log("conssss: ", cons);
         causesXConsequences.push({
           causes: cause,
           consequences: cons,
