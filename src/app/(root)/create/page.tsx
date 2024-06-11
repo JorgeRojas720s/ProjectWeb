@@ -5,44 +5,44 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
-import  InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
-
+import InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
 
 //globals
 const CATEGORIES = ["Riesgo"]; //"Causa", "Consequencia",
 let cont = -1;
 let bandera;
 function Page() {
-
   const router = useRouter();
 
   const [textAreas, setTextAreas] = useState({
     event: [""],
-
     causasYConsecuencias: [],
     riesgo: [""],
   });
 
-
   const [causesAndConsequences, setCausesAndConsequences] = useState([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true); //Nuevox
   const auxArray = [];
 
   const handleClick = () => {
     console.log("bandera: ", bandera);
-     bandera = true;
+    bandera = true;
     cont++;
     // saveText();
     console.log("anteeeeeeeeees: ", textAreas.causasYConsecuencias);
     setCausesAndConsequences((prevCausesAndConsequences) => [
       ...prevCausesAndConsequences,
       <InputCauseAndConsequence
+        key={cont}
         cont={cont}
         principalTextAreas={textAreas}
         principalSetTextAreas={setTextAreas}
         bandera={bandera}
+        enableButton={() => setIsButtonDisabled(false)}
       />,
     ]);
     bandera = false;
+    setIsButtonDisabled(false);
   };
 
   const addTextArea = (category) => {
@@ -60,11 +60,15 @@ function Page() {
       ...prev,
       [category]: updatedAreas,
     }));
+
+    if (category === "event" && event.target.value.trim() !== "") {
+      setIsButtonDisabled(false);
+    } else if (category === "event" && event.target.value.trim() === "") {
+      setIsButtonDisabled(true);
+    }
   };
 
   const clickSend = () => {
-    
-
     fetch("http://localhost:3000/api/events/register", {
       method: "POST",
       headers: {
@@ -126,8 +130,13 @@ function Page() {
                         </div>
                       ))}
                     <button
-                      className="bg-whithe py-3 text-center text-purple-1 font-bold border border-purple-1.5 hover:cursor-pointer rounded-lg mt-3 mb-10 "
-                      onClick={() => handleClick()}
+                      className={`bg-white py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10 ${
+                        isButtonDisabled
+                          ? "cursor-not-allowed opacity-50"
+                          : "hover:cursor-pointer"
+                      }`}
+                      onClick={handleClick}
+                      disabled={isButtonDisabled}
                     >
                       Add new Cause
                     </button>
@@ -176,7 +185,7 @@ function Page() {
             Enviar
           </div>
           <div className="flex-[0.3] drop-shadow-md">
-            <div className="bg-whithe py-3 text-center text-purple-1 font-bold border border-purple-1.5 hover:cursor-pointer">
+            <div className="bg-white py-3 text-center text-purple-1 font-bold border border-purple-1.5 hover:cursor-pointer">
               Limpiar
             </div>
           </div>

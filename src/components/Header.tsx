@@ -1,4 +1,7 @@
 import menuIcon from "../images/menu.png";
+import {
+  logo,
+} from "../images/Icons"
 import Image from "next/image";
 
 export default function Header() {
@@ -14,7 +17,12 @@ export default function Header() {
         href="/"
         className="absolute text-white text-2xl font-extrabold xl:left-52 xl:top-56 hidden sm:block md:left-24 md:top-52   "
       >
-        Imagen Logo
+        <Image
+          src={logo}
+          alt={"Logo"}
+          width={400}
+          height={400}
+        />
       </a>
       <nav className="hidden sm:block">
         <ul className="flex justify-end space-x-4 mr-10 pt-3">

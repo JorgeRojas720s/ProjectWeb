@@ -11,8 +11,8 @@ const InputCauseAndConsequence = ({
   principalTextAreas,
   principalSetTextAreas,
   bandera,
+  enableButton, //Pa controlar el button "Add new Cause"
 }) => {
-
   const [textAreas, setTextAreas] = useState({
     causa: [""],
     consecuencia: [""],
@@ -41,6 +41,7 @@ const InputCauseAndConsequence = ({
       ],
     }));
 
+    enableButton(); // Habilitar el botón cuando se guarda
     console.log("data: .☠️☠️", textAreas);
   };
 
@@ -50,6 +51,7 @@ const InputCauseAndConsequence = ({
       [category]: [...prev[category], ""],
     }));
   };
+
   return (
     <div>
       {CATEGORIES.map((Category, index) => {
@@ -84,7 +86,12 @@ const InputCauseAndConsequence = ({
               </div>
             </section>
             {category === "consecuencia" ? (
-              <button onClick={() => saveText()}> save</button>
+              <button
+                className="bg-white py-3 px-6 text-purple-1 font-bold border border-purple-1.5 rounded-lg"
+                onClick={saveText}
+              >
+                Save
+              </button>
             ) : (
               <></>
             )}
