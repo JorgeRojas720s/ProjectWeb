@@ -119,44 +119,42 @@ class EventClass {
     return await Promise.resolve(data);
   }
 
+  async getConsequencesOfCauses(cxc) {
+    let cons = [];
+    for (let consequence of cxc) {
+      if (consequence.cxc_fk_consequences !== null) {
+        let con = await this.getData({
+          code: consequence.cxc_fk_consequences,
+          url: "consequences",
+          method: "GET",
+        });
+        cons.push(con);
+      }
+    }
+    return cons;
+  }
+
   async getCauses(causes) {
     let cxc = [];
     let causesXConsequences = new Array({ causes: [], consequences: [] });
-    console.log(causes);
     if (causes) {
       for (let cause of causes) {
+        console.log("id: " + cause.cau_id);
         cxc = await this.getData({
           code: cause.cau_id,
-          url: "causes-x-consequences",
+          url: "causes-x-consequences/by-cause-id",
           method: "GET",
         });
 
         let cons = [];
-        if (cxc && cxc.lenght > 1) {
-          for (let consequence of cxc) {
-            if (consequence.cxc_fk_consequences !== null) {
-              let con = await this.getData({
-                code: consequence.cxc_fk_consequences,
-                url: "consequences",
-                method: "GET",
-              });
-              cons.push(con);
-            }
-          }
-        } else {
-          if (cxc.cxc_fk_consequences !== null) {
-            let con = await this.getData({
-              code: cxc.cxc_fk_consequences,
-              url: "consequences",
-              method: "GET",
-            });
-            cons.push(con);
-          }
+        if (cxc ) {
+          cons = await this.getConsequencesOfCauses(cxc);
         }
+        console.log("conssss: ", cons);
         causesXConsequences.push({
           causes: cause,
           consequences: cons,
-        })
+        });
       }
     }
     return causesXConsequences;
@@ -164,65 +162,65 @@ class EventClass {
 
   async causeInRisk(id) {
     const response = await this.fetch({
-      url: 'risk-classifications/by-consequences-id',
+      url: "risk-classifications/by-consequences-id",
       code: id,
-      method: 'GET'
-    })
-    if(response === undefined | null && response.lenght < 1){
+      method: "GET",
+    });
+    if ((response === undefined) | null && response.lenght < 1) {
       return false;
     }
     return response;
   }
 
-  async getRiskCategory(id){
+  async getRiskCategory(id) {
     let categoriesXDescriptions;
     const riskCategories = await this.fetch({
-      url: 'risk-categories/by-risk-classification-id',
+      url: "risk-categories/by-risk-classification-id",
       code: id,
-      method: 'GET'
-    })
-    if(riskCategories.length > 0){
-      for (let rc of riskCategories){
-        console.log('rcc', rc)
-        const response = await this.getRiskDescription(rc.rcg_id)
-        console.log(response)
+      method: "GET",
+    });
+    if (riskCategories.length > 0) {
+      for (let rc of riskCategories) {
+        if ((rc.rcg_id != null) | undefined) {
+          const response = await this.getRiskDescription(rc.rcg_id);
+        }
       }
     }
   }
 
-  async getRiskDescription(id){
-    console.log('id',id)
-    const riskDescription = await this.fetch({
-      url: 'risk-description/by-risk-category-id',
-      code: id,
-      method: 'GET'
-    })
-    return riskDescription;
+  async getRiskDescription(id) {
+    if ((id != undefined) | null) {
+      const riskDescription = await this.fetch({
+        url: "risk-description/by-risk-category-id",
+        code: id,
+        method: "GET",
+      });
+      return riskDescription;
+    }
   }
 
-  async getCauseRisk(id){
+  async getCauseRisk(id) {
     const riskClassification = await this.fetch({
-      url: 'risk-classifications/by-consequences-id',
+      url: "risk-classifications/by-consequences-id",
       code: id,
-      method: 'GET'
-    })
-    if(riskClassification.length > 0){
+      method: "GET",
+    });
+    if (riskClassification.length > 0) {
       let riskCategory, riskDescription;
-      console.log('arra') 
-      for(let rc of riskClassification){
-        riskCategory = await this.getRiskCategory(rc.rcf_id)
-        riskDescription = await this.getRiskDescription()
+      console.log("arra");
+      for (let rc of riskClassification) {
+        riskCategory = await this.getRiskCategory(rc.rcf_id);
+        riskDescription = await this.getRiskDescription();
       }
-    }else{
-      console.log('ño')
+    } else {
+      console.log("ño");
     }
   }
 
   async getRisks(causes) {
-    console.log('cause:',causes)
-    for (let cause of causes){
-      if(await this.causeInRisk(cause.cau_id)){
-        const response = await this.getCauseRisk(cause.cau_id)
+    for (let cause of causes) {
+      if (await this.causeInRisk(cause.cau_id)) {
+        const response = await this.getCauseRisk(cause.cau_id);
       }
     }
   }
@@ -231,7 +229,7 @@ class EventClass {
     let code, event, title;
     let causes = new Array();
     let consequences = new Array();
-    let causesXConsequences = new Array({ causes: [], consequences: [] });
+    let causesXConsequences = new Array({});
     let controMeasurements = new Array();
     let causesXRisk = new Array({
       cause: [],
