@@ -114,6 +114,8 @@ export default GenericTextArea;
 ------------------------------------------------------------
 
 DATOS DE EXCEL
+
+use db_project_web;
 INSERT INTO tbl_events (eve_id, eve_title, eve_description) VALUES
 (1, 'Que no se pueda cumplir satisfactoriamente el Objetivo', '');
 
@@ -137,3 +139,10 @@ INSERT INTO tbl_causes_x_consequences (cxc_fk_causes, cxc_fk_consequences) VALUE
 (4, null),
 (5, null),
 (6, null);
+
+INSERT INTO tbl_risk_classifications (rcf_classification, rcf_fk_consequences) VALUES ('INTERNO', 1);
+
+
+INSERT INTO tbl_risk_categories (rcg_category, rcg_fk_classification) VALUES ('Procedimientos', 1),('Recursos Humanos', 1);
+
+drop database db_project_web;

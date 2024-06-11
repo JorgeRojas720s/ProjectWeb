@@ -119,7 +119,7 @@ function consequencesModel(sequelize) {
 
 function riskClassificationModel(sequelize) {
   const attributes = {
-    rcf_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    rcf_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true},
     rcf_classification: { type: DataTypes.STRING, allowNull: false },
     rcf_fk_consequences: {
       type: DataTypes.INTEGER,
@@ -141,7 +141,7 @@ function riskClassificationModel(sequelize) {
 
 function riskCategoryModel(sequelize) {
   const attributes = {
-    rcg_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    rcg_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement:true },
     rcg_category: { type: DataTypes.STRING, allowNull: false },
     rcg_fk_classification: {
       type: DataTypes.INTEGER,

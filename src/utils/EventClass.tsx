@@ -130,7 +130,7 @@ class EventClass {
           url: "causes-x-consequences",
           method: "GET",
         });
-      
+
         let cons = [];
         if (cxc && cxc.lenght > 1) {
           for (let consequence of cxc) {
@@ -143,7 +143,7 @@ class EventClass {
               cons.push(con);
             }
           }
-        }else{
+        } else {
           if (cxc.cxc_fk_consequences !== null) {
             let con = await this.getData({
               code: cxc.cxc_fk_consequences,
@@ -162,12 +162,83 @@ class EventClass {
     return causesXConsequences;
   }
 
+  async causeInRisk(id) {
+    const response = await this.fetch({
+      url: 'risk-classifications/by-consequences-id',
+      code: id,
+      method: 'GET'
+    })
+    if(response === undefined | null && response.lenght < 1){
+      return false;
+    }
+    return response;
+  }
+
+  async getRiskCategory(id){
+    let categoriesXDescriptions;
+    const riskCategories = await this.fetch({
+      url: 'risk-categories/by-risk-classification-id',
+      code: id,
+      method: 'GET'
+    })
+    if(riskCategories.length > 0){
+      for (let rc of riskCategories){
+        console.log('rcc', rc)
+        const response = await this.getRiskDescription(rc.rcg_id)
+        console.log(response)
+      }
+    }
+  }
+
+  async getRiskDescription(id){
+    console.log('id',id)
+    const riskDescription = await this.fetch({
+      url: 'risk-description/by-risk-category-id',
+      code: id,
+      method: 'GET'
+    })
+    return riskDescription;
+  }
+
+  async getCauseRisk(id){
+    const riskClassification = await this.fetch({
+      url: 'risk-classifications/by-consequences-id',
+      code: id,
+      method: 'GET'
+    })
+    if(riskClassification.length > 0){
+      let riskCategory, riskDescription;
+      console.log('arra') 
+      for(let rc of riskClassification){
+        riskCategory = await this.getRiskCategory(rc.rcf_id)
+        riskDescription = await this.getRiskDescription()
+      }
+    }else{
+      console.log('ño')
+    }
+  }
+
+  async getRisks(causes) {
+    console.log('cause:',causes)
+    for (let cause of causes){
+      if(await this.causeInRisk(cause.cau_id)){
+        const response = await this.getCauseRisk(cause.cau_id)
+      }
+    }
+  }
+
   async createEvent(obj: CreateEventPops) {
     let code, event, title;
     let causes = new Array();
     let consequences = new Array();
     let causesXConsequences = new Array({ causes: [], consequences: [] });
     let controMeasurements = new Array();
+    let causesXRisk = new Array({
+      cause: [],
+      risks: [
+        { riskCategory: "", riskClassification: "", riskDescription: "" },
+      ],
+    });
     let endActionPlan = new Array();
     let followUpPlans = new Array();
     let proposedActions = new Array();
@@ -186,7 +257,7 @@ class EventClass {
       method: "GET",
     });
     causesXConsequences = await this.getCauses(causes);
-    console.log(causesXConsequences);
+    causesXRisk = await this.getRisks(causes);
 
     //el error está a la hora de hacer el casuses[0] dice que no es un objeto iretable y el programa se cae (solucionado, utilizar los métodos de la clase array en lugar de usar [index])
 
