@@ -104,14 +104,14 @@ async function saveCauses(params, eventId) {
     }
 
     //!CXC
-    console.log("idsCau: ", causesIds);
-    console.log("idsConse: ", consequencesIds);
+
     for (let x = 0; x < causesIds.length; x++) {
       for (let p = 0; p < consequencesIds.length; p++) {
         const cxcData = {
           cxc_fk_causes: causesIds[x],
-          cxc_fk_consequences: consequences[p],
+          cxc_fk_consequences: consequencesIds[p],
         };
+        console.log("KIKOOO: " , cxcData)
         const cxc = new db.tbl_causes_x_consequences(cxcData);
         await cxc.save();
       }

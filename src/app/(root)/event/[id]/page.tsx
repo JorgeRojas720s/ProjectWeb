@@ -7,7 +7,7 @@ import CuaseSideBar from "@/components/CuaseSideBar";
 import React, { createContext, useContext } from "react";
 
 // No exportamos `ActualEvent` porque no es necesario
-const ActualEvent = createContext(null);
+export const ActualEvent = createContext(null);
 
 const Event = ({ params: { id } }: { params: { id: number } }) => {
   const { events } = useContext(ContextEvent);

@@ -35,6 +35,7 @@ class EventClass {
   title?: string;
   causes?: string[];
   consequences?: string[];
+  causesXConsequences: string[{ causes: []; consequences: [] }];
   controMeasurements?: string[];
   endActionPlan?: string[];
   followUpPlans?: string[];
@@ -52,6 +53,7 @@ class EventClass {
     causes,
     consequences,
     controMeasurements,
+    causesXConsequences,
     endActionPlan,
     followUpPlans,
     proposedActions,
@@ -65,6 +67,7 @@ class EventClass {
     title && (this.title = title);
     causes && (this.causes = causes);
     consequences && (this.consequences = consequences);
+    causesXConsequences && (this.causesXConsequences = causesXConsequences);
     controMeasurements && (this.controMeasurements = controMeasurements);
     endActionPlan && (this.endActionPlan = endActionPlan);
     followUpPlans && (this.followUpPlans = followUpPlans);
@@ -110,17 +113,129 @@ class EventClass {
       code: code,
       method: method,
     });
-    if (data.lenght > 1) {
+    if (data && data.lenght > 1) {
       return await Promise.all(data);
     }
     return await Promise.resolve(data);
+  }
+
+  async getConsequencesOfCauses(cxc) {
+    let cons = [];
+    for (let consequence of cxc) {
+      if (consequence.cxc_fk_consequences !== null) {
+        let con = await this.getData({
+          code: consequence.cxc_fk_consequences,
+          url: "consequences",
+          method: "GET",
+        });
+        cons.push(con);
+      }
+    }
+    return cons;
+  }
+
+  async getCauses(causes) {
+    let cxc = [];
+    let causesXConsequences = new Array({ causes: [], consequences: [] });
+    if (causes) {
+      for (let cause of causes) {
+        console.log("id: " + cause.cau_id);
+        cxc = await this.getData({
+          code: cause.cau_id,
+          url: "causes-x-consequences/by-cause-id",
+          method: "GET",
+        });
+
+        let cons = [];
+        if (cxc ) {
+          cons = await this.getConsequencesOfCauses(cxc);
+        }
+        causesXConsequences.push({
+          causes: cause,
+          consequences: cons,
+        });
+      }
+    }
+    return causesXConsequences;
+  }
+
+  async causeInRisk(id) {
+    const response = await this.fetch({
+      url: "risk-classifications/by-consequences-id",
+      code: id,
+      method: "GET",
+    });
+    if ((response === undefined) | null && response.lenght < 1) {
+      return false;
+    }
+    return response;
+  }
+
+  async getRiskCategory(id) {
+    let categoriesXDescriptions;
+    const riskCategories = await this.fetch({
+      url: "risk-categories/by-risk-classification-id",
+      code: id,
+      method: "GET",
+    });
+    if (riskCategories.length > 0) {
+      for (let rc of riskCategories) {
+        if ((rc.rcg_id != null) | undefined) {
+          const response = await this.getRiskDescription(rc.rcg_id);
+        }
+      }
+    }
+  }
+
+  async getRiskDescription(id) {
+    if ((id != undefined) | null) {
+      const riskDescription = await this.fetch({
+        url: "risk-description/by-risk-category-id",
+        code: id,
+        method: "GET",
+      });
+      return riskDescription;
+    }
+  }
+
+  async getCauseRisk(id) {
+    const riskClassification = await this.fetch({
+      url: "risk-classifications/by-consequences-id",
+      code: id,
+      method: "GET",
+    });
+    if (riskClassification.length > 0) {
+      let riskCategory, riskDescription;
+      console.log("arra");
+      for (let rc of riskClassification) {
+        riskCategory = await this.getRiskCategory(rc.rcf_id);
+        riskDescription = await this.getRiskDescription();
+      }
+    } else {
+      console.log("ño");
+    }
+  }
+
+  async getRisks(causes) {
+    for (let cause of causes) {
+      if (await this.causeInRisk(cause.cau_id)) {
+        const response = await this.getCauseRisk(cause.cau_id);
+      }
+    }
   }
 
   async createEvent(obj: CreateEventPops) {
     let code, event, title;
     let causes = new Array();
     let consequences = new Array();
+    let causesXConsequences = new Array({});
     let controMeasurements = new Array();
+    let causesXRisk = new Array({
+      cause: [],
+      risks: [
+        { riskCategory: "", riskClassification: "", riskDescription: "" },
+      ],
+    });
     let endActionPlan = new Array();
     let followUpPlans = new Array();
     let proposedActions = new Array();
@@ -138,21 +253,10 @@ class EventClass {
       url: "causes/by-event-id",
       method: "GET",
     });
+    causesXConsequences = await this.getCauses(causes);
+    causesXRisk = await this.getRisks(causes);
 
-    
     //el error está a la hora de hacer el casuses[0] dice que no es un objeto iretable y el programa se cae (solucionado, utilizar los métodos de la clase array en lugar de usar [index])
-    for (let cause of causes) {
-      if(cause.cau_fk_consequences !== null | undefined){
-        let causesFkToConsequences = cause.cau_fk_consequences;
-        consequences.push(
-          await this.getData({
-            code: causesFkToConsequences,
-            url: "consequences",
-            method: "GET",
-          })
-        );
-      }
-    }
 
     const objEvent = new EventClass({
       code,
@@ -161,6 +265,7 @@ class EventClass {
       causes,
       consequences,
       controMeasurements,
+      causesXConsequences,
     });
     return objEvent;
   }

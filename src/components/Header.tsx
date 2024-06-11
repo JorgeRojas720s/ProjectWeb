@@ -1,4 +1,7 @@
 import menuIcon from "../images/menu.png";
+import {
+  logo,
+} from "../images/Icons"
 import Image from "next/image";
 
 export default function Header() {
@@ -12,9 +15,14 @@ export default function Header() {
     <div className="absolute top-0 left-0 right-0 flex items-center justify-end z-1000">
       <a
         href="/"
-        className="absolute text-white text-2xl font-extrabold xl:left-52 xl:top-56 hidden sm:block md:left-24 md:top-52   "
+        className="absolute text-white text-2xl font-extrabold xl:left-52 xl:top-56 hidden sm:block md:left-[0%] md:top-[80%] "
       >
-        Imagen Logo
+        <Image
+          src={logo}
+          alt={"Logo"}
+          width={400}
+          height={400}
+        />
       </a>
       <nav className="hidden sm:block">
         <ul className="flex justify-end space-x-4 mr-10 pt-3">

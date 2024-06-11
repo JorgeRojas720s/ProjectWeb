@@ -17,6 +17,8 @@
 }
  */
 
+ /* styles.css */
+ 
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -139,4 +141,3 @@ body {
       @apply bg-background text-foreground;
     }
   }
-
