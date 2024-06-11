@@ -6,7 +6,9 @@ import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
 import InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
-
+import EventAction from "@/components/EventAction";
+import EventControl from "@/components/EventControl";
+import EventRisk from "@/components/EventRisk";
 //globals
 const CATEGORIES = ["Riesgo"]; //"Causa", "Consequencia",
 let cont = -1;
@@ -19,6 +21,7 @@ function Page() {
     causasYConsecuencias: [],
     riesgo: [""],
   });
+  const [selectEvent, setSelectEvent] = useState(null);
 
   const [causesAndConsequences, setCausesAndConsequences] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true); //Nuevox
@@ -85,6 +88,14 @@ function Page() {
     // router.push("/");
   };
 
+  const btnClassName = `bg-white m-5 p-5 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10${
+    isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:cursor-pointer"
+  }`;
+
+  const handleEventChange = (eventType) => {
+    setSelectEvent(eventType);
+  };
+
   return (
     <div className="flex justify-center">
       <div className="w-screen m-8 p-8 shadow-md rounded-r-2xl">
@@ -112,6 +123,43 @@ function Page() {
               onChange={(event) => handleTextAreaChange("event", 1, event)}
             />
           </div>
+          <div>
+            <button
+              className={btnClassName + ` ${selectEvent === 'Risk'?'underline decoration-purple-1 decoration-4 underline-offset-8':''}`}
+              onClick={() => handleEventChange("Risk")}
+              disabled={isButtonDisabled}
+            >
+              Riesgo
+            </button>
+            <button
+              className={btnClassName + ` ${selectEvent === 'Action'?'underline decoration-purple-1 decoration-4 underline-offset-8':''}`}
+              onClick={() => handleEventChange("Action")}
+              disabled={isButtonDisabled}
+            >
+              Acciones
+            </button>
+            <button
+              className={btnClassName + ` ${selectEvent === 'Control'?'underline decoration-purple-1 decoration-4 underline-offset-8':''}`}
+              onClick={() => handleEventChange("Control")}
+              disabled={isButtonDisabled}
+            >
+              Medidas de Control
+            </button>
+          </div>
+
+          {selectEvent === "Risk" && (
+            <EventRisk eventTitle="title" eventDesription="description" />
+          )}
+          {selectEvent === "Action" && (
+            <EventAction eventTitle="title" eventDesription="description" />
+          )}
+          {selectEvent === "Control" && (
+            <EventControl eventTitle="title" eventDesription="description" />
+          )}
+
+          {
+            //ESTO ES LO QUE CAMBIA
+          }
 
           {CATEGORIES.map((Category, index) => {
             const category = Category.toLowerCase();
@@ -175,6 +223,10 @@ function Page() {
               </div>
             );
           })}
+
+          {
+            //HASTA ACÁ
+          }
         </section>
 
         <div className="flex gap-4 mt-6">
