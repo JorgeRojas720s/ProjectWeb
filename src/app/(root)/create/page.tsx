@@ -5,13 +5,15 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
-import  InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
+import InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
+import EventAction from "@/components/EventAction";
+import EventRisk from "@/components/EventRisk";
+import EventControl from "@/components/EventControl";
 
 //!Hacer todo esto un componente para que sea como un encabezado, y hacer 3 archivos que seran 3 rutas para riesgos, para acciones y para control de medidas
 
-
 //globals
-const CATEGORIES = ["Riesgo","Clasificacion","Categoria","Descripcion"]; //"Causa", "Consequencia",
+const CATEGORIES = [""];
 let cont = -1;
 let bandera;
 function Page() {
@@ -20,22 +22,21 @@ function Page() {
   const [textAreas, setTextAreas] = useState({
     event: [""],
     causasYConsecuencias: [],
-    riesgo: [""],
-    clasificacion: [""],
-    categoria: [""],
-    descripcion: [""],
   });
+
   const [selectEvent, setSelectEvent] = useState(null);
 
   const [causesAndConsequences, setCausesAndConsequences] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true); //Nuevox
-  const auxArray = [];
 
-  const handleClick = () => {
+  const btnClassName = `bg-white m-5 p-5 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10${
+    isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:cursor-pointer"
+  }`;
+
+  const addCausesXConsequences = () => {
     console.log("bandera: ", bandera);
     bandera = true;
     cont++;
-    // saveText();
     console.log("anteeeeeeeeees: ", textAreas.causasYConsecuencias);
     setCausesAndConsequences((prevCausesAndConsequences) => [
       ...prevCausesAndConsequences,
@@ -92,10 +93,6 @@ function Page() {
     router.push("/");
   };
 
-  const btnClassName = `bg-white m-5 p-5 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10${
-    isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:cursor-pointer"
-  }`;
-
   const handleEventChange = (eventType) => {
     setSelectEvent(eventType);
   };
@@ -127,52 +124,16 @@ function Page() {
               onChange={(event) => handleTextAreaChange("event", 1, event)}
             />
           </div>
-          <div>
-
-           //!Isma
-            <button
-              className={btnClassName + ` ${selectEvent === 'Risk'?'underline decoration-purple-1 decoration-4 underline-offset-8':''}`}
-              onClick={() => handleEventChange("Risk")}
-              disabled={isButtonDisabled}
-            >
-              Riesgo
-            </button>
-            <button
-              className={btnClassName + ` ${selectEvent === 'Action'?'underline decoration-purple-1 decoration-4 underline-offset-8':''}`}
-              onClick={() => handleEventChange("Action")}
-              disabled={isButtonDisabled}
-            >
-              Acciones
-            </button>
-            <button
-              className={btnClassName + ` ${selectEvent === 'Control'?'underline decoration-purple-1 decoration-4 underline-offset-8':''}`}
-              onClick={() => handleEventChange("Control")}
-              disabled={isButtonDisabled}
-            >
-              Medidas de Control
-            </button>
-          </div>
-
-          {selectEvent === "Risk" && (
-            <EventRisk eventTitle="title" eventDesription="description" />
-          )}
-          {selectEvent === "Action" && (
-            <EventAction eventTitle="title" eventDesription="description" />
-          )}
-          {selectEvent === "Control" && (
-            <EventControl eventTitle="title" eventDesription="description" />
-          )}
 
           {
             //ESTO ES LO QUE CAMBIA
           }
-          //!IsmaEnd
 
-          {CATEGORIES.map((Category, index) => {
+          {/* {CATEGORIES.map((Category, index) => {
             const category = Category.toLowerCase();
             return (
               <div key={category}>
-                {category === "riesgo" ? (
+                {category === "riesgo" ? ( */}
                   <div>
                     {/* aqui se agrega la nueva causa y consequencia */}
                     {causesAndConsequences &&
@@ -185,18 +146,18 @@ function Page() {
                         </div>
                       ))}
                     <button
-                      className={`bg-white py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10 ${
+                      className={`bg-white px-3 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10 ${
                         isButtonDisabled
                           ? "cursor-not-allowed opacity-50"
                           : "hover:cursor-pointer"
                       }`}
-                      onClick={handleClick}
+                      onClick={addCausesXConsequences}
                       disabled={isButtonDisabled}
                     >
-                      Add new Cause
+                      Add new Cause and Consequence
                     </button>
                   </div>
-                ) : (
+                {/* ) : (
                   ""
                 )}
                 <p className="text-purple-2 text-2xl font-bold">
@@ -229,13 +190,69 @@ function Page() {
                 </section>
               </div>
             );
-          })}
+          })} */}
 
           {
             //HASTA ACÁ
           }
-
         </section>
+
+{/* start Codigo asqueroso de isma */}
+        <div>
+          <button
+            className={
+              btnClassName +
+              ` ${
+                selectEvent === "Risk"
+                  ? "underline decoration-purple-1 decoration-4 underline-offset-8"
+                  : ""
+              }`
+            }
+            onClick={() => handleEventChange("Risk")}
+            disabled={isButtonDisabled}
+          >
+            Riesgo
+          </button>
+          <button
+            className={
+              btnClassName +
+              ` ${
+                selectEvent === "Action"
+                  ? "underline decoration-purple-1 decoration-4 underline-offset-8"
+                  : ""
+              }`
+            }
+            onClick={() => handleEventChange("Action")}
+            disabled={isButtonDisabled}
+          >
+            Acciones
+          </button>
+          <button
+            className={
+              btnClassName +
+              ` ${
+                selectEvent === "Control"
+                  ? "underline decoration-purple-1 decoration-4 underline-offset-8"
+                  : ""
+              }`
+            }
+            onClick={() => handleEventChange("Control")}
+            disabled={isButtonDisabled}
+          >
+            Medidas de Control
+          </button>
+        </div>
+
+        {selectEvent === "Risk" && (
+          <EventRisk eventTitle="title" eventDesription="description" />
+        )}
+        {selectEvent === "Action" && (
+          <EventAction eventTitle="title" eventDesription="description" />
+        )}
+        {selectEvent === "Control" && (
+          <EventControl eventTitle="title" eventDesription="description" />
+        )}
+        {/* end codigo asqueroso de Isma */}
 
         <div className="flex gap-4 mt-6">
           <div
