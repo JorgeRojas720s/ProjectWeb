@@ -69,9 +69,9 @@ function Page() {
       [category]: updatedAreas,
     }));
 
-    if (category === "event" && event.target.value.trim() !== "") {
+    if (category === "event" && event.target.value.trim() !== "" && index === 0) {
       setIsButtonDisabled(false);
-    } else if (category === "event" && event.target.value.trim() === "") {
+    } else if (category === "event" && event.target.value.trim() === "" && index === 0) {
       setIsButtonDisabled(true);
     }
   };
