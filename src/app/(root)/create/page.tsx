@@ -86,10 +86,10 @@ function Page() {
     }).then((res) => {
       console.log("Toda la infiooooo: ", textAreas);
       console.log("response: ", res);
-      console.log("json:  ", JSON.stringify(textAreas));
+      console.log("json: 👻👻👻👻👻 ", JSON.stringify(textAreas));
     });
 
-    // router.push("/");
+    router.push("/");
   };
 
   const btnClassName = `bg-white m-5 p-5 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10${
@@ -128,6 +128,8 @@ function Page() {
             />
           </div>
           <div>
+
+           //!Isma
             <button
               className={btnClassName + ` ${selectEvent === 'Risk'?'underline decoration-purple-1 decoration-4 underline-offset-8':''}`}
               onClick={() => handleEventChange("Risk")}
@@ -164,6 +166,7 @@ function Page() {
           {
             //ESTO ES LO QUE CAMBIA
           }
+          //!IsmaEnd
 
           {CATEGORIES.map((Category, index) => {
             const category = Category.toLowerCase();
@@ -231,6 +234,7 @@ function Page() {
           {
             //HASTA ACÁ
           }
+
         </section>
 
         <div className="flex gap-4 mt-6">

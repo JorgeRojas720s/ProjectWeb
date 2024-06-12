@@ -41,19 +41,12 @@ async function getById(id) {
 }
 
 async function create(params) {
-  console.log("paraaaaaams", params);
+  console.log("paraaaaaams ✅✅✅", params);
 
   let eventId = await saveEvents(params);
-  console.log("loolo: ", eventId);
 
   await saveCauses(params, eventId);
 
-  // console.log("🎶🎶🎶🎶🎶");
-
-  // let consequencesIds = await saveConsequence(params);
-  // console.log("🤬 ~ create ~ consequencesIds:", consequencesIds);
-
-  // await saveCausesXConsequences(causesIds, consequencesIds);
 }
 
 async function saveEvents(params) {
@@ -68,20 +61,17 @@ async function saveEvents(params) {
 }
 
 async function saveCauses(params, eventId) {
-  console.log(
-    "aaaaaaaaaaaaaaaaaaaaaaaaaa: ",
-    params.causasYConsecuencias[0]["causa"]
-  );
-  let causesIds = [];
-  let consequencesIds = [];
-  let causes = [];
-  let consequences = [];
+
 
   for (let i = 0; i < params.causasYConsecuencias.length; i++) {
+    let causesIds = [];
+    let consequencesIds = [];
+    let causes = [];
+    let consequences = [];
+
     causes = params.causasYConsecuencias[i]["causa"];
-    console.log("😶‍🌫️", causes);
     consequences = params.causasYConsecuencias[i]["consecuencia"];
-    console.log("🤣", consequences);
+
     //! Cause
     for (let k = 0; k < causes.length; k++) {
       const causeData = {
@@ -104,49 +94,20 @@ async function saveCauses(params, eventId) {
     }
 
     //!CXC
-
     for (let x = 0; x < causesIds.length; x++) {
       for (let p = 0; p < consequencesIds.length; p++) {
         const cxcData = {
           cxc_fk_causes: causesIds[x],
           cxc_fk_consequences: consequencesIds[p],
         };
-        console.log("KIKOOO: " , cxcData)
         const cxc = new db.tbl_causes_x_consequences(cxcData);
         await cxc.save();
       }
     }
   }
 
-  // console.log("😶‍🌫️ ~ saveCauses ~ causesIds:", causesIds);
-  // return causesIds;
 }
 
-async function saveConsequence(params) {
-  console.log("consequenciaaa ", params.consequencia);
-  let consequencesIds = [];
-
-  for (let i = 0; i < params.consequencia.length; i++) {
-    console.log("consequenciaaa: ", params.consequencia[i]);
-    const consequenceData = {
-      con_consequence: params.consequencia[i],
-    };
-    const consequence = new db.tbl_consequences(consequenceData);
-    await consequence.save();
-    consequencesIds.push(consequence.con_id);
-  }
-  return consequencesIds;
-}
-
-async function saveCausesXConsequences(causesIds, consequencesIds) {
-  // const data = {
-  //   cxc_fk_causes:
-  //   cxc_fk_consequences:
-  // }
-
-  const cxc = new db.tbl_causes_x_consequences(data);
-  await cxc.save();
-}
 
 async function update(id, params) {
   const event = await db.tbl_events.findByPk(id);
