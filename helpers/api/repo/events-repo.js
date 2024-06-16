@@ -45,7 +45,42 @@ async function create(params) {
 
   let eventId = await saveEvents(params);
 
-  await saveCausesAndConsequences(params, eventId);
+  await saveFormData(params, eventId);
+}
+
+async function saveRisks(params, causesIds) {
+  const firstData = 0;
+
+  for (let index = 0; index < causesIds.length; index++) {
+    let riskClasificationIds = [];
+
+    //!RiskClassification
+    await saveRiskClassification(
+      params,
+      causesIds,
+      index,
+      riskClasificationIds
+    );
+  }
+
+  async function saveRiskClassification(
+    params,
+    causesIds,
+    index,
+    riskClasificationIds
+  ) {
+    const dataRiskClassification = {
+      rcf_classification: params.eventRisk[firstData]["riskClassification"],
+      rcf_fk_consequences: causesIds[index], //!Cambiar el nombre se la foranea de ser a causas!!!!
+    };
+
+    console.log("Rissssssk ☢️☢️", dataRiskClassification);
+    const riskClasification = new db.tbl_risk_classification(
+      dataRiskClassification
+    );
+    await riskClasification.save();
+    riskClasificationIds.push(riskClasification.rcf_id);
+  }
 }
 
 async function saveEvents(params) {
@@ -59,8 +94,7 @@ async function saveEvents(params) {
   return event.eve_id;
 }
 
-async function saveCausesAndConsequences(params, eventId) {
-
+async function saveFormData(params, eventId) {
   for (let i = 0; i < params.causasYConsecuencias.length; i++) {
     let causes = [];
     let consequences = [];
@@ -77,7 +111,10 @@ async function saveCausesAndConsequences(params, eventId) {
     await saveConsequences(consequences, consequencesIds);
 
     //!CXC
-    await saveCausesXConsequences(causesIds, consequencesIds)
+    await saveCausesXConsequences(causesIds, consequencesIds);
+
+    //!Risks
+    await saveRisks(params, causesIds);
   }
 }
 

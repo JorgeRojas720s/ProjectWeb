@@ -5,18 +5,15 @@ import GenericTextArea from "./GenericTextArea";
 import Image from "next/image";
 import { basurero } from "@/images/Icons";
 
-interface RiskProps {
-  eventTitle: string;
-  eventDesription: string;
-}
 
-const EventRisk = ({ eventTitle, eventDesription }: RiskProps) => {
+const EventRisk = ({principalSetTextAreas}) => {
   const CATEGORIES = ["Categorias de Riesgo", "Descripcion del Riesgo"];
 
   const [textAreas, setTextAreas] = useState({
     categoriasderiesgo: [""],
     descripciondelriesgo: [""],
   });
+  const [radioBtn, setRadioBtn] = useState("")
 
   const addTextArea = (category) => {
     setTextAreas((prev) => ({
@@ -42,48 +39,65 @@ const EventRisk = ({ eventTitle, eventDesription }: RiskProps) => {
     radioInput2.checked = false;
   };
 
+  //!Revisar
+  const saveText = () => {
+    const newEventRisk = {
+      riskClassification: radioBtn,
+      riskCategory: textAreas.categoriasderiesgo,
+      riskDescription: textAreas.descripciondelriesgo,
+    };
+
+    principalSetTextAreas((prev) => ({
+      ...prev,
+      eventRisk: [
+        ...prev.eventRisk,
+        newEventRisk,
+      ],
+    }));
+
+    console.log("dataaaaa 🤢🤢🤢🤢",radioBtn, textAreas);
+  };
+  //!Hasta aqui
+
   return (
     <div>
-      <p className="text-purple-2 text-2xl font-bold my-4">
-        Clasificacion según la estructura institucional de riesgos
-      </p>
-
-      <div className="flex flex-col items-center md:flex-row md:justify-between rounded-lg p-4 mx-2 border-2 border-purple-500 max-w-sm">
-        <div className="flex items-center mb-4 md:mb-0">
-          <input
-            type="radio"
-            id="external"
-            value="externo"
-            className="form-radio text-purple-600 h-6 w-6"
-            // onClick={() => deselectRadioButton("external")}
-          />
-          <label htmlFor="external" className="ml-2 text-gray-700 text-lg">
-            Externo
-          </label>
-        </div>
-        <div className="flex items-center mb-4 md:mb-0">
-          <input
-            type="radio"
-            id="internal"
-            value="interno"
-            className="form-radio text-purple-600 h-6 w-6"
-            // onClick={() => deselectRadioButton("internal")}
-          />
-          <label htmlFor="internal" className="ml-2 text-gray-700 text-lg">
-            Interno
-          </label>
-        </div>
-        <button onClick={() => deselectRadioButton()}>
-        <Image
-          src={basurero}
-          alt={"basurero"}
-          width={26}
-          height={26}
-        />
-        </button>
-      </div>
-
       <section>
+        <p className="text-purple-2 text-2xl font-bold my-4">
+          Clasificacion según la estructura institucional de riesgos
+        </p>
+
+        <div className="flex flex-col items-center md:flex-row md:justify-between rounded-lg p-4 mx-2 border-2 border-purple-500 max-w-sm">
+          <div className="flex items-center mb-4 md:mb-0">
+            <input
+              type="radio"
+              id="external"
+              name="risk"
+              value="externo"
+              className="form-radio text-purple-600 h-6 w-6"
+              onClick={(e) => setRadioBtn(e.target.value)}
+            />
+            <label htmlFor="external" className="ml-2 text-gray-700 text-lg">
+              Externo
+            </label>
+          </div>
+          <div className="flex items-center mb-4 md:mb-0">
+            <input
+              type="radio"
+              id="internal"
+              name="risk"
+              value="interno"
+              className="form-radio text-purple-600 h-6 w-6"
+              onClick={(e) => setRadioBtn(e.target.value)}
+            />
+            <label htmlFor="internal" className="ml-2 text-gray-700 text-lg">
+              Interno
+            </label>
+          </div>
+          <button>
+            <Image src={basurero} alt={"basurero"} width={26} height={26} />
+          </button>
+        </div>
+
         {CATEGORIES.map((Category, index) => {
           const categoryAux = Category.toLowerCase();
           const category = Category.toLowerCase().replace(/\s/g, "");
@@ -123,6 +137,12 @@ const EventRisk = ({ eventTitle, eventDesription }: RiskProps) => {
           );
         })}
       </section>
+      <button
+        className="bg-white py-3 px-6 text-purple-1 font-bold border border-purple-1.5 rounded-lg"
+        onClick={saveText}
+      >
+        Save
+      </button>
     </div>
   );
 };

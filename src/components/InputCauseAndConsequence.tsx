@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
 import { TextCursor } from "lucide-react";
+import EventAction from "@/components/EventAction";
+import EventRisk from "@/components/EventRisk";
+import EventControl from "@/components/EventControl";
 
 const CATEGORIES = ["Causa", "Consecuencia"];
 
@@ -10,13 +13,24 @@ const InputCauseAndConsequence = ({
   cont,
   principalTextAreas,
   principalSetTextAreas,
-  bandera,
   enableButton, //Pa controlar el button "Add new Cause"
 }) => {
   const [textAreas, setTextAreas] = useState({
     causa: [""],
     consecuencia: [""],
   });
+
+  const [selectEvent, setSelectEvent] = useState(null);
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true); //Nuevox
+
+  const btnClassName = `bg-white m-5 p-5 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10${
+    isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:cursor-pointer"
+  }`;
+
+  const handleEventChange = (eventType) => {
+    setSelectEvent(eventType);
+  };
 
   const handleTextAreaChange = (category, index, event) => {
     const updatedAreas = [...textAreas[category]];
@@ -41,6 +55,7 @@ const InputCauseAndConsequence = ({
       ],
     }));
 
+    setIsButtonDisabled(false);
     enableButton(); // Habilitar el botón cuando se guarda
     console.log("data: .☠️☠️", textAreas);
   };
@@ -98,6 +113,62 @@ const InputCauseAndConsequence = ({
           </div>
         );
       })}
+
+      {/* codigo kk de isma */}
+      <div>
+        <button
+          className={
+            btnClassName +
+            ` ${
+              selectEvent === "Risk"
+                ? "underline decoration-purple-1 decoration-4 underline-offset-8"
+                : ""
+            }`
+          }
+          onClick={() => handleEventChange("Risk")}
+          disabled={isButtonDisabled}
+        >
+          Riesgo
+        </button>
+        <button
+          className={
+            btnClassName +
+            ` ${
+              selectEvent === "Action"
+                ? "underline decoration-purple-1 decoration-4 underline-offset-8"
+                : ""
+            }`
+          }
+          onClick={() => handleEventChange("Action")}
+          disabled={isButtonDisabled}
+        >
+          Acciones
+        </button>
+        <button
+          className={
+            btnClassName +
+            ` ${
+              selectEvent === "Control"
+                ? "underline decoration-purple-1 decoration-4 underline-offset-8"
+                : ""
+            }`
+          }
+          onClick={() => handleEventChange("Control")}
+          disabled={isButtonDisabled}
+        >
+          Medidas de Control
+        </button>
+      </div>
+
+      {selectEvent === "Risk" && (
+        <EventRisk  principalSetTextAreas={principalSetTextAreas}/>
+      )}
+      {selectEvent === "Action" && (
+        <EventAction principalSetTextAreas={principalSetTextAreas} />
+      )}
+      {selectEvent === "Control" && (
+        <EventControl  principalSetTextAreas={principalSetTextAreas} />
+      )}
     </div>
   );
 };

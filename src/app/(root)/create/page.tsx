@@ -6,22 +6,19 @@ import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
 import InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
-import EventAction from "@/components/EventAction";
-import EventRisk from "@/components/EventRisk";
-import EventControl from "@/components/EventControl";
 
-//!Hacer todo esto un componente para que sea como un encabezado, y hacer 3 archivos que seran 3 rutas para riesgos, para acciones y para control de medidas
+//Hacer todo esto un componente para que sea como un encabezado, y hacer 3 archivos que seran 3 rutas para riesgos, para acciones y para control de medidas
 
 //globals
 const CATEGORIES = [""];
 let cont = -1;
-let bandera;
 function Page() {
   const router = useRouter();
 
   const [textAreas, setTextAreas] = useState({
     event: [""],
     causasYConsecuencias: [],
+    eventRisk: [],
   });
 
   const [selectEvent, setSelectEvent] = useState(null);
@@ -34,8 +31,6 @@ function Page() {
   }`;
 
   const addCausesXConsequences = () => {
-    console.log("bandera: ", bandera);
-    bandera = true;
     cont++;
     console.log("anteeeeeeeeees: ", textAreas.causasYConsecuencias);
     setCausesAndConsequences((prevCausesAndConsequences) => [
@@ -45,11 +40,9 @@ function Page() {
         cont={cont}
         principalTextAreas={textAreas}
         principalSetTextAreas={setTextAreas}
-        bandera={bandera}
         enableButton={() => setIsButtonDisabled(false)}
       />,
     ]);
-    bandera = false;
     setIsButtonDisabled(true);
   };
 
@@ -69,9 +62,17 @@ function Page() {
       [category]: updatedAreas,
     }));
 
-    if (category === "event" && event.target.value.trim() !== "" && index === 0) {
+    if (
+      category === "event" &&
+      event.target.value.trim() !== "" &&
+      index === 0
+    ) {
       setIsButtonDisabled(false);
-    } else if (category === "event" && event.target.value.trim() === "" && index === 0) {
+    } else if (
+      category === "event" &&
+      event.target.value.trim() === "" &&
+      index === 0
+    ) {
       setIsButtonDisabled(true);
     }
   };
@@ -134,30 +135,30 @@ function Page() {
             return (
               <div key={category}>
                 {category === "riesgo" ? ( */}
-                  <div>
-                    {/* aqui se agrega la nueva causa y consequencia */}
-                    {causesAndConsequences &&
-                      causesAndConsequences.map((item, index) => (
-                        <div key={index}>
-                          {" "}
-                          {/* pasar el index para conoces algrupo que pertenece*/}
-                          <div>------------------------</div>
-                          <div>{item}</div>
-                        </div>
-                      ))}
-                    <button
-                      className={`bg-white px-3 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10 ${
-                        isButtonDisabled
-                          ? "cursor-not-allowed opacity-50"
-                          : "hover:cursor-pointer"
-                      }`}
-                      onClick={addCausesXConsequences}
-                      disabled={isButtonDisabled}
-                    >
-                      Add new Cause and Consequence
-                    </button>
-                  </div>
-                {/* ) : (
+          <div>
+            {/* aqui se agrega la nueva causa y consequencia */}
+            {causesAndConsequences &&
+              causesAndConsequences.map((item, index) => (
+                <div key={index}>
+                  {" "}
+                  {/* pasar el index para conoces algrupo que pertenece*/}
+                  <div>------------------------</div>
+                  <div>{item}</div>
+                </div>
+              ))}
+            <button
+              className={`bg-white px-3 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10 ${
+                isButtonDisabled
+                  ? "cursor-not-allowed opacity-50"
+                  : "hover:cursor-pointer"
+              }`}
+              onClick={addCausesXConsequences}
+              disabled={isButtonDisabled}
+            >
+              Add new Cause and Consequence
+            </button>
+          </div>
+          {/* ) : (
                   ""
                 )}
                 <p className="text-purple-2 text-2xl font-bold">
@@ -197,8 +198,8 @@ function Page() {
           }
         </section>
 
-{/* start Codigo asqueroso de isma */}
-        <div>
+        {/* start Codigo asqueroso de isma */}
+        {/* <div>
           <button
             className={
               btnClassName +
@@ -251,7 +252,7 @@ function Page() {
         )}
         {selectEvent === "Control" && (
           <EventControl eventTitle="title" eventDesription="description" />
-        )}
+        )} */}
         {/* end codigo asqueroso de Isma */}
 
         <div className="flex gap-4 mt-6">
