@@ -4,13 +4,14 @@
 import Cause from "@/components/Cause";
 import { ContextEvent } from "@/components/ContextProvider";
 import CuaseSideBar from "@/components/CuaseSideBar";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 // No exportamos `ActualEvent` porque no es necesario
 export const ActualEvent = createContext(null);
 
 const Event = ({ params: { id } }: { params: { id: number } }) => {
   const { events } = useContext(ContextEvent);
+  const [causeId, setCauseId] = useState(0)
 
   // Asegúrate de que `events` es un array y `id` es un índice válido
   let event = events ? events[id - 1] : null;
@@ -24,8 +25,8 @@ const Event = ({ params: { id } }: { params: { id: number } }) => {
   return (
     <ActualEvent.Provider value={event}>
       <div className="flex justify-between items-center mr-5 ml-5 max-md:flex-col max-sm:flex-col max-w-lg:flex-row">
-        <CuaseSideBar />
-        <Cause id={id} />
+        <CuaseSideBar setCauseId={setCauseId}/>
+        <Cause id={id} causeId={causeId}/>
       </div>
     </ActualEvent.Provider>
   );

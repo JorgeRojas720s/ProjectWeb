@@ -1,135 +1,56 @@
-use db_project_web;
-
-INSERT INTO tbl_events (eve_id, eve_title, eve_description) VALUES
-(1, 'Concierto en el Parque', '¡Disfruta de una tarde llena de música en vivo y diversión para toda la familia!'),
-(2, 'Exposición de Arte Moderno', 'Explora las últimas obras de artistas contemporáneos en nuestra galería de arte.'),
-(3, 'Seminario de Marketing Digital', 'Aprende las últimas estrategias y tendencias en marketing digital de la mano de expertos.'),
-(4, 'Feria de Productos Locales', 'Descubre y apoya a los productores locales ofreciendo productos frescos y artesanales.'),
-(5, 'Charla sobre Ciencia y Tecnología', 'Explora los avances más recientes en ciencia y tecnología con destacados investigadores.'),
-(6, 'Torneo de Ajedrez', '¡Demuestra tus habilidades estratégicas en nuestro torneo de ajedrez y compite por grandes premios!'),
-(7, 'Festival de Cine Independiente', 'Sumérgete en el mundo del cine independiente con una selección de películas de todo el mundo.'),
-(8, 'Clase de Cocina Internacional', 'Aprende a preparar platos exquisitos de diferentes partes del mundo con nuestros chefs expertos.'),
-(9, 'Carrera Solidaria', 'Participa en nuestra carrera solidaria para apoyar a causas benéficas y promover la salud y el bienestar.'),
-(10, 'Conferencia de Desarrollo Personal', 'Descubre herramientas y técnicas para alcanzar tu máximo potencial en nuestra conferencia de desarrollo personal.');
-
-INSERT INTO tbl_consequences (con_id, con_consequence) VALUES
-(1, 'Pérdida de ingresos'),
-(2, 'Daño a la reputación de la empresa'),
-(3, 'Impacto en la satisfacción del cliente'),
-(4, 'Costos adicionales de reparación'),
-(5, 'Multas y sanciones regulatorias'),
-(6, 'Pérdida de datos importantes'),
-(7, 'Interrupción del servicio'),
-(8, 'Daño a la infraestructura física'),
-(9, 'Riesgo de litigios'),
-(10, 'Impacto en la salud y seguridad de los empleados');
-
-INSERT INTO tbl_causes (cau_id, cau_cause, cau_fk_event, cau_fk_consequences) VALUES
--- Ejemplo 1
-(1, 'Fallo en el sistema de seguridad', 1, 6), -- Este evento causa pérdida de datos importantes
--- Ejemplo 2
-(2, 'Error humano durante el mantenimiento', 3, 4), -- Este evento causa costos adicionales de reparación
--- Ejemplo 3
-(3, 'Incumplimiento de normativas de seguridad', 5, 9), -- Este evento causa riesgo de litigios
--- Ejemplo 4
-(4, 'Fallo en el suministro eléctrico', 7, 7), -- Este evento causa interrupción del servicio
--- Ejemplo 5
-(5, 'Ataque de malware', 9, 1), -- Este evento causa pérdida de ingresos
--- Ejemplo 6
-(6, 'Falla en el equipo de producción', 2, 3), -- Este evento causa impacto en la satisfacción del cliente
--- Ejemplo 7
-(7, 'Desastre natural', 4, 8), -- Este evento causa daño a la infraestructura física
--- Ejemplo 8
-(8, 'Incidente de seguridad cibernética', 6, 5), -- Este evento causa multas y sanciones regulatorias
--- Ejemplo 9
-(9, 'Error en el diseño del producto', 8, 2), -- Este evento causa daño a la reputación de la empresa
--- Ejemplo 10
-(10, 'Incendio en las instalaciones', 10, 10); -- Este evento causa impacto en la salud y seguridad de los empleados
-
-INSERT INTO tbl_control_measures (ctm_fcm_probability, ctm_fcm_impact, ctm_fcm_risk_level, ctm_wcm_existing, ctm_wcm_aptitude, ctm_wcm_risk_level, ctm_wcm_attitude, ctm_wcm_acceptability, ctm_fk_consequences) VALUES
--- Ejemplo 1
-(0.8, 0.9, 'Alto', 'Sistema de respaldo de datos en tiempo real', 'S', 'Alto', 'A', 'Aceptable', 6), -- Este control mitigaría la pérdida de datos importantes
--- Ejemplo 2
-(0.6, 0.7, 'Moderado', 'Procedimientos de revisión y validación de mantenimiento', 'S', 'Moderado', 'A', 'Aceptable', 4), -- Este control mitigaría los costos adicionales de reparación
--- Ejemplo 3
-(0.7, 0.8, 'Alto', 'Auditorías periódicas de cumplimiento normativo', 'S', 'Alto', 'A', 'Aceptable', 9), -- Este control mitigaría el riesgo de litigios
--- Ejemplo 4
-(0.9, 0.6, 'Alto', 'Sistema de respaldo de energía eléctrica', 'S', 'Alto', 'A', 'Aceptable', 7), -- Este control mitigaría la interrupción del servicio
--- Ejemplo 5
-(0.85, 0.95, 'Alto', 'Software de detección y prevención de malware actualizado', 'S', 'Alto', 'A', 'Aceptable', 1), -- Este control mitigaría la pérdida de ingresos
--- Ejemplo 6
-(0.7, 0.8, 'Alto', 'Sistema de monitoreo y mantenimiento preventivo', 'S', 'Alto', 'A', 'Aceptable', 3), -- Este control mitigaría el impacto en la satisfacción del cliente
--- Ejemplo 7
-(0.75, 0.9, 'Alto', 'Plan de contingencia y recuperación ante desastres naturales', 'S', 'Alto', 'A', 'Aceptable', 8), -- Este control mitigaría el daño a la infraestructura física
--- Ejemplo 8
-(0.8, 0.85, 'Alto', 'Firewalls avanzados y software de detección de intrusos', 'S', 'Alto', 'A', 'Aceptable', 5), -- Este control mitigaría multas y sanciones regulatorias
--- Ejemplo 9
-(0.65, 0.75, 'Moderado', 'Procesos de revisión de diseño y pruebas de productos', 'S', 'Moderado', 'A', 'Aceptable', 2), -- Este control mitigaría el daño a la reputación de la empresa
--- Ejemplo 10
-(0.9, 0.95, 'Alto', 'Planes de evacuación y entrenamiento en seguridad contra incendios', 'S', 'Alto', 'A', 'Aceptable', 10); -- Este control mitigaría el impacto en la salud y seguridad de los empleados
-
------------------------------------------------------
-import React, { useState } from "react";
-
-interface genericTextAreaProps {
-  id?: number;
-  //className?: string;
-  placeholder: string;
-  rows: number;
-  cols: number;
-  text?: string;
-  value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  className?: string; 
-}
-const classNameTextArea = 'resize-none bg-[#013747] outline-none border-l-transparent h-[220px] xl:w-[420px] lg:w-[320px] md:w-[350px] p-5 sm:w-fit m-5 hover:translate-y-[-10px] transition-all duration-200 ease-in-out focus:border-l-8 focus:border-purple-1 rounded-lg'
-const GenericTextArea = ({
-  id,
-  //className,
-  placeholder,
-  rows,
-  cols,
-  text,
-  value,
- onChange,
- className
-}: genericTextAreaProps) => {
-
-  return (
-    <textarea
-      //className={`${className != null ? className : ""}`}
-      className={`resize-none outline-none ${className !== null? className : 'h-[220px]'} xl:w-[420px] lg:w-[320px] md:w-[350px] p-5 sm:w-fit m-5 hover:translate-y-[-10px] transition-all duration-200 ease-in-out focus:border-l-8 focus:border-purple-1 rounded-lg border border-purple-1`}
-      placeholder={placeholder}
-      rows={rows}
-      cols={cols}
-      // value={value} 
-      onChange={onChange} 
-    />
-  );
-};
-
-export default GenericTextArea;
---------------------------------------------------
-
-------------------------------------------------------------
-
 DATOS DE EXCEL
 
 use db_project_web;
-INSERT INTO tbl_events (eve_id, eve_title, eve_description) VALUES
-(1, 'Que no se pueda cumplir satisfactoriamente el Objetivo', '');
+INSERT INTO tbl_events (eve_title, eve_description) VALUES
+( 'Que no se pueda cumplir satisfactoriamente el Objetivo', ''),
+( 'Que no se pueda cumplir satisfactoriamente el Objetivo General del Programa Nacional de la  Red de Cuido y desarrollo Infantil en el Cantón de Pérez Zeledón.', ''),
+('Que no se pueda cumplir satisfactoriamente el Objetivo General del Programa Nacional de la  Red de Cuido y desarrollo Infantil en el Cantón de Pérez Zeledón.', ''),
+('Que no se pueda cumplir satisfactoriamente el Objetivo General del Programa Nacional de la  Red de Cuido y desarrollo Infantil en el Cantón de Pérez Zeledón.', '');
 
-INSERT INTO tbl_consequences (con_id, con_consequence) VALUES
-(1, 'Que por falta de Inducción no se reciban las indicaciones  forma clara y precisa, por parte de los óganos asesores y se cometan errores que generen atrasos o suspensiones en los procesos inherentes a los Proyectos de Red de Cuido.'),
-(2, 'Que se requiera de obras o insumos adicionales a los girados por el Gobierno Central y que la Administración no cuente con los recursos necesarios arriesgando el futuro de los proyectos de la Red de Cuido.');
+INSERT INTO tbl_consequences (con_consequence) VALUES
+('Que por falta de Inducción no se reciban las indicaciones  forma clara y precisa, por parte de los óganos asesores y se cometan errores que generen atrasos o suspensiones en los procesos inherentes a los Proyectos de Red de Cuido.'),
+('Que se requiera de obras o insumos adicionales a los girados por el Gobierno Central y que la Administración no cuente con los recursos necesarios arriesgando el futuro de los proyectos de la Red de Cuido.'),
 
-INSERT INTO tbl_causes (cau_id, cau_cause, cau_fk_event) VALUES
-(1, 'Falta de Inducción', 1),
-(2, 'Falta de Recurso Humano', 1),
-(3, 'Por falta de voluntad política del Gobierno Central o Local no se cuente con los Recursos necesarios para el Desarrollo de los proyectos.', 1),
-(4, 'Falta de Recursos Económicos Externos', 1),
-(5, 'Falta de Voluntad Política', 1),
-(6, 'Falta de Voluntad Interinstitucional', 1);
+('Que por falta de Inducción no se reciban las indicaciones  forma clara y precisa, por parte de los óganos asesores y se cometan errores que generen atrasos o suspensiones en los procesos inherentes a los Proyectos de Red de Cuido'),
+('Que la Administración no designe el personal óptimo para desarrollar los procesos y profesionales que conlleva y requiere el proyecto'),
+('Que se requiera de obras o insumos adicionales a los girados por el Gobierno Central y que la Administración no cuente con los recursos necesarios arriesgando el futuro de los proyectos de la Red de Cuido'),
+('Que el IMAS no cuente con los recursos necesarios para girar el susbsidio que se requiere en la Red de Cuido Infantil para llevar a cabo la operación del CECUDI y sufragar las necesidades básicas del mismo'),
+('Que las causas descritas generen incumplimiento de los requisitos que deben cumplirse para el giro que los recursos por FODSESAF, los cuales son necesarios para el CECUDI y como consecuencia no se relice la transferencia por parte del Gobierno Central y no se pueda llevar a cabo el proyecto, en cualquiera de sus etapas'),
+
+('Que el IMAS no cuente con los recursos necesarios para girar el susbsidio que se requiere en la Red de Cuido Infantil para llevar a cabo la operación del CECUDI y sufragar las necesidades básicas del mismo.'),
+('Que se requiera de obras o insumos adicionales a los girados por el Gobierno Central y que la Administración no cuente con los recursos necesarios arriesgando el futuro de los proyectos de la Red de Cuido.'),
+('Que las causas descritas generen incumplimiento de los requisitos que deben cumplirse para el giro que los recursos por FODSESAF, los cuales son necesarios para el CECUDI y como consecuencia no se relice la transferencia por parte del Gobierno Central y no se pueda llevar a cabo el proyecto, en cualquiera de sus etapas.'),
+
+('Que se requiera de obras o insumos adicionales a los girados por el Gobierno Central y que la Administración no cuente con los recursos necesarios arriesgando el futuro de los proyectos de la Red de Cuido.'),
+('Que el IMAS no cuente con los recursos necesarios para girar el susbsidio que se requiere en la Red de Cuido Infantil para llevar a cabo la operación del CECUDI y sufragar las necesidades básicas del mismo.'),
+('Que las causas descritas generen incumplimiento de los requisitos que deben cumplirse para el giro que los recursos por FODSESAF, los cuales son necesarios para el CECUDI y como consecuencia no se relice la transferencia por parte del Gobierno Central y no se pueda llevar a cabo el proyecto, en cualquiera de sus etapas.')
+;
+
+INSERT INTO tbl_causes (cau_cause, cau_fk_event) VALUES
+('Falta de Inducción', 1),
+('Falta de Recurso Humano', 1),
+('Por falta de voluntad política del Gobierno Central o Local no se cuente con los Recursos necesarios para el Desarrollo de los proyectos.', 1),
+('Falta de Recursos Económicos Externos', 1),
+('Falta de Voluntad Política', 1),
+('Falta de Voluntad Interinstitucional', 1),
+
+('Falta de Inducción', 2),
+('Falta de Recurso Humano', 2),
+('Por falta de voluntad política del Gobierno Central o Local no se cuente con los Recursos necesarios para el Desarrollo de los proyectos', 2),
+('Falta de Recursos Económicos Externos', 2),
+('Falta de Voluntad Política', 2),
+('Falta de Voluntad Interinstitucional', 2),
+
+('Falta de Recursos Económicos Externos', 3),
+('Por falta de voluntad política del Gobierno Central o Local no se cuente con los Recursos necesarios para el Desarrollo de los proyectos.', 3),
+('Falta de Voluntad Política', 3),
+('Falta de Voluntad Interinstitucional', 3),
+
+('Por falta de voluntad política del Gobierno Central o Local no se cuente con los Recursos necesarios para el Desarrollo de los proyectos.', 4),
+('Falta de Recursos Económicos Externos', 4),
+('Falta de Voluntad Política', 4),
+('Falta de Voluntad Interinstitucional', 4)
+;
 
 
 INSERT INTO tbl_causes_x_consequences (cxc_fk_causes, cxc_fk_consequences) VALUES
@@ -138,11 +59,96 @@ INSERT INTO tbl_causes_x_consequences (cxc_fk_causes, cxc_fk_consequences) VALUE
 (3,2),
 (4, null),
 (5, null),
-(6, null);
+(6, null),
+(7, 3),
+(8, 4),
+(9, 5),
+(10, 6),
+(11, 7),
+(12, 7), 
+(13, 8),
+(14, 9),
+(15, 10),
+(16, 10),
+(17, 11),
+(18, 12),
+(19, 13),
+(20, 13)
+;
 
-INSERT INTO tbl_risk_classifications (rcf_classification, rcf_fk_consequences) VALUES ('INTERNO', 1);
+INSERT INTO tbl_risk_classifications (rcf_classification, rcf_fk_consequences) VALUES 
+('INTERNO', 1),
+('EXTERNO', 1),
+('INTERNO', 2),
+('INTERNO', 3),
+('EXTERNO', 4),
+('EXTERNO', 5),
+('EXTERNO', 6)
+;
 
 
-INSERT INTO tbl_risk_categories (rcg_category, rcg_fk_classification) VALUES ('Procedimientos', 1),('Recursos Humanos', 1);
+INSERT INTO tbl_risk_categories (rcg_category, rcg_fk_classification) VALUES 
+('Procedimientos', 1),
+('Recursos Humanos', 1), 
+('Legales', 2),
+('PROCEDIMIENTOS', 3),
+('ESTRATÉGICOS', 4),
+('FINANCIEROS', 4),
+('FINANCIEROS', 5),
+('FINANCIEROS', 6),
+('FINANCIEROS', 7)
+;
+
+INSERT INTO tbl_risk_descriptions (rdc_description, rdc_fk_category) VALUES 
+('Falta de Manuales de Procedimientos', 1),
+('Falta de Inducción', 2), 
+('Falta de Capacitación', 2), 
+('Desconocimiento de Normas', 3),
+('Falta de Capacitación', 4),
+('Políticas de Concejo Municipal', 5),
+('Limitación de Recursos', 6),
+('Dependencia Económica', 7),
+('Atrasos en los desembolsos para el desarrollo de proyectos', 7),
+('Atrasos en los desembolsos para el desarrollo de proyectos', 8),
+('Atrasos en los desembolsos para el desarrollo de proyectos', 9)
+;
+
+INSERT INTO tbl_control_measures (ctm_fcm_probability, ctm_fcm_impact,	ctm_fcm_risk_level, ctm_wcm_existing, ctm_wcm_attitude, ctm_wcm_aptitude, ctm_wcm_risk_level, ctm_wcm_acceptability, ctm_fk_consequences) VALUES (2, 2, 'Medio', 'Aplicar todos los medios humanos y tecnologicos para estar al día en todos los procesos de inducciòn y actualización existentes', '+', '+', 'Bajo', 'Se acepta', 3),
+(1, 2, 'Bajo', 'Mantener e insistir en las Autoridades Locales sobre  la importancia e impacto social de este proyecto evidenciando la necesidad de asignar personal apto y comprometido con el proyecto. CECUDI', '+', '+', 'Bajo', 'Se acepta', 4),
+(2, 3, 'Medio', 'Cuando existe un riesgo de que los recursos no sean suficientes para completar la obra, se acude a la Alcaldía, que hasta la fecha ha brindado apoyo total a la obra y ya se han efectuado inversiones significativas en el Prpoyecto con recursos propios.', '+', '+', 'Medio', 'No se acepta', 5),
+(2, 3, 'Medio', 'Hasta la fecha el Gobierno Central ha manifestado todo el apoyo y anuencia para continuar con el presupuesto y giro a los de estos recursos a los Gobiernos Locales para desarrollar los CECUDI en el país.', '-', '-', 'Alto', 'No se acepta', 6),
+(1, 3, 'Bajo', 'Tomar con suficiente responsabilidad y actitud cada uno de los procesos y requisitos que deben cumplirse para desarrollar este Proyecto.', '+', '-', 'Medio', 'No se acepta', 7);
+
+INSERT INTO tbl_proposed_actions (
+    pda_action,
+     pda_fk_consequences
+     ) VALUES 
+('Identificar la normativa que señale las obligaciones que debe cumplir  el IMAS y aquellas entidades estatales responsables del desarrollo del Proyecto del CECUDI en el Cantón de Pérez Zeledón.', 8), 
+('Transferir a la Alcaldía Municipal, con el fin de iniciar el procesos de consecución de recursos,  el costo al que ascienden las obras que no se encuentran presupuestadas en los recursos que gira FODESAF y que son estrictamente necesarios para  completar el costo faltante de la obra. ', 9),
+('Atender todos los factores internos y externos que incrementen el riesgo de que no se pueda llevar a cabo el Proyecto.', 10),
+('Acudir a las instancias gubernamentales y locales que permitan, asguren  y agilicen el giro de los recursos que se requieren para la sostenibilidad del CECUDI', 11),
+('Acudir a las instancias gubernamentales y locales que permitan, asguren  y agilicen el giro de los recursos que se requieren para la sostenibilidad del CECUDI', 12),
+('Participar en todos los eventos que sea posible relacionados a la normativa, procesos, experiencias y otros que propicie el Órgano Asesor de la Secretarìa Técnica de la Red de Cuido Infantil.', 13),
+('Participar en todos los eventos que sea posible relacionados a la normativa, procesos, experiencias y otros que propicie el Órgano Asesor de la Secretarìa Técnica de la Red de Cuido Infantil.', 13);
+
+INSERT INTO tbl_followup_plans (fpp_id_responsible, fpp_date, fpp_indicator) VALUES 
+('01', 31/12/2016, 'CECUDI  EN OPERACIÓN'),
+('020', 27/2/2015,  'CECUDI  EN OPERACIÓN');
+
+INSERT INTO tbl_end_action_plans (eap_compilance, eap_justification, eap_fk_proposed_action) VALUES 
+('SÍ', 'Hemos trabajado en constante apego a las instancias gubernamentales y locales con el fin de asegurar el giro de los recursos necesarios para la sostenibilidad del CECUDI y hemos estado en constante contacto con el Órgano Asesor de la Secretarìa Técnica de la Red de Cuido Infantil con el propósito de estar actualizados con la normativa, procesos, experiencias relacionados a la Red de Cuido Infantil.', NULL);
+
+INSERT INTO tbl_selected_actions (
+    sda_action, 
+    sda_fk_proposed_actions, 
+    sda_fk_end_action_plan, 
+    sda_fk_followup_plan
+    ) VALUES
+('Acudir a las instancias gubernamentales y locales que permitan, asguren  y agilicen el giro de los recursos que se requieren para la sostenibilidad del CECUDI', 1, NULL, 1),
+('Acudir a las instancias gubernamentales y locales que permitan, asguren  y agilicen el giro de los recursos que se requieren para la sostenibilidad del CECUDI', 2, NULL, 1),
+('Participar en todos los eventos que sea posible relacionados a la normativa, procesos, experiencias y otros que propicie el Órgano Asesor de la Secretarìa Técnica de la Red de Cuido Infantil.', 3, NULL, 1),
+
+('Acudir a las instancias gubernamentales y locales que permitan, asguren  y agilicen el giro de los recursos que se requieren para la sostenibilidad del CECUDI', 4, 1, 2),
+('Participar en todos los eventos que sea posible relacionados a la normativa, procesos, experiencias y otros que propicie el Órgano Asesor de la Secretarìa Técnica de la Red de Cuido Infantil.', 5, 1, 2);
 
 drop database db_project_web;
