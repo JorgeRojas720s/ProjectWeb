@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import GenericCard from "./GenericCard";
 import GenericTextArea from "./GenericTextArea";
 import Image from "next/image";
-import { basurero } from "@/images/Icons";
+// import { basurero } from "@/images/Icons";
 
 
 const EventRisk = ({principalSetTextAreas}) => {
@@ -93,9 +93,9 @@ const EventRisk = ({principalSetTextAreas}) => {
               Interno
             </label>
           </div>
-          <button>
+          {/* <button>
             <Image src={basurero} alt={"basurero"} width={26} height={26} />
-          </button>
+          </button> */}
         </div>
 
         {CATEGORIES.map((Category, index) => {
