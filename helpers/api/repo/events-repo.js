@@ -63,19 +63,21 @@ async function saveRisks(params, idsCauses) {
     );
 
     //!RiskCategory
-    // await saveRiskCategory(params, riskClasificationIds, index);
+     await saveRiskCategory(params, riskClasificationIds, index);
   }
 }
 
 async function saveRiskCategory(params, riskClasificationIds, index) {
   console.log("riskClasifi: ", riskClasificationIds);
 
-  let aux = params.eventRisk[index]["riskCategory"];
+  let categories = params.eventRisk[index]["riskCategory"];
+
+  console.log("Hola: ", categories)
 
   for (let index2 = 0; index2 < riskClasificationIds.length; index2++) {
-    for (let index3 = 0; index3 < aux.length; index3++) {
+    for (let index3 = 0; index3 < categories.length; index3++) {
       const dataRiskCategory = {
-        rcg_category: aux[index3],
+        rcg_category: categories[index3],
         rcg_fk_classification: riskClasificationIds[index2],
       };
       console.log(
