@@ -1,58 +1,67 @@
 import React from "react";
 import TeamMemberCard from "@/components/TeamMemberCard";
 import {
-  exampleIcon,
-} from "../../../images/Icons"
+  janeImage,
+  davidImage,
+  emilyImage,
+  jessicaImage,
+  jhonImage,
+  michaelImage,
+  robertImage,
+  sarahImage,
+} from "../../../images/Icons";
 
 const teamMembers = [
   {
     name: "John Doe",
-    role: "Chief Executive Officer",
-    experience: "Over 15 years of experience in business management.",
-    imageIcon: exampleIcon,
+    role: "Director Ejecutivo",
+    experience: "Más de 15 años de experiencia en gestión empresarial.",
+    imageIcon: jhonImage,
   },
   {
     name: "Jane Smith",
-    role: "Chief Operating Officer",
-    experience: "Expert in process optimization and project management.",
-    imageIcon: exampleIcon,
+    role: "Directora de Operaciones",
+    experience: "Experta en optimización de procesos y gestión de proyectos.",
+    imageIcon: janeImage,
   },
   {
     name: "Michael Johnson",
-    role: "Head of Software Development",
-    experience: "Leader in developing innovative technological solutions.",
-    imageIcon: exampleIcon,
+    role: "Jefe de Desarrollo de Software",
+    experience:
+      "Líder en el desarrollo de soluciones tecnológicas innovadoras.",
+    imageIcon: michaelImage,
   },
   {
     name: "Emily Wilson",
-    role: "Marketing Manager",
-    experience: "Specialist in digital marketing strategies and branding.",
-    imageIcon: exampleIcon,
+    role: "Gerente de Marketing",
+    experience: "Especialista en estrategias de marketing digital y branding.",
+    imageIcon: emilyImage,
   },
   {
     name: "David Thompson",
-    role: "Chief Financial Officer",
-    experience: "Experienced in financial planning and risk management.",
-    imageIcon: exampleIcon,
+    role: "Director Financiero",
+    experience:
+      "Experimentado en planificación financiera y gestión de riesgos.",
+    imageIcon: davidImage,
   },
   {
     name: "Sarah Anderson",
-    role: "Human Resources Manager",
-    experience: "Expert in talent acquisition and employee development.",
-    imageIcon: exampleIcon,
+    role: "Gerente de Recursos Humanos",
+    experience: "Experta en adquisición de talento y desarrollo de empleados.",
+    imageIcon: sarahImage,
   },
   {
     name: "Robert Brown",
-    role: "Sales Director",
+    role: "Director de Ventas",
     experience:
-      "Proven track record in driving sales and building client relationships.",
-    imageIcon: exampleIcon,
+      "Historial comprobado en impulsar ventas y construir relaciones con clientes.",
+    imageIcon: robertImage,
   },
   {
     name: "Jessica Taylor",
-    role: "Customer Support Manager",
-    experience: "Dedicated to providing exceptional customer service.",
-    imageIcon: exampleIcon,
+    role: "Gerente de Atención al Cliente",
+    experience: "Dedicada a proporcionar un servicio al cliente excepcional.",
+    imageIcon: jessicaImage,
   },
 ];
 
