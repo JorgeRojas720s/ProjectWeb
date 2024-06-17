@@ -163,7 +163,7 @@ function riskCategoryModel(sequelize) {
 
 function riskDescriptionModel(sequelize) {
   const attributes = {
-    rdc_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    rdc_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true,  autoIncrement:true },
     rdc_classification: { type: DataTypes.STRING, allowNull: false },
     rdc_fk_category: {
       type: DataTypes.INTEGER,

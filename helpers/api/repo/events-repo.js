@@ -53,6 +53,7 @@ async function saveRisks(params, idsCauses) {
 
   for (let index = 0; index < idsCauses.length; index++) {
     let riskClasificationIds = [];
+    let riskCategoryIds = [];
 
     //!RiskClassification
     await saveRiskClassification(
@@ -63,16 +64,48 @@ async function saveRisks(params, idsCauses) {
     );
 
     //!RiskCategory
-     await saveRiskCategory(params, riskClasificationIds, index);
+    await saveRiskCategory(
+      params,
+      riskClasificationIds,
+      index,
+      riskCategoryIds
+    );
+
+    //!RiskDescription
+    await saveRiskDescription(params, riskCategoryIds, index);
   }
 }
 
-async function saveRiskCategory(params, riskClasificationIds, index) {
+async function saveRiskDescription(params, riskCategoryIds, index) {
+
+  let descriptions = params.eventRisk[index]["riskDescription"];
+  console.log("jejejje: 👻",riskCategoryIds)
+  console.log("descriiiiiiiiiiis: ", descriptions);
+
+  for (let index1 = 0; index1 < riskCategoryIds.length; index1++) {
+    for (let index2 = 0; index2 < descriptions.length; index2++) {
+      const dataRiskDescription = {
+        rdc_classification: descriptions[index2],
+        rdc_fk_category: riskCategoryIds[index1],
+      };
+      const riskDescription = new db.tbl_risk_description(dataRiskDescription);
+      riskDescription.save();
+    }
+  }
+}
+
+async function saveRiskCategory(
+  params,
+  riskClasificationIds,
+  index,
+  riskCategoryIds
+) {
   console.log("riskClasifi: ", riskClasificationIds);
 
   let categories = params.eventRisk[index]["riskCategory"];
+  // let descriptions = params.eventRisk[index]["riskDescription"]
 
-  console.log("Hola: ", categories)
+  console.log("Hola: ", categories);
 
   for (let index2 = 0; index2 < riskClasificationIds.length; index2++) {
     for (let index3 = 0; index3 < categories.length; index3++) {
@@ -86,6 +119,12 @@ async function saveRiskCategory(params, riskClasificationIds, index) {
       );
       const riskCategory = new db.tbl_risk_category(dataRiskCategory);
       await riskCategory.save();
+      riskCategoryIds.push(riskCategory.rcg_id);
+      // let aix = riskCategory.rcg_id;
+      // const dataRiskDescription = {
+      //   rdc_classification: descriptions[index3],
+      //   rdc_fk_category: riskCategoryIds[index2],
+      // }
     }
   }
 }
