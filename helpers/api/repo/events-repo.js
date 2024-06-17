@@ -48,32 +48,60 @@ async function create(params) {
   await saveFormData(params, eventId);
 }
 
-async function saveRisks(params, causesIds) {
-  const firstData = 0;
+async function saveRisks(params, idsCauses) {
+  console.log("tamaniooooo: 🙌🙌", idsCauses.length);
 
-  for (let index = 0; index < causesIds.length; index++) {
+  for (let index = 0; index < idsCauses.length; index++) {
     let riskClasificationIds = [];
 
     //!RiskClassification
     await saveRiskClassification(
       params,
-      causesIds,
-      index,
-      riskClasificationIds
+      riskClasificationIds,
+      idsCauses,
+      index
     );
+
+    //!RiskCategory
+    // await saveRiskCategory(params, riskClasificationIds, index);
   }
+}
 
-  async function saveRiskClassification(
-    params,
-    causesIds,
-    index,
-    riskClasificationIds
-  ) {
+async function saveRiskCategory(params, riskClasificationIds, index) {
+  console.log("riskClasifi: ", riskClasificationIds);
+
+  let aux = params.eventRisk[index]["riskCategory"];
+
+  for (let index2 = 0; index2 < riskClasificationIds.length; index2++) {
+    for (let index3 = 0; index3 < aux.length; index3++) {
+      const dataRiskCategory = {
+        rcg_category: aux[index3],
+        rcg_fk_classification: riskClasificationIds[index2],
+      };
+      console.log(
+        "que pasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaS 🤬🤬",
+        dataRiskCategory
+      );
+      const riskCategory = new db.tbl_risk_category(dataRiskCategory);
+      await riskCategory.save();
+    }
+  }
+}
+
+async function saveRiskClassification(
+  params,
+  riskClasificationIds,
+  idsCauses,
+  index
+) {
+  console.log("causesIdsssssssss: ", idsCauses[index]["causesIds"]);
+  let causesIds = idsCauses[index]["causesIds"];
+
+  for (let index1 = 0; index1 < causesIds.length; index1++) {
     const dataRiskClassification = {
-      rcf_classification: params.eventRisk[firstData]["riskClassification"],
-      rcf_fk_consequences: causesIds[index], //!Cambiar el nombre se la foranea de ser a causas!!!!
+      rcf_classification: params.eventRisk[index]["riskClassification"],
+      rcf_fk_consequences: causesIds[index1], //!Cambiar el nombre se la foranea de ser a causas!!!!
     };
-
     console.log("Rissssssk ☢️☢️", dataRiskClassification);
     const riskClasification = new db.tbl_risk_classification(
       dataRiskClassification
@@ -95,6 +123,8 @@ async function saveEvents(params) {
 }
 
 async function saveFormData(params, eventId) {
+  let idsCauses = [];
+
   for (let i = 0; i < params.causasYConsecuencias.length; i++) {
     let causes = [];
     let consequences = [];
@@ -107,15 +137,18 @@ async function saveFormData(params, eventId) {
     //! Cause
     await saveCauses(causes, eventId, causesIds);
 
+    idsCauses.push({ causesIds: causesIds });
+
     //!Consequence
     await saveConsequences(consequences, consequencesIds);
 
     //!CXC
     await saveCausesXConsequences(causesIds, consequencesIds);
-
-    //!Risks
-    await saveRisks(params, causesIds);
   }
+
+  //!Risks
+  console.log("Causes Ids: 🤖🤖: ", idsCauses);
+  await saveRisks(params, idsCauses);
 }
 
 async function saveCauses(causes, eventId, causesIds) {
