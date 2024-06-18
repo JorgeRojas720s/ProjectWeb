@@ -24,6 +24,7 @@ const createEvents = async (data) => {
  const ContextProvider = ({children}) => {
       const [loading, setLoading] = useState(true);
       const [events, setEvents] = useState([]);
+      let hadChange = false;
       useEffect(() => {
         const getEvents = async () => {
           try {

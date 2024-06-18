@@ -21,7 +21,7 @@ function Events() {
               <GenericCard
                 id={event.event}
                 key={index}
-                title={event.title}
+                title={event.title.length > 70? event.title.substring(0, 70)+'...': event.title}
                 description={''}
                 onClick={() => router.push(`event/${event.code}`)}
               />

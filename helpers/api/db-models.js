@@ -108,7 +108,7 @@ function consequencesModel(sequelize) {
       autoIncrement: true,
       allowNull: true,
     },
-    con_consequence: { type: DataTypes.STRING, allowNull: true },
+    con_consequence: { type: DataTypes.TEXT, allowNull: true },
   };
   const options = {
     timestamps: false,
@@ -163,8 +163,8 @@ function riskCategoryModel(sequelize) {
 
 function riskDescriptionModel(sequelize) {
   const attributes = {
-    rdc_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true,  autoIncrement:true },
-    rdc_classification: { type: DataTypes.STRING, allowNull: false },
+    rdc_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true},
+    rdc_description: { type: DataTypes.STRING, allowNull: false },
     rdc_fk_category: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -185,8 +185,8 @@ function riskDescriptionModel(sequelize) {
 
 function proposedActionsModel(sequelize) {
   const attributes = {
-    pda_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
-    pda_action: { type: DataTypes.STRING, allowNull: false },
+    pda_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true },
+    pda_action: { type: DataTypes.TEXT, allowNull: false },
     pda_fk_consequences: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -208,7 +208,7 @@ function proposedActionsModel(sequelize) {
 //Aqui
 function selectedActionsModel(sequelize) {
   const attributes = {
-    sda_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    sda_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true  },
     sda_action: { type: DataTypes.STRING, allowNull: false },
     sda_fk_proposed_actions: {
       type: DataTypes.INTEGER,
@@ -222,7 +222,7 @@ function selectedActionsModel(sequelize) {
     },
     sda_fk_end_action_plan: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "tbl_end_action_plans",
         key: "eap_id",
@@ -250,7 +250,7 @@ function selectedActionsModel(sequelize) {
 
 function followupPlanModel(sequelize) {
   const attributes = {
-    fpp_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    fpp_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true  },
     fpp_id_responsible: { type: DataTypes.STRING, allowNull: false },
     fpp_date: { type: DataTypes.DATE, allowNull: false },
     fpp_indicator: { type: DataTypes.STRING, allowNull: false },
@@ -264,12 +264,12 @@ function followupPlanModel(sequelize) {
 
 function endActionPlanModel(sequelize) {
   const attributes = {
-    eap_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
+    eap_id: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true, autoIncrement: true  },
     eap_compilance: { type: DataTypes.STRING, allowNull: false },
-    eap_justification: { type: DataTypes.DATE, allowNull: false },
+    eap_justification: { type: DataTypes.TEXT, allowNull: false },
     eap_fk_proposed_action: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "tbl_proposed_actions",
         key: "pda_id",
