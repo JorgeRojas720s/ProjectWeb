@@ -2,9 +2,8 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { ActualEvent } from "@/app/(root)/event/[id]/page";
-import { causeId, setcauseId } from "./Cause";
 
-const CuaseSideBar = ({setCauseId}) => {
+const CuaseSideBar = ({setCauseId, causeId}) => {
   const event = useContext(ActualEvent);
   const [causes, setCauses] = useState(event.causes);
   return (
@@ -18,10 +17,11 @@ const CuaseSideBar = ({setCauseId}) => {
             {causes.map(({ cau_cause }, index) => {
               let cause = cau_cause;
               return (
-                <li key={index} className="text-white p-1 hover:cursor-pointer">
-                  <a onClick={() => setCauseId(index)}>
-                    {"▶ "}
-                    {cause.length > 25 ? cause.substring(0, 15) + "..." : cause}
+                <li key={index} className={`text-white p-1 hover:cursor-pointer`}>
+                  <a onClick={() => setCauseId(index)} className={`${index === causeId? 'underline decoration-white decoration-2 underline-offset-8':''}`}>
+                    {console.log(index, causeId)}
+                    {"▶"}
+                    {cause.length > 15 ? cause.substring(0, 15) + "..." : cause}
                   </a>
                 </li>
               );
