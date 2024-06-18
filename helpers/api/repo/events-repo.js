@@ -85,7 +85,7 @@ async function saveRiskDescription(params, riskCategoryIds, index) {
   for (let index1 = 0; index1 < riskCategoryIds.length; index1++) {
     for (let index2 = 0; index2 < descriptions.length; index2++) {
       const dataRiskDescription = {
-        rdc_classification: descriptions[index2],
+        rdc_description: descriptions[index2],
         rdc_fk_category: riskCategoryIds[index1],
       };
       const riskDescription = new db.tbl_risk_description(dataRiskDescription);
