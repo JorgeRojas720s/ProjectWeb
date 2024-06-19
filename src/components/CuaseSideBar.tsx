@@ -19,7 +19,6 @@ const CuaseSideBar = ({setCauseId, causeId}) => {
               return (
                 <li key={index} className={`text-white p-1 hover:cursor-pointer`}>
                   <a onClick={() => setCauseId(index)} className={`${index === causeId? 'underline decoration-white decoration-2 underline-offset-8':''}`}>
-                    {console.log(index, causeId)}
                     {"▶"}
                     {cause.length > 15 ? cause.substring(0, 15) + "..." : cause}
                   </a>

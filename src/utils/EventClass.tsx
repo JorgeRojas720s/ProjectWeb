@@ -231,7 +231,6 @@ class EventClass {
           classification: rc,
           categoryXDescription: cxd,
         });
-        break;
       }
     }
     return risk;
