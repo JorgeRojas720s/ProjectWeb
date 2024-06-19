@@ -193,6 +193,9 @@ async function saveFormData(params, eventId) {
   //!Actions
   console.log("Consequences Ids: 🤖🤖: ", idsConsequences);
   await saveActions(params, idsConsequences);
+
+  //!Control Measures
+  await saveControlMeasures(params, idsConsequences);
 }
 
 async function saveCauses(causes, eventId, causesIds) {
@@ -249,7 +252,7 @@ async function saveActions(params, idsConsequences) {
       //!Folloup Plans
       followupPlanId = await saveFollowupPlans(params, index);
 
-      // //!Selected Actions
+      // //!Selected Actions falta
       // await saveSelectedActions(
       //   params,
       //   index,
@@ -294,7 +297,12 @@ async function saveProposedAction(params, idsConsequences, index) {
   }
 }
 
-async function saveSelectedActions(params, index, proposedActionId, followupPlanId) {
+async function saveSelectedActions(
+  params,
+  index,
+  proposedActionId,
+  followupPlanId
+) {
   let selectedAtions = params.eventAction[index]["selectedAtions"].length;
 
   for (let index1 = 0; index1 < selectedAtions; index1++) {
@@ -303,8 +311,38 @@ async function saveSelectedActions(params, index, proposedActionId, followupPlan
       sda_fk_proposed_actions: proposedActionId,
       sda_fk_end_action_plan: 0, //!FAltaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
       sda_fk_followup_plan: followupPlanId,
-
     };
+  }
+}
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+async function saveControlMeasures(params, idsConsequences) {
+  if (params.eventControl.length !== 0) {
+    for (let index = 0; index < idsConsequences.length; index++) {
+      for (
+        let index1 = 0;
+        index1 < idsConsequences[index]["consequencesIds"].length;
+        index1++
+      ) {
+        let objControlMeasures = params.eventControl[index];
+
+        const dataControlMeasures = {
+          ctm_fcm_probability: objControlMeasures["probabilidad"],
+          ctm_fcm_impact: objControlMeasures["impacto"],
+          ctm_fcm_risk_level: objControlMeasures["nivelRiesgo"],
+          ctm_wcm_existing: objControlMeasures["medidasControl"],
+          ctm_wcm_attitude: objControlMeasures["actitud"],
+          ctm_wcm_aptitude: objControlMeasures["aptitud"],
+          ctm_wcm_risk_level: objControlMeasures["nivelRiesgoFinal"],
+          ctm_wcm_acceptability: objControlMeasures["parametroAceptabilidad"],
+          ctm_fk_consequences:
+            idsConsequences[index]["consequencesIds"][index1],
+        };
+
+        let controlMeasures = new db.tbl_control_measures(dataControlMeasures);
+        await controlMeasures.save();
+      }
+    }
   }
 }
 
