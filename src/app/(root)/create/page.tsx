@@ -7,8 +7,6 @@ import GenericTextArea from "@/components/GenericTextArea";
 import GenericCard from "@/components/GenericCard";
 import InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
 
-//Hacer todo esto un componente para que sea como un encabezado, y hacer 3 archivos que seran 3 rutas para riesgos, para acciones y para control de medidas
-
 //globals
 const CATEGORIES = [""];
 let cont = -1;
@@ -19,6 +17,7 @@ function Page() {
     event: [""],
     causasYConsecuencias: [],
     eventRisk: [],
+    eventAction: [],
   });
 
   const [selectEvent, setSelectEvent] = useState(null);
@@ -46,13 +45,13 @@ function Page() {
     setIsButtonDisabled(true);
   };
 
-  const addTextArea = (category) => {
-    console.log("adtexxxxxxxxxxxxxxxxxxxxxxt", category);
-    setTextAreas((prev) => ({
-      ...prev,
-      [category]: [...prev[category], ""],
-    }));
-  };
+  // const addTextArea = (category) => {
+  //   console.log("adtexxxxxxxxxxxxxxxxxxxxxxt", category);
+  //   setTextAreas((prev) => ({
+  //     ...prev,
+  //     [category]: [...prev[category], ""],
+  //   }));
+  // };
 
   const handleTextAreaChange = (category, index, event) => {
     const updatedAreas = [...textAreas[category]];
@@ -78,25 +77,31 @@ function Page() {
   };
 
   const clickSend = () => {
-    fetch("http://localhost:3000/api/events/register", {
-      method: "POST",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(textAreas),
-    }).then((res) => {
-      console.log("Toda la infiooooo: ", textAreas);
-      console.log("response: ", res);
-      console.log("json: 👻👻👻👻👻 ", JSON.stringify(textAreas));
-    });
 
-    // router.push("/");
+    if (textAreas.event.length !== 0 && textAreas.event.every(e => e !== '')) {
+
+      fetch("http://localhost:3000/api/events/register", {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(textAreas),
+      }).then((res) => {
+        console.log("Toda la infiooooo: ", textAreas);
+        console.log("response: ", res);
+        console.log("json: 👻👻👻👻👻 ", JSON.stringify(textAreas));
+      });
+
+      router.push("/");
+    } else {
+      alert("Evento vacío");
+    }
   };
 
-  const handleEventChange = (eventType) => {
-    setSelectEvent(eventType);
-  };
+  // const handleEventChange = (eventType) => {
+  //   setSelectEvent(eventType);
+  // };
 
   return (
     <div className="flex justify-center">
@@ -126,23 +131,11 @@ function Page() {
             />
           </div>
 
-          {
-            //ESTO ES LO QUE CAMBIA
-          }
-
-          {/* {CATEGORIES.map((Category, index) => {
-            const category = Category.toLowerCase();
-            return (
-              <div key={category}>
-                {category === "riesgo" ? ( */}
           <div>
             {/* aqui se agrega la nueva causa y consequencia */}
             {causesAndConsequences &&
               causesAndConsequences.map((item, index) => (
                 <div key={index}>
-                  {" "}
-                  {/* pasar el index para conoces algrupo que pertenece*/}
-                  <div>------------------------</div>
                   <div>{item}</div>
                 </div>
               ))}
@@ -158,102 +151,7 @@ function Page() {
               Add new Cause and Consequence
             </button>
           </div>
-          {/* ) : (
-                  ""
-                )}
-                <p className="text-purple-2 text-2xl font-bold">
-                  {category.substring(0, 1).toUpperCase() +
-                    category.substring(1)}
-                </p>
-                <section className="grid justify-center lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
-                  {textAreas[category].map((_, id) => (
-                    <div key={id} className="flex justify-center">
-                      <GenericTextArea
-                        id={id}
-                        className="h-[220px]"
-                        placeholder={`${CATEGORIES[index]} ${id + 1}`}
-                        rows={10}
-                        cols={30}
-                        onChange={(event) =>
-                          handleTextAreaChange(category, id, event)
-                        }
-                      />
-                    </div>
-                  ))}
-                  <div className="flex justify-center">
-                    <GenericCard
-                      id={index}
-                      title="+"
-                      className="justify-center flex h-fit text-8xl"
-                      onClick={() => addTextArea(category)}
-                    />
-                  </div>
-                </section>
-              </div>
-            );
-          })} */}
-
-          {
-            //HASTA ACÁ
-          }
         </section>
-
-        {/* start Codigo asqueroso de isma */}
-        {/* <div>
-          <button
-            className={
-              btnClassName +
-              ` ${
-                selectEvent === "Risk"
-                  ? "underline decoration-purple-1 decoration-4 underline-offset-8"
-                  : ""
-              }`
-            }
-            onClick={() => handleEventChange("Risk")}
-            disabled={isButtonDisabled}
-          >
-            Riesgo
-          </button>
-          <button
-            className={
-              btnClassName +
-              ` ${
-                selectEvent === "Action"
-                  ? "underline decoration-purple-1 decoration-4 underline-offset-8"
-                  : ""
-              }`
-            }
-            onClick={() => handleEventChange("Action")}
-            disabled={isButtonDisabled}
-          >
-            Acciones
-          </button>
-          <button
-            className={
-              btnClassName +
-              ` ${
-                selectEvent === "Control"
-                  ? "underline decoration-purple-1 decoration-4 underline-offset-8"
-                  : ""
-              }`
-            }
-            onClick={() => handleEventChange("Control")}
-            disabled={isButtonDisabled}
-          >
-            Medidas de Control
-          </button>
-        </div>
-
-        {selectEvent === "Risk" && (
-          <EventRisk eventTitle="title" eventDesription="description" />
-        )}
-        {selectEvent === "Action" && (
-          <EventAction eventTitle="title" eventDesription="description" />
-        )}
-        {selectEvent === "Control" && (
-          <EventControl eventTitle="title" eventDesription="description" />
-        )} */}
-        {/* end codigo asqueroso de Isma */}
 
         <div className="flex gap-4 mt-6">
           <div

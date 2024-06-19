@@ -39,7 +39,7 @@ const EventRisk = ({principalSetTextAreas}) => {
     radioInput2.checked = false;
   };
 
-  //!Revisar
+ 
   const saveText = () => {
     const newEventRisk = {
       riskClassification: radioBtn,
@@ -55,9 +55,8 @@ const EventRisk = ({principalSetTextAreas}) => {
       ],
     }));
 
-    console.log("dataaaaa 🤢🤢🤢🤢",radioBtn, textAreas);
+    console.log("dataaaaa 🤢🤢🤢🤢", textAreas);
   };
-  //!Hasta aqui
 
   return (
     <div>
