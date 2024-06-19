@@ -85,6 +85,7 @@ async function saveRiskDescription(params, riskCategoryIds, index) {
 
   for (let index1 = 0; index1 < riskCategoryIds.length; index1++) {
     for (let index2 = 0; index2 < descriptions.length; index2++) {
+      console.log("aqi?")
       const dataRiskDescription = {
         rdc_description: descriptions[index2],
         rdc_fk_category: riskCategoryIds[index1],
@@ -92,7 +93,9 @@ async function saveRiskDescription(params, riskCategoryIds, index) {
       const riskDescription = new db.tbl_risk_description(dataRiskDescription);
       riskDescription.save();
     }
+    console.log("quepeo")
   }
+  console.log("jupu")
 }
 
 async function saveRiskCategory(
@@ -131,7 +134,8 @@ async function saveRiskClassification(
   idsCauses,
   index
 ) {
-  console.log("causesIdsssssssss: ", idsCauses[index]["causesIds"]);
+  console.log("causesIdssssssss👽s: ", idsCauses[index]["causesIds"]);
+  console.log("popopopopopop: ", params.eventRisk[index]["riskClassification"]);
   let causesIds = idsCauses[index]["causesIds"];
 
   for (let index1 = 0; index1 < causesIds.length; index1++) {
@@ -241,6 +245,7 @@ async function saveActions(params, idsConsequences) {
     for (let index = 0; index < idsConsequences.length; index++) {
       let proposedActionId;
       let followupPlanId;
+      let endActionPlanId;
 
       //!Proposed Action
       proposedActionId = await saveProposedAction(
@@ -252,23 +257,26 @@ async function saveActions(params, idsConsequences) {
       //!Folloup Plans
       followupPlanId = await saveFollowupPlans(params, index);
 
+      //!End Acion Plan
+      endActionPlanId = await saveEndActionPlan(
+        params,
+        index,
+        proposedActionId
+      );
+
       // //!Selected Actions falta
-      // await saveSelectedActions(
-      //   params,
-      //   index,
-      //   proposedActionId,
-      //   followupPlanId
-      // );
+      await saveSelectedActions(
+        params,
+        index,
+        proposedActionId,
+        followupPlanId,
+        endActionPlanId
+      );
     }
   }
 }
 
 async function saveFollowupPlans(params, index) {
-  console.log(
-    "jaaaaaajajajajaja",
-    params.eventAction[index]["responsible"][0],
-    params.eventAction[index]["indicator"][0]
-  );
   const dataFollowupPlans = {
     fpp_id_responsible: params.eventAction[index]["responsible"][0],
     fpp_date: params.eventAction[index]["date"], //!Revisa poque en bd es tipo datetime
@@ -297,24 +305,43 @@ async function saveProposedAction(params, idsConsequences, index) {
   }
 }
 
+async function saveEndActionPlan(params, index, proposedActionId) {
+  console.log("EndActiooooooon?S");
+  const dataEndActionPlan = {
+    eap_compilance: params.eventAction[index]["compliance"], //!Esta mal escrito en bd Compliance
+    eap_justification: params.eventAction[index]["justification"],
+    eap_fk_proposed_action: proposedActionId,
+  };
+
+  const endActionPlan = new db.tbl_end_action_plan(dataEndActionPlan);
+
+  await endActionPlan.save();
+  return endActionPlan.eap_id;
+}
+
 async function saveSelectedActions(
   params,
   index,
   proposedActionId,
-  followupPlanId
+  followupPlanId,
+  endActionPlanId
 ) {
-  let selectedAtions = params.eventAction[index]["selectedAtions"].length;
+  let selectedAtions = params.eventAction[index]["selectedActions"];
 
-  for (let index1 = 0; index1 < selectedAtions; index1++) {
+  console.log("seleccccccccccet: ", selectedAtions)
+
+  for (let index1 = 0; index1 < selectedAtions.length; index1++) {
     const dataSelectedAction = {
       sda_action: selectedAtions[index1],
       sda_fk_proposed_actions: proposedActionId,
-      sda_fk_end_action_plan: 0, //!FAltaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      sda_fk_end_action_plan: endActionPlanId,
       sda_fk_followup_plan: followupPlanId,
     };
+
+    const selectedAction = new db.tbl_selected_actions(dataSelectedAction);
+    await selectedAction.save();
   }
 }
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 async function saveControlMeasures(params, idsConsequences) {
   if (params.eventControl.length !== 0) {

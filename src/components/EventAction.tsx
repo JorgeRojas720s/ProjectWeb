@@ -16,6 +16,8 @@ const EventAction = ({ principalSetTextAreas }) => {
     "Indicador",
   ];
   const [date, setDate] = useState("");
+  const [compliance, setCompliance] = useState("Parcial");
+  const [justification, setJustification] = useState("");
   const [textAreas, setTextAreas] = useState({
     accionpropuesta: [""],
     accionesseleccionadassegunladisponibilidadderecursos: [""],
@@ -50,6 +52,8 @@ const EventAction = ({ principalSetTextAreas }) => {
       responsible: textAreas.responsable,
       indicator: textAreas.indicador,
       date: date,
+      compliance: compliance,
+      justification: justification,
     };
 
     console.log("wtfffffffffff 🥶🥶🥶🥶🥶🥶🥶🥶🥶🥶: ", newEventAction);
@@ -142,6 +146,35 @@ const EventAction = ({ principalSetTextAreas }) => {
           </DemoContainer>
         </LocalizationProvider>
       </div>
+
+      <div className="my-5">
+        <label className="text-purple-2 text-2xl font-bold my-4">
+          Cumplimiento
+        </label>
+        <select
+          value={compliance}
+          onChange={(e) => setCompliance(e.target.value)}
+          className="form-select mt-1 block w-40 h-10 rounded-lg border-2 border-purple-500 pl-2"
+        >
+          <option value="Parcial">Parcial</option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div>
+        <label className="text-purple-2 text-2xl font-bold my-4">
+          Justificacion
+        </label>
+        <GenericTextArea
+          value={justification}
+          onChange={(e) => setJustification(e.target.value)}
+          placeholder="Escribe aquí"
+          className="form-textarea mt-1 block w-full"
+          rows={4}
+        />
+      </div>
+
       <button
         className="bg-white py-3 px-6 text-purple-1 font-bold border border-purple-1.5 rounded-lg"
         onClick={saveText}
