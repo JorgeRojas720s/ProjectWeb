@@ -18,6 +18,7 @@ function Page() {
     causasYConsecuencias: [],
     eventRisk: [],
     eventAction: [],
+    eventControl: [],
   });
 
   const [selectEvent, setSelectEvent] = useState(null);

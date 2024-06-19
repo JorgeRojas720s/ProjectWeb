@@ -28,7 +28,7 @@ const EventControl = ({ principalSetTextAreas }) => {
 
     principalSetTextAreas((prev) => ({
       ...prev,
-      controlData: [...prev.controlData, newControlData],
+      eventControl: [...prev.eventControl, newControlData],
     }));
 
     console.log("Control Data: ", newControlData);
