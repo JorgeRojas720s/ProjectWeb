@@ -44,13 +44,15 @@ const EventAction = ({ principalSetTextAreas }) => {
     console.log("que tueneeeeeeeeeeeeee", date);
 
     const newEventAction = {
-      proposedAction: textAreas.accionespropuestas,
+      proposedAction: textAreas.accionpropuesta,
       selectedActions:
         textAreas.accionesseleccionadassegunladisponibilidadderecursos,
       responsible: textAreas.responsable,
       indicator: textAreas.indicador,
       date: date,
     };
+
+    console.log("wtfffffffffff 🥶🥶🥶🥶🥶🥶🥶🥶🥶🥶: ", newEventAction);
 
     principalSetTextAreas((prev) => ({
       ...prev,

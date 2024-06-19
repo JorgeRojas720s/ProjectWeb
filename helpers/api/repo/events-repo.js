@@ -49,37 +49,38 @@ async function create(params) {
 }
 
 async function saveRisks(params, idsCauses) {
-  console.log("tamaniooooo: 🙌🙌", idsCauses.length);
+  if (params.eventRisk.length !== 0) {
+    console.log("tamaniooooo: 🙌🙌", idsCauses.length);
 
-  for (let index = 0; index < idsCauses.length; index++) {
-    let riskClasificationIds = [];
-    let riskCategoryIds = [];
+    for (let index = 0; index < idsCauses.length; index++) {
+      let riskClasificationIds = [];
+      let riskCategoryIds = [];
 
-    //!RiskClassification
-    await saveRiskClassification(
-      params,
-      riskClasificationIds,
-      idsCauses,
-      index
-    );
+      //!RiskClassification
+      await saveRiskClassification(
+        params,
+        riskClasificationIds,
+        idsCauses,
+        index
+      );
 
-    //!RiskCategory
-    await saveRiskCategory(
-      params,
-      riskClasificationIds,
-      index,
-      riskCategoryIds
-    );
+      //!RiskCategory
+      await saveRiskCategory(
+        params,
+        riskClasificationIds,
+        index,
+        riskCategoryIds
+      );
 
-    //!RiskDescription
-    await saveRiskDescription(params, riskCategoryIds, index);
+      //!RiskDescription
+      await saveRiskDescription(params, riskCategoryIds, index);
+    }
   }
 }
 
 async function saveRiskDescription(params, riskCategoryIds, index) {
-
   let descriptions = params.eventRisk[index]["riskDescription"];
-  console.log("jejejje: 👻",riskCategoryIds)
+  console.log("jejejje: 👻", riskCategoryIds);
   console.log("descriiiiiiiiiiis: ", descriptions);
 
   for (let index1 = 0; index1 < riskCategoryIds.length; index1++) {
@@ -120,11 +121,6 @@ async function saveRiskCategory(
       const riskCategory = new db.tbl_risk_category(dataRiskCategory);
       await riskCategory.save();
       riskCategoryIds.push(riskCategory.rcg_id);
-      // let aix = riskCategory.rcg_id;
-      // const dataRiskDescription = {
-      //   rdc_classification: descriptions[index3],
-      //   rdc_fk_category: riskCategoryIds[index2],
-      // }
     }
   }
 }
@@ -165,6 +161,7 @@ async function saveEvents(params) {
 
 async function saveFormData(params, eventId) {
   let idsCauses = [];
+  let idsConsequences = [];
 
   for (let i = 0; i < params.causasYConsecuencias.length; i++) {
     let causes = [];
@@ -183,6 +180,8 @@ async function saveFormData(params, eventId) {
     //!Consequence
     await saveConsequences(consequences, consequencesIds);
 
+    idsConsequences.push({ consequencesIds: consequencesIds });
+
     //!CXC
     await saveCausesXConsequences(causesIds, consequencesIds);
   }
@@ -190,6 +189,10 @@ async function saveFormData(params, eventId) {
   //!Risks
   console.log("Causes Ids: 🤖🤖: ", idsCauses);
   await saveRisks(params, idsCauses);
+
+  //!Actions
+  console.log("Consequences Ids: 🤖🤖: ", idsConsequences);
+  await saveActions(params, idsConsequences);
 }
 
 async function saveCauses(causes, eventId, causesIds) {
@@ -225,6 +228,83 @@ async function saveCausesXConsequences(causesIds, consequencesIds) {
       const cxc = new db.tbl_causes_x_consequences(cxcData);
       await cxc.save();
     }
+  }
+}
+
+async function saveActions(params, idsConsequences) {
+  console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk", params.eventAction.length !== 0);
+  if (params.eventAction.length !== 0) {
+    console.log("jola");
+    for (let index = 0; index < idsConsequences.length; index++) {
+      let proposedActionId;
+      let followupPlanId;
+
+      //!Proposed Action
+      proposedActionId = await saveProposedAction(
+        params,
+        idsConsequences,
+        index
+      );
+
+      //!Folloup Plans
+      followupPlanId = await saveFollowupPlans(params, index);
+
+      // //!Selected Actions
+      // await saveSelectedActions(
+      //   params,
+      //   index,
+      //   proposedActionId,
+      //   followupPlanId
+      // );
+    }
+  }
+}
+
+async function saveFollowupPlans(params, index) {
+  console.log(
+    "jaaaaaajajajajaja",
+    params.eventAction[index]["responsible"][0],
+    params.eventAction[index]["indicator"][0]
+  );
+  const dataFollowupPlans = {
+    fpp_id_responsible: params.eventAction[index]["responsible"][0],
+    fpp_date: params.eventAction[index]["date"], //!Revisa poque en bd es tipo datetime
+    fpp_indicator: params.eventAction[index]["indicator"][0],
+  };
+
+  const followupPlan = new db.tbl_followup_plan(dataFollowupPlans);
+  await followupPlan.save();
+  return followupPlan.fpp_id;
+}
+
+async function saveProposedAction(params, idsConsequences, index) {
+  let consequencesIds = idsConsequences[index]["consequencesIds"];
+
+  console.log("ConsequencesIds Group: ", consequencesIds);
+
+  for (let index1 = 0; index1 < consequencesIds.length; index1++) {
+    console.log("que pasoS", params.eventAction[index]["proposedAction"][0]);
+    const dataProposedAction = {
+      pda_action: params.eventAction[index]["proposedAction"][0],
+      pda_fk_consequences: consequencesIds[index1],
+    };
+    const proposedAction = new db.tbl_proposed_actions(dataProposedAction);
+    await proposedAction.save();
+    return proposedAction.pda_id;
+  }
+}
+
+async function saveSelectedActions(params, index, proposedActionId, followupPlanId) {
+  let selectedAtions = params.eventAction[index]["selectedAtions"].length;
+
+  for (let index1 = 0; index1 < selectedAtions; index1++) {
+    const dataSelectedAction = {
+      sda_action: selectedAtions[index1],
+      sda_fk_proposed_actions: proposedActionId,
+      sda_fk_end_action_plan: 0, //!FAltaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      sda_fk_followup_plan: followupPlanId,
+
+    };
   }
 }
 
