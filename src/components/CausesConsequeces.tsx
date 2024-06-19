@@ -13,21 +13,16 @@ const CausesConsequeces = ({
   singularTitle,
   postFix,
 }: CCProps) => {
-  const renderCausesConsequences = ({
-    items,
-    pluralTitle,
-    singularTitle,
-    postFix,
-  }: CCProps) => {
+  const renderCausesConsequences = () => {
     return (
       <>
-        {callRenderTitleDescription(pluralTitle, singularTitle, items, postFix)}
+        {callRenderTitleDescription(pluralTitle, singularTitle, items, postFix, true)}
       </>
     );
   };
   return (
     <div>
-      {renderCausesConsequences({ items, pluralTitle, singularTitle, postFix })}
+      {renderCausesConsequences()}
     </div>
   );
 };
