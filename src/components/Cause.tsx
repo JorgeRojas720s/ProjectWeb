@@ -1,10 +1,12 @@
 //@ts-nocheck
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ActualEvent } from "@/app/(root)/event/[id]/page";
 import EventClass from "@/utils/EventClass";
 import CausesConsequeces from "./CausesConsequeces";
 import Risk from "./Risk";
+import ControlMeasures from "./ControlMeasures";
+import Action from "./Action";
 
 const Cause = ({ id, causeId }: { id: number; causeId: number }) => {
   const event = useContext<EventClass | null>(ActualEvent);
@@ -40,10 +42,19 @@ const Cause = ({ id, causeId }: { id: number; causeId: number }) => {
                     singularTitle={"Riesgo"}
                     index={index}
                   />
-                ): (event?.consequencesXActions?.length > 0? 
-                  '': 
-                  '' )
-                }
+                ) : event?.consequencesXControlMeasurements?.length > 0 ? (
+                  <ControlMeasures
+                    items={event?.consequencesXControlMeasurements}
+                    pluralTitle="Control de Medidas"
+                    singularTitle="Control de Medida"
+                    index={index}
+                  />
+                ) : (
+                  <Action 
+                    items={event?.consequencesXActions}
+                    index={index}
+                  />
+                )}
               </div>
             );
           }

@@ -34,14 +34,16 @@ const Risk = ({ items, pluralTitle, singularTitle, index }: RiskProps) => {
                     "Categorías",
                     "Categoría",
                     cxd.category,
-                    "rcg_category"
+                    "rcg_category", 
+                    true
                   )}
 
                   {callRenderTitleDescription(
                     "Descripciones",
                     "Descripción",
                     cxd.description,
-                    "rdc_description"
+                    "rdc_description", 
+                    true
                   )}
                   <br />
                 </div>
@@ -52,38 +54,29 @@ const Risk = ({ items, pluralTitle, singularTitle, index }: RiskProps) => {
     );
   };
 
-  const renderRisk = ({
-    items,
-    pluralTitle,
-    singularTitle,
-    index,
-  }: RiskProps) => {
-    const risks = items[index]?.risk || [];
-    return (
-      <>
-        {renderTitle(pluralTitle, singularTitle, risks)}
-        <div>
-          {risks.length > 0 ? (
-            risks.map((obj: RiskItem, index: number) => {
-              return (
-                <div key={index} className="ml-4">
-                  {renderTitle("Clasificaciones", "Clasificación", obj)}
-                  <div>
-                    {renderItems(obj.classification, "rcf_classification")}
-                    {renderCateogryDescription(obj.categoryXDescription)}
-                  </div>
+  const risks = items[index]?.risk || [];
+  return (
+    <>
+      {renderTitle(pluralTitle, singularTitle, risks)}
+      <div>
+        {risks.length > 0 ? (
+          risks.map((obj: RiskItem, index: number) => {
+            return (
+              <div key={index} className="ml-4">
+                {renderTitle("Clasificaciones", "Clasificación", obj)}
+                <div>
+                  {renderItems(obj.classification, "rcf_classification", true)}
+                  {renderCateogryDescription(obj.categoryXDescription)}
                 </div>
-              );
-            })
-          ) : (
-            <p>{` No tiene`}</p>
-          )}
-        </div>
-      </>
-    );
-  };
-
-  return <div>{renderRisk({ items, pluralTitle, singularTitle, index })}</div>;
+              </div>
+            );
+          })
+        ) : (
+          <p>{` No tiene`}</p>
+        )}
+      </div>
+    </>
+  );
 };
 
 export default Risk;

@@ -6,12 +6,12 @@ const renderTitle = (plural, singular, items) => {
     );
   };
 
-  const renderItems = (items, postFix) => {
+  const renderItems = (items, postFix, numerable) => {
     return (
       <div>
         {items.length > 0 ? (
           items.map((obj, index) => (
-            <p key={index} className="ml-4">{`${index + 1}. ${obj[postFix]}`}</p>
+            <p key={index} className="ml-4">{`${numerable? index + 1 + '.':''} ${obj[postFix]}`}</p>
           ))
         ) : (
           <p className="ml-4">{`${
@@ -22,11 +22,11 @@ const renderTitle = (plural, singular, items) => {
     );
   };
 
-  const callRenderTitleDescription = (plural, singular, items, postFix) => {
+  const callRenderTitleDescription = (plural, singular, items, postFix, numerable, className) => {
     return (
-      <div>
+      <div className={`${className? className: 'flex flex-col'}`}>
         {renderTitle(plural, singular, items)}
-        {renderItems(items, postFix)}
+        {renderItems(items, postFix, numerable)}
       </div>
     );
   };

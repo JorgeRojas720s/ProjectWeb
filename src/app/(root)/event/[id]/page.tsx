@@ -18,8 +18,6 @@ const Event = ({ params: { id } }: { params: { id: number } }) => {
     return <div>Event not found</div>;
   }
 
-  console.log(event);
-
   return (
     <ActualEvent.Provider value={event}>
       <div className="flex justify-between items-center mr-5 ml-5 max-md:flex-col max-sm:flex-col max-w-lg:flex-row">
