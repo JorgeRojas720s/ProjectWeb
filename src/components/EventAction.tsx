@@ -15,6 +15,7 @@ const EventAction = ({ principalSetTextAreas }) => {
     "Responsable",
     "Indicador",
   ];
+  const [isSaved, setIsSaved] = useState(false);
   const [date, setDate] = useState("");
   const [compliance, setCompliance] = useState("Parcial");
   const [justification, setJustification] = useState("");
@@ -62,6 +63,7 @@ const EventAction = ({ principalSetTextAreas }) => {
       ...prev,
       eventAction: [...prev.eventAction, newEventAction],
     }));
+    setIsSaved(true);
 
     console.log("dataaaaa 😵‍💫😵‍💫", textAreas);
   };
@@ -180,6 +182,7 @@ const EventAction = ({ principalSetTextAreas }) => {
         onClick={saveText}
       >
         Save
+        {isSaved && <span className="ml-2 text-green-500">&#10003;</span>}
       </button>
     </div>
   );

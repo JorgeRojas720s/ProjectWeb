@@ -23,6 +23,7 @@ const InputCauseAndConsequence = ({
   const [selectEvent, setSelectEvent] = useState(null);
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true); //Nuevox
+  const [isSaved, setIsSaved] = useState(false);
 
   const btnClassName = `bg-white m-5 p-5 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10${
     isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:cursor-pointer"
@@ -57,6 +58,7 @@ const InputCauseAndConsequence = ({
 
     setIsButtonDisabled(false);
     enableButton(); // Habilitar el botón cuando se guarda
+    setIsSaved(true);
     console.log("data: .☠️☠️", textAreas);
   };
 
@@ -106,6 +108,7 @@ const InputCauseAndConsequence = ({
                 onClick={saveText}
               >
                 Save
+                {isSaved && <span className="ml-2 text-green-500">&#10003;</span>}
               </button>
             ) : (
               <></>

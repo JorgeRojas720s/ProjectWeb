@@ -11,6 +11,7 @@ const EventControl = ({ principalSetTextAreas }) => {
   const [actitud, setActitud] = useState("");
   const [aptitud, setAptitud] = useState("");
   const [nivelRiesgoFinal, setNivelRiesgoFinal] = useState("Bajo");
+  const [isSaved, setIsSaved] = useState(false);
   const [parametroAceptabilidad, setParametroAceptabilidad] =
     useState("Se Acepta");
 
@@ -30,7 +31,7 @@ const EventControl = ({ principalSetTextAreas }) => {
       ...prev,
       eventControl: [...prev.eventControl, newControlData],
     }));
-
+    setIsSaved(true);
     console.log("Control Data: ", newControlData);
   };
 
@@ -172,6 +173,7 @@ const EventControl = ({ principalSetTextAreas }) => {
         onClick={saveControlData}
       >
         Save
+        {isSaved && <span className="ml-2 text-green-500">&#10003;</span>}
       </button>
     </div>
   );

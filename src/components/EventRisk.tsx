@@ -14,6 +14,7 @@ const EventRisk = ({principalSetTextAreas}) => {
     descripciondelriesgo: [""],
   });
   const [radioBtn, setRadioBtn] = useState("")
+  const [isSaved, setIsSaved] = useState(false);
 
   const addTextArea = (category) => {
     setTextAreas((prev) => ({
@@ -54,7 +55,7 @@ const EventRisk = ({principalSetTextAreas}) => {
         newEventRisk,
       ],
     }));
-
+    setIsSaved(true);
     console.log("dataaaaa 🤢🤢🤢🤢", textAreas);
   };
 
@@ -141,6 +142,7 @@ const EventRisk = ({principalSetTextAreas}) => {
         onClick={saveText}
       >
         Save
+        {isSaved && <span className="ml-2 text-green-500">&#10003;</span>}
       </button>
     </div>
   );

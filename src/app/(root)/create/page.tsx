@@ -1,38 +1,34 @@
 // @ts-nocheck
 "use client";
-// import Router from "next/router";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import GenericTextArea from "@/components/GenericTextArea";
-import GenericCard from "@/components/GenericCard";
 import InputCauseAndConsequence from "@/components/InputCauseAndConsequence";
 
-//globals
-const CATEGORIES = [""];
 let cont = -1;
 function Page() {
   const router = useRouter();
 
-  const [textAreas, setTextAreas] = useState({
-    event: [""],
+  const initialTextAreas = {
+    event: ["", ""],
     causasYConsecuencias: [],
     eventRisk: [],
     eventAction: [],
     eventControl: [],
-  });
+  };
 
-  const [selectEvent, setSelectEvent] = useState(null);
-
+  const [textAreas, setTextAreas] = useState(initialTextAreas);
   const [causesAndConsequences, setCausesAndConsequences] = useState([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true); //Nuevox
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const btnClassName = `bg-white m-5 p-5 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10${
-    isButtonDisabled ? "cursor-not-allowed opacity-50" : "hover:cursor-pointer"
+    isButtonDisabled
+      ? " cursor-not-allowed opacity-50"
+      : " hover:cursor-pointer"
   }`;
 
   const addCausesXConsequences = () => {
     cont++;
-    console.log("anteeeeeeeeees: ", textAreas.causasYConsecuencias);
     setCausesAndConsequences((prevCausesAndConsequences) => [
       ...prevCausesAndConsequences,
       <InputCauseAndConsequence
@@ -45,14 +41,6 @@ function Page() {
     ]);
     setIsButtonDisabled(true);
   };
-
-  // const addTextArea = (category) => {
-  //   console.log("adtexxxxxxxxxxxxxxxxxxxxxxt", category);
-  //   setTextAreas((prev) => ({
-  //     ...prev,
-  //     [category]: [...prev[category], ""],
-  //   }));
-  // };
 
   const handleTextAreaChange = (category, index, event) => {
     const updatedAreas = [...textAreas[category]];
@@ -78,9 +66,10 @@ function Page() {
   };
 
   const clickSend = () => {
-
-    if (textAreas.event.length !== 0 && textAreas.event.every(e => e !== '')) {
-
+    if (
+      textAreas.event.length !== 0 &&
+      textAreas.event.every((e) => e !== "")
+    ) {
       fetch("http://localhost:3000/api/events/register", {
         method: "POST",
         headers: {
@@ -89,9 +78,9 @@ function Page() {
         },
         body: JSON.stringify(textAreas),
       }).then((res) => {
-        console.log("Toda la infiooooo: ", textAreas);
+        console.log("Toda la info: ", textAreas);
         console.log("response: ", res);
-        console.log("json: 👻👻👻👻👻 ", JSON.stringify(textAreas));
+        console.log("json: ", JSON.stringify(textAreas));
       });
 
       router.push("/");
@@ -100,9 +89,11 @@ function Page() {
     }
   };
 
-  // const handleEventChange = (eventType) => {
-  //   setSelectEvent(eventType);
-  // };
+  const clearForm = () => {
+    setTextAreas(initialTextAreas);
+    setCausesAndConsequences([]);
+    setIsButtonDisabled(true);
+  };
 
   return (
     <div className="flex justify-center">
@@ -120,6 +111,7 @@ function Page() {
             cols={30}
             className="h-8 w-80 border border-purple-1 overflow-hidden placeholder:"
             onChange={(event) => handleTextAreaChange("event", 0, event)}
+            value={textAreas.event[0]}
           />
           <div className="flex justify-start">
             <GenericTextArea
@@ -129,17 +121,16 @@ function Page() {
               cols={30}
               className="h-32"
               onChange={(event) => handleTextAreaChange("event", 1, event)}
+              value={textAreas.event[1]}
             />
           </div>
 
           <div>
-            {/* aqui se agrega la nueva causa y consequencia */}
-            {causesAndConsequences &&
-              causesAndConsequences.map((item, index) => (
-                <div key={index}>
-                  <div>{item}</div>
-                </div>
-              ))}
+            {causesAndConsequences.map((item, index) => (
+              <div key={index}>
+                <div>{item}</div>
+              </div>
+            ))}
             <button
               className={`bg-white px-3 py-3 text-center text-purple-1 font-bold border border-purple-1.5 rounded-lg mt-3 mb-10 ${
                 isButtonDisabled
@@ -162,7 +153,10 @@ function Page() {
             Enviar
           </div>
           <div className="flex-[0.3] drop-shadow-md">
-            <div className="bg-white py-3 text-center text-purple-1 font-bold border border-purple-1.5 hover:cursor-pointer">
+            <div
+              className="bg-white py-3 text-center text-purple-1 font-bold border border-purple-1.5 hover:cursor-pointer"
+              onClick={clearForm}
+            >
               Limpiar
             </div>
           </div>
