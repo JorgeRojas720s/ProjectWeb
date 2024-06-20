@@ -94,7 +94,7 @@ function Page() {
         console.log("json: 👻👻👻👻👻 ", JSON.stringify(textAreas));
       });
 
-      // router.push("/");
+      router.push("/");
     } else {
       alert("Evento vacío");
     }
