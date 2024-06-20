@@ -13,7 +13,7 @@ const Event = ({ params: { id } }: { params: { id: number } }) => {
   const [causeId, setCauseId] = useState(0)
 
   let event = events ? events[id - 1] : null;
-
+  
   if (!event) {
     return <div>Event not found</div>;
   }

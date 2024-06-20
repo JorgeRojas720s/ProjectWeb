@@ -46,6 +46,7 @@ const EventControl = ({ principalSetTextAreas }) => {
                 min="0"
                 max="10"
                 value={probabilidad}
+                placeholder="0"
                 onChange={(e) => setProbabilidad(Number(e.target.value))}
                 className="form-input mt-1 block w-6/12 rounded-lg border-2 border-purple-500 pl-2"
               />
@@ -58,6 +59,7 @@ const EventControl = ({ principalSetTextAreas }) => {
                 min="0"
                 max="10"
                 value={impacto}
+                placeholder="0"
                 onChange={(e) => setImpacto(Number(e.target.value))}
                 className="form-input mt-1 block w-6/12 rounded-lg border-2 border-purple-500 pl-2"
               />

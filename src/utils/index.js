@@ -1,7 +1,8 @@
 const renderTitle = (plural, singular, items) => {
     return (
       <div className="text-purple-1 font-semibold">
-        {items.length > 1 ? plural : singular}:
+        {items && items.length > 1 ? plural : singular}
+        :
       </div>
     );
   };
@@ -9,13 +10,13 @@ const renderTitle = (plural, singular, items) => {
   const renderItems = (items, postFix, numerable) => {
     return (
       <div>
-        {items.length > 0 ? (
+        {items && items.length > 0 ? (
           items.map((obj, index) => (
             <p key={index} className="ml-4">{`${numerable? index + 1 + '.':''} ${obj[postFix]}`}</p>
           ))
         ) : (
           <p className="ml-4">{`${
-            items[postFix] != undefined ? items[postFix] : "No tiene"
+            items && items[postFix] != undefined ? items[postFix] : "No tiene"
           }`}</p>
         )}
       </div>

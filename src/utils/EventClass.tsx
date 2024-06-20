@@ -332,6 +332,10 @@ async getPlan(selectedAction){
           url: 'followup-plans',
           method: 'GET'
         })
+        let date = followUpPlan['fpp_date'];
+        if(date != null){
+          followUpPlan['fpp_date'] = date.substring(0, 10);
+        }
       }
     }
     return {followUpPlan, endActionPlan};
