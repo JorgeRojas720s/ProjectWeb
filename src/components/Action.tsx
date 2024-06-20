@@ -98,7 +98,6 @@ const Action = ({ items, index }: ActionsProps) => {
         )}
         {plan.endActionPlan.length > 0 ? (
           <div>
-            <br />
             {plan.endActionPlan.map((obj: otherProps, __index) => (
               <div key={__index}>
                 {renderPlan({
@@ -108,6 +107,7 @@ const Action = ({ items, index }: ActionsProps) => {
                   tagsArray: endActionPlanTags,
                   className: "flex flex-row",
                 })}
+                {}
               </div>
             ))}
           </div>

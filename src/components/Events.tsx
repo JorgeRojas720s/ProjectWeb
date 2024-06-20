@@ -8,7 +8,6 @@ import {ContextEvent} from '../components/ContextProvider';
 function Events() {
   const router = useRouter();
   const {events, setEvents} = useContext(ContextEvent);
-  console.log(events)
   return (
     <>
       <div className="flex flex-col w-fit ">
