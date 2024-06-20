@@ -21,7 +21,7 @@ export default function Header() {
         <ul className="flex justify-end space-x-4 mr-10 pt-3">
           {data.map(({ name, href }, index) => (
             <li key={index}>
-              <a href={href} className="text-white hover:hover-li-tag px-3">
+              <a href={href} className="text-white text-lg hover:underline decoration-white decoration-2 underline-offset-8 px-3">
                 {name}
               </a>
             </li>
@@ -36,13 +36,13 @@ export default function Header() {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         />
         {isMenuOpen && (
-          <div className="absolute right-0 mt-12 bg-gray-800 text-white rounded-lg shadow-lg p-4">
+          <div className="absolute right-0 mt-4 bg-purple-1.2 text-white rounded-lg shadow-lg p-4 ease-in-out duration-300">
             <ul className="flex flex-col space-y-2">
               {data.map(({ name, href }, index) => (
                 <li key={index}>
                   <a
                     href={href}
-                    className="block px-3 py-2 hover:bg-gray-700 rounded"
+                    className="block px-3 py-2 hover:bg-purple-1.5 rounded"
                   >
                     {name}
                   </a>

@@ -12,7 +12,7 @@ function Events() {
     <>
       <div className="flex flex-col w-fit ">
         <h1 className="text-2xl flex justify-center text-purple-2 font-extrabold">
-          {"Events"}
+          Eventos
         </h1>
         <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
           {events.map((event, index) => {

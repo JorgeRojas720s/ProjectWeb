@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <header className="header">
-          <Image className="logo" src={logo}></Image>
+          <Image alt='logo' className="logo hidden sm:block" src={logo}></Image>
           <Header></Header>
         </header>
         <ContactButtons />
