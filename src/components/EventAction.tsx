@@ -132,6 +132,9 @@ const EventAction = ({ principalSetTextAreas }) => {
           );
         })}
       </section>
+      <label className="text-purple-2 text-2xl font-bold my-4">
+          Fecha
+        </label>
       <div className="ml-28 mb-4">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker"]}>

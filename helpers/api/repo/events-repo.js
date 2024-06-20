@@ -134,8 +134,6 @@ async function saveRiskClassification(
   idsCauses,
   index
 ) {
-  console.log("causesIdssssssss👽s: ", idsCauses[index]["causesIds"]);
-  console.log("popopopopopop: ", params.eventRisk[index]["riskClassification"]);
   let causesIds = idsCauses[index]["causesIds"];
 
   for (let index1 = 0; index1 < causesIds.length; index1++) {

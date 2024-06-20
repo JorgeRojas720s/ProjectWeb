@@ -49,7 +49,8 @@ const Cause = ({ id, causeId }: { id: number; causeId: number }) => {
                     singularTitle="Control de Medida"
                     index={index}
                   />
-                ) : (
+                ) :(
+                  
                   <Action 
                     items={event?.consequencesXActions}
                     index={index}

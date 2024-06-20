@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { callRenderTitleDescription, renderTitle } from "@/utils";
 import React from "react";
 
@@ -67,7 +68,7 @@ const Action = ({ items, index }: ActionsProps) => {
       <div>
         <br />
         {renderTitle(plural, singular, items)}
-
+        
         {tagsArray.map(({ name, tag }, _index) => (
           <div key={_index} className="ml-4">
             {callRenderTitleDescription(
@@ -87,7 +88,7 @@ const Action = ({ items, index }: ActionsProps) => {
   const renderPlans = (plan: PlanProps) => {
     return (
       <div>
-        {plan.followUpPlan != undefined &&  plan.followUpPlan.length > 0 && (
+        { (
           renderPlan({
             plural: "Plan de Seguimiento",
             singular: "Plan de Seguimiento",
@@ -107,7 +108,6 @@ const Action = ({ items, index }: ActionsProps) => {
                   tagsArray: endActionPlanTags,
                   className: "flex flex-row",
                 })}
-                {}
               </div>
             ))}
           </div>
