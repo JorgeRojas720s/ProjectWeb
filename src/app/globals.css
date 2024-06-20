@@ -40,6 +40,11 @@ body {
   align-items: center;
 }
 
+.logo{
+  width: 500px;
+  margin-left: 100px ;
+}
+
 .header-with-out-icon{
   min-height: 5vh;
   display: flex;

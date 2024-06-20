@@ -16,20 +16,7 @@ export default function Header() {
 
   return (
     <div className="absolute top-0 left-0 right-0 flex items-center justify-end z-1000">
-      <a
-        href="/"
-        className="absolute text-white text-2xl font-extrabold xl:left-52 xl:top-56 hidden sm:block md:left-[0%] md:top-[80%]"
-      >
-        <div className="w-20 sm:w-40 md:w-60 lg:w-80 xl:w-[400px]">
-          <Image
-            src={logo}
-            alt="Logo"
-            layout="responsive"
-            width={400}
-            height={400}
-          />
-        </div>
-      </a>
+
       <nav className="hidden sm:block">
         <ul className="flex justify-end space-x-4 mr-10 pt-3">
           {data.map(({ name, href }, index) => (
