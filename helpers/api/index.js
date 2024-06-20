@@ -15,5 +15,6 @@ export * from './repo/selected-actions-repo';
 export * from './repo/followup-plans-repo';
 export * from './repo/end-action-plans-repo';
 export * from './repo/control-measures-repo';
+export * from './repo/causes-x-consequences-repo';
 
 

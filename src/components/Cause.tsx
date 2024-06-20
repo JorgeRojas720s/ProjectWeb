@@ -1,65 +1,68 @@
-// @ts-nocheck
+//@ts-nocheck
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { ActualEvent } from "@/app/(root)/event/[id]/page";
+import EventClass from "@/utils/EventClass";
+import CausesConsequeces from "./CausesConsequeces";
+import Risk from "./Risk";
+import ControlMeasures from "./ControlMeasures";
+import Action from "./Action";
 
-const Cause = ({ id }: { id: number }) => {
-  const event = useContext(ActualEvent);
-  const [causes, setCauses] = useState(event.causes);
-  const [consequences, setConsequences] = useState(event.consequences);
-  console.log(event);
+const Cause = ({ id, causeId }: { id: number; causeId: number }) => {
+  const event = useContext<EventClass | null>(ActualEvent);
 
   return (
-    <div className="w-[700px] h-[440px] overflow-y-auto shadow-md rounded-2xl border border-zinc-950 m-10 md:w-full sm:w-full">
+    <div className="w-[700px] h-[440px] overflow-y-auto shadow-md rounded-2xl border border-zinc-950 m-10 md:w-full sm:w-screen">
       <div className="m-3">
-        <p className="text-purple-2 font-bold text-2xl">{event.title}</p>
-        <p>{event.event}</p>
-        <h3 className="text-purple-1 text-xl">Causa: </h3>
-        <p className="text-lg">
-          {causes.length > 0
-            ? causes.map(({ cau_cause }, index) => (
-                <React.Fragment key={index}>
-                  {index !== 0 && <br />}
-                  {`${index + 1}. ${cau_cause}`}
-                </React.Fragment>
-              ))
-            : "No tiene causas"}
-        </p>
-        <h3 className="text-purple-1 text-xl">Consecuencias: </h3>
-        <p className="text-lg">
-          {consequences.length > 0
-            ? consequences.map(
-                ({ con_consequence }, index) =>
-                  (
-                    <React.Fragment key={index}>
-                      {index !== 0 && <br/>}
-                      {`${index}.${con_consequence}`}
-                    </React.Fragment>
-                  )
-              )
-            : "No tiene consecuencias"}
-        </p>
+        <p className="text-purple-2 font-bold text-2xl">{event?.title}</p>
+        <p>{event?.event}</p>
+        {event?.causesXConsequences.map(({ causes, consequences }, index) => {
+          if (causeId === index) {
+            return (
+              <div key={index} className="text-l">
+                <CausesConsequeces
+                  items={causes}
+                  singularTitle={"Causa"}
+                  pluralTitle={"Causas"}
+                  postFix={"cau_cause"}
+                />
+
+                <CausesConsequeces
+                  items={consequences}
+                  singularTitle={"Consecuencia"}
+                  pluralTitle={"Consecuencias"}
+                  postFix={"con_consequence"}
+                />
+
+                <br />
+                {event?.causesXRisk?.length > 0 ? (
+                  <Risk
+                    items={event.causesXRisk}
+                    pluralTitle={"Riesgos"}
+                    singularTitle={"Riesgo"}
+                    index={index}
+                  />
+                ) : event?.consequencesXControlMeasurements?.length > 0 ? (
+                  <ControlMeasures
+                    items={event?.consequencesXControlMeasurements}
+                    pluralTitle="Control de Medidas"
+                    singularTitle="Control de Medida"
+                    index={index}
+                  />
+                ) :(
+                  
+                  <Action 
+                    items={event?.consequencesXActions}
+                    index={index}
+                  />
+                )}
+              </div>
+            );
+          }
+        })}
       </div>
     </div>
   );
 };
 
 export default Cause;
-
-
-
-// ids [
-
-//   cxc = {
-//     cau_id: 1,
-//   con_id: 1
-// },
-// cxc = {
-//   cau_id: 1,
-//   con_id: 2
-// },
-// cxc = {
-//   cau_id: 1,
-//   con_id: 2
-// }
-//   ]

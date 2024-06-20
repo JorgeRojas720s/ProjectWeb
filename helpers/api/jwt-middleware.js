@@ -19,7 +19,7 @@ function jwtMiddleware(req, res) {
       "/api/consequences-repo",
       "/api/risk-classifications-repo",
       "/api/risk-categories-repo",
-      "/api//risk-descriptions-repo",
+      "/api/risk-descriptions-repo",
       "/api/proposed-actions-repo",
       "/api/selected-actions-repo",
       "/api/followup-plans-repo",

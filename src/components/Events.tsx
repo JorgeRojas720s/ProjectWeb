@@ -8,12 +8,11 @@ import {ContextEvent} from '../components/ContextProvider';
 function Events() {
   const router = useRouter();
   const {events, setEvents} = useContext(ContextEvent);
-  console.log(events)
   return (
     <>
       <div className="flex flex-col w-fit ">
         <h1 className="text-2xl flex justify-center text-purple-2 font-extrabold">
-          {"Events"}
+          Eventos
         </h1>
         <div className="grid justify-center items-centers mt-10 w-full h-fit xl:grid-cols-3 lg:grid-cols-2 sm:grid-cols-2">
           {events.map((event, index) => {
@@ -21,7 +20,7 @@ function Events() {
               <GenericCard
                 id={event.event}
                 key={index}
-                title={event.title}
+                title={event.title.length > 70? event.title.substring(0, 70)+'...': event.title}
                 description={''}
                 onClick={() => router.push(`event/${event.code}`)}
               />

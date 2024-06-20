@@ -17,6 +17,8 @@
 }
  */
 
+ /* styles.css */
+ 
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -36,6 +38,11 @@ body {
   min-height: 70vh;
   display: flex;
   align-items: center;
+}
+
+.logo{
+  width: 500px;
+  margin-left: 100px ;
 }
 
 .header-with-out-icon{
@@ -139,4 +146,3 @@ body {
       @apply bg-background text-foreground;
     }
   }
-
